@@ -1,186 +1,118 @@
-/* ═══════════════════════════════════════════════
-   Orion Ventures — Main Site
-   App Logic: Nav, Chat, Scroll Effects + Proactive Naledi
-   ═══════════════════════════════════════════════ */
+// Orion Ventures AI Chat Interface
+class OrionChat {
+  constructor() {
+    this.chatContainer = document.getElementById('chat-container');
+    this.userInput = document.getElementById('user-input');
+    this.sendBtn = document.getElementById('send-btn');
+    this.typingIndicator = document.getElementById('typing-indicator');
+    this.messages = [];
+    
+    this.init();
+  }
 
-document.addEventListener('DOMContentLoaded', () => {
-
-  /* ── Elements ── */
-  const nav = document.getElementById('nav');
-  const hamburger = document.getElementById('navHamburger');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const sections = document.querySelectorAll('.section, .hero');
-  const heroCursor = document.querySelector('.hero-cursor');
-  const heroTagline = document.querySelector('.hero-tagline');
-  const chatFab = document.getElementById('chatFab');
-  const chatPopup = document.getElementById('chatPopup');
-  const chatClose = document.getElementById('chatClose');
-  const chatPreview = document.getElementById('chatPreview');
-  const toast = document.getElementById('toast');
-
-  /* ── Chat state ── */
-  let chatHistory = [];
-  let nalediGreeted = sessionStorage.getItem('naledi_greeted');
-
-  /* ── Nav Hide/Show on Scroll ── */
-  let lastScroll = 0;
-  window.addEventListener('scroll', () => {
-    const current = window.pageYOffset;
-    if (current > lastScroll && current > 100) {
-      nav.classList.add('hidden');
-    } else {
-      nav.classList.remove('hidden');
-    }
-    lastScroll = current;
-
-    let active = 'hero';
-    sections.forEach(sec => {
-      const top = sec.offsetTop - 150;
-      const bottom = top + sec.offsetHeight;
-      if (current >= top && current < bottom) {
-        active = sec.id;
+  init() {
+    this.sendBtn.addEventListener('click', () => this.handleSend());
+    this.userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' &&!e.shiftKey) {
+        e.preventDefault();
+        this.handleSend();
       }
     });
-    navLinks.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === `#${active}`);
-    });
-  });
 
-  /* ── Mobile Hamburger ── */
-  let mobileMenu = document.querySelector('.mobile-menu');
-  if (!mobileMenu) {
-    mobileMenu = document.createElement('div');
-    mobileMenu.className = 'mobile-menu';
-    mobileMenu.id = 'mobileMenu';
-    document.querySelectorAll('.nav-link').forEach(link => {
-      const a = document.createElement('a');
-      a.href = link.getAttribute('href');
-      a.textContent = link.textContent;
-      a.className = link.className;
-      mobileMenu.appendChild(a);
-    });
-    document.body.appendChild(mobileMenu);
+    // Welcome message
+    setTimeout(() => {
+      this.addMessage("Hey — Naledi here. Graham's AI wingwoman. 667K songs, 26 years of parties. What's your vibe?", 'bot');
+    }, 500);
   }
 
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    mobileMenu.classList.toggle('open');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-  });
+  async handleSend() {
+    const message = this.userInput.value.trim();
+    if (!message) return;
 
-  mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-  });
+    this.addMessage(message, 'user');
+    this.userInput.value = '';
+    this.setLoading(true);
 
-  /* ── Chat FAB toggle ── */
-  if (chatFab && chatPopup && chatClose) {
-    chatFab.addEventListener('click', () => {
-      chatPopup.classList.toggle('open');
-      if (chatPopup.classList.contains('open') && !nalediGreeted) {
-        setTimeout(() => {
-          addChatMessage(chatPopupMessages, "I see you're checking out Orion Ventures 👀 Want me to queue your usual karaoke tracks or tell you about DJ packages?", 'bot');
-          sessionStorage.setItem('naledi_greeted', 'true');
-          nalediGreeted = true;
-        }, 800);
-      }
-    });
-    chatClose.addEventListener('click', () => {
-      chatPopup.classList.remove('open');
-    });
-
-    const popupInput = document.getElementById('chatPopupInput');
-    const popupSend = document.getElementById('chatPopupSend');
-    const popupMessages = document.getElementById('chatPopupMessages');
-
-    function sendPopupMessage() {
-      const text = popupInput.value.trim();
-      if (!text) return;
-      popupInput.value = '';
-      addChatMessage(popupMessages, text, 'user');
-      getAIResponse(text, popupMessages);
+    try {
+      const response = await this.getAIResponse(message);
+      this.addMessage(response, 'bot');
+    } catch (error) {
+      this.addMessage("I'm having a moment! WhatsApp Graham: +27 70 308 0516", 'bot');
+    } finally {
+      this.setLoading(false);
     }
-
-    popupSend.addEventListener('click', sendPopupMessage);
-    popupInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendPopupMessage(); });
   }
 
-  /* ── Chat section widget ── */
-  const chatInput = document.getElementById('chatInput');
-  const chatSend = document.getElementById('chatSend');
-  const chatMessages = document.getElementById('chatMessages');
-
-  if (chatSend && chatInput && chatMessages) {
-    function sendSectionMessage() {
-      const text = chatInput.value.trim();
-      if (!text) return;
-      chatInput.value = '';
-      addChatMessage(chatMessages, text, 'user');
-      getAIResponse(text, chatMessages);
-    }
-
-    chatSend.addEventListener('click', sendSectionMessage);
-    chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendSectionMessage(); });
-  }
-
-  /* ── Chat helpers ── */
-  function addChatMessage(container, text, role) {
-    const div = document.createElement('div');
-    div.className = `chat-msg chat-msg-${role}`;
-    div.textContent = text;
-    container.appendChild(div);
-    container.scrollTop = container.scrollHeight;
-  }
-
-  async function getAIResponse(text, container) {
-    const typing = document.createElement('div');
-    typing.className = 'chat-msg chat-msg-bot';
-    typing.textContent = '...';
-    typing.id = 'typingIndicator';
-    container.appendChild(typing);
-    container.scrollTop = container.scrollHeight;
-
+  async getAIResponse(userMessage) {
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
+        body: JSON.stringify({ message: userMessage })
       });
+
       const data = await res.json();
+      let aiResponse = data.reply || "Got it. What do you need?";
 
-      const indicator = document.getElementById('typingIndicator');
-      if (indicator) indicator.remove();
+      // YOCO PAYMENT HOOK
+      if (aiResponse.includes('Generating your secure payment link')) {
+        const allText = this.messages.map(m => m.content).join(' ') + ' ' + userMessage;
+        const emailMatch = allText.match(/[\w.-]+@[\w.-]+\.\w+/);
+        const email = emailMatch? emailMatch[0] : null;
+        const amount = /r950|\$50|pro/i.test(allText)? 950 : 190;
+        const product = amount === 950? 'Pro Custom Track' : 'DIY Custom Track';
+        const name = 'Orion Client';
 
-      const reply = data.reply || data.message || "Got it! Let me look into that for you.";
-      addChatMessage(container, reply, 'bot');
+        if (email) {
+          this.createYocoLink(amount, name, email, product);
+          return 'One sec, spinning up your secure payment link...';
+        } else {
+          return 'Almost there. What email should I send the finished track to?';
+        }
+      }
+
+      return aiResponse;
     } catch (err) {
-      const indicator = document.getElementById('typingIndicator');
-      if (indicator) indicator.remove();
-      addChatMessage(container, "I'm having trouble connecting right now. Please try again or WhatsApp me directly.", 'bot');
+      return "Connection hiccup. WhatsApp +27 70 308 0516 and I'll sort you now.";
     }
   }
 
-  /* ── Smooth scroll for anchor links ── */
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth' });
+  async createYocoLink(amount, name, email, product) {
+    try {
+      const res = await fetch('/api/yoco-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount, name, email, product })
+      });
+      const data = await res.json();
+      if (data.url) {
+        this.addMessage(`Locked in for ${product}. Pay here to start production 👉 ${data.url}`, 'bot');
+        this.addMessage(`Order ref: ${data.orderNumber}. 24-48hr turnaround once payment clears.`, 'bot');
+      } else {
+        this.addMessage('Payment link hiccup. WhatsApp Graham direct: +27 70 308 0516', 'bot');
       }
-    });
-  });
-
-  /* ── Auto-scroll to Naledi after 3s if user hasn't scrolled ── */
-  setTimeout(() => {
-    if (window.pageYOffset < 100 && !nalediGreeted) {
-      document.querySelector('#chat').scrollIntoView({ behavior: 'smooth' });
+    } catch {
+      this.addMessage('Payment link hiccup. WhatsApp Graham direct: +27 70 308 0516', 'bot');
     }
-  }, 3000);
+  }
 
-  console.log('%c Orion Ventures ', 'background:#000;color:#39FF14;font-size:14px;font-weight:bold;padding:4px 8px;border-radius:4px;');
-  console.log('%c Built with determination in Durban ', 'color:#a0a0a0;font-size:12px;');
+  addMessage(content, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}-message`;
+    messageDiv.textContent = content;
+    this.chatContainer.appendChild(messageDiv);
+    this.chatContainer.scrollTop = this.chatContainer.scrollHeight;
+    this.messages.push({ content, type, timestamp: Date.now() });
+  }
+
+  setLoading(isLoading) {
+    this.typingIndicator.style.display = isLoading? 'block' : 'none';
+    this.sendBtn.disabled = isLoading;
+    this.userInput.disabled = isLoading;
+  }
+}
+
+// Initialize the chat when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  window.orionChat = new OrionChat();
 });
