@@ -8,11 +8,11 @@
 
 :root {
   /* THEME VARIABLES - Change these for SupaTraxx */
-  --brand: #39FF14;
-  --brand-dim: rgba(57, 255, 20, 0.6);
-  --brand-faint: rgba(57, 255, 20, 0.15);
-  --brand-glow: rgba(57, 255, 20, 0.2);
-  
+  --brand: #D4AF37; /* was #39FF14 */
+  --brand-dim: rgba(212, 175, 55, 0.6); /* was rgba(57, 255, 20, 0.6) */
+  --brand-faint: rgba(212, 175, 55, 0.15); /* was rgba(57, 255, 20, 0.15) */
+  --brand-glow: rgba(212, 175, 55, 0.2); /* was rgba(57, 255, 20, 0.2) */
+
   /* Core colors */
   --black: #0A0A0A;
   --bg-deep: #050505;
