@@ -23,7 +23,7 @@
          }                                                                                                                                                               
                                                                                                                                                                          
          const amountInCents = Math.round(amount * 100);                                                                                                                 
-         const orderRef = orderNumber || OV-${Date.now()};                                                                                                               
+         const orderRef = orderNumber || OV-$;{Date.now()};                                                                                                               
                                                                                                                                                                          
          const checkoutData = {                                                                                                                                          
            amount: amountInCents,                                                                                                                                        
