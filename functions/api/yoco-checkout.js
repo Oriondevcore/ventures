@@ -1,4 +1,4 @@
-// /api/yoco-checkout — Generate Yoco payment links
+// /api/yoco-checkout — Generate Yoco payment links on the fly
 export async function onRequestPost(context) {
   const { request, env } = context;
 
@@ -37,13 +37,15 @@ export async function onRequestPost(context) {
     const yocoRes = await fetch('https://payments.yoco.com/api/checkouts', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${env.YOCO_SK_KEY}`,
+        'Authorization': `Bearer ${env.YOCO_SECRET_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(checkoutData)
     });
 
     if (!yocoRes.ok) {
+      const err = await yocoRes.text();
+      console.log('Yoco Error:', yocoRes.status, err);
       return Response.json({ error: 'Payment link failed. WhatsApp +27 70 308 0516' }, { status: 502 });
     }
 
