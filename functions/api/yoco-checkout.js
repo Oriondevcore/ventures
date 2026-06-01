@@ -1,6 +1,6 @@
- // /api/yoco-checkout — Generate Yoco payment links                                                                                                                 
-     export const onRequestPost = async ({ request, env }) => {                                                                                                          
-       // Handle CORS preflight                                                                                                                                          
+ export const onRequest = async (context) => {                                                                                                                       
+       const { request, env } = context;                                                                                                                                 
+                                                                                                                                                                         
        if (request.method === 'OPTIONS') {                                                                                                                               
          return new Response(null, {                                                                                                                                     
            headers: {                                                                                                                                                    
