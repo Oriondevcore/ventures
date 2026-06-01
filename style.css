@@ -7,11 +7,27 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* THEME VARIABLES - Change these for SupaTraxx */
-  --brand: #D4AF37; /* was #39FF14 */
-  --brand-dim: rgba(212, 175, 55, 0.6); /* was rgba(57, 255, 20, 0.6) */
-  --brand-faint: rgba(212, 175, 55, 0.15); /* was rgba(57, 255, 20, 0.15) */
-  --brand-glow: rgba(212, 175, 55, 0.2); /* was rgba(57, 255, 20, 0.2) */
+  --brand: #D4AF37;           /* Deep Gold */
+  --brand-dim: rgba(212, 175, 55, 0.6);
+  --brand-faint: rgba(212, 175, 55, 0.15);
+  --brand-glow: rgba(212, 175, 55, 0.2);
+  --accent: #A020F0;          /* Neon Purple */
+  --accent-glow: rgba(160, 32, 240, 0.3);
+}
+
+/* Purple streak on hover + send button */
+.send-btn:hover {
+  background: var(--accent);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.message.user-message {
+  border-left: 3px solid var(--accent);
+}
+
+#chat-container {
+  box-shadow: 0 0 30px var(--brand-glow), inset 0 0 0 1px var(--accent);
+}
 
   /* Core colors */
   --black: #0A0A0A;
