@@ -40,7 +40,7 @@
          const yocoRes = await fetch('https://payments.yoco.com/api/checkouts', {                                                                                        
            method: 'POST',                                                                                                                                               
            headers: {                                                                                                                                                    
-             'Authorization': Bearer ${env.YOCO_LIVE_SK},                                                                                                                
+             'Authorization': Bearer }${env.YOCO_LIVE_SK},                                                                                                                
              'Content-Type': 'application/json'                                                                                                                          
            },                                                                                                                                                            
            body: JSON.stringify(checkoutData)                                                                                                                            
