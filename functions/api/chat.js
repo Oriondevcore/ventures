@@ -30,7 +30,7 @@ export async function onRequestPost(context) {
       history = stored? JSON.parse(stored) : [];
     }
 
-    const aiResponse = await env.AI.run('@cf/meta/llama-3.2-3b-instruct', {
+    const aiResponse = await env.AI.run('@cf/zai-org/glm-4.7-flash', {
       messages: [
         {
           role: 'system',
