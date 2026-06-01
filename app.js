@@ -115,4 +115,5 @@ class OrionChat {
 // Initialize the chat when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   window.orionChat = new OrionChat();
+  window.orionChat.init();
 });
