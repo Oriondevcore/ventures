@@ -1,4 +1,4 @@
-// /api/yoco-checkout — Generate Yoco payment links on the fly
+// /api/yoco-checkout — Generate Yoco payment links
 export async function onRequestPost(context) {
   const { request, env } = context;
 
@@ -37,7 +37,7 @@ export async function onRequestPost(context) {
     const yocoRes = await fetch('https://payments.yoco.com/api/checkouts', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${env.YOCO_SECRET_KEY}`,
+        'Authorization': `Bearer ${env.YOCO_LIVE_SK}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(checkoutData)
