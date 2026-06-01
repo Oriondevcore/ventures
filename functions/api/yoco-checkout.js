@@ -1,4 +1,4 @@
- export const onRequest = async (context) => {                                                                                                                       
+export const onRequest = async (context) => {                                                                                                                       
        const { request, env } = context;                                                                                                                                 
                                                                                                                                                                          
        if (request.method === 'OPTIONS') {                                                                                                                               
@@ -23,7 +23,7 @@
          }                                                                                                                                                               
                                                                                                                                                                          
          const amountInCents = Math.round(amount * 100);                                                                                                                 
-         const orderRef = orderNumber || OV-$;{Date.now()};                                                                                                               
+         const orderRef = orderNumber || OV-${Date.now()};                                                                                                               
                                                                                                                                                                          
          const checkoutData = {                                                                                                                                          
            amount: amountInCents,                                                                                                                                        
@@ -40,7 +40,7 @@
          const yocoRes = await fetch('https://payments.yoco.com/api/checkouts', {                                                                                        
            method: 'POST',                                                                                                                                               
            headers: {                                                                                                                                                    
-             'Authorization': Bearer }${env.YOCO_LIVE_SK},                                                                                                                
+             'Authorization': Bearer ${env.YOCO_LIVE_SK},                                                                                                                
              'Content-Type': 'application/json'                                                                                                                          
            },                                                                                                                                                            
            body: JSON.stringify(checkoutData)                                                                                                                            
