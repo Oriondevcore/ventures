@@ -1,14 +1,14 @@
 // Orion Ventures AI Chat Interface
 class OrionChat {
-  constructor() {
-    this.chatContainer = document.getElementById('chat-container');
-    this.userInput = document.getElementById('user-input');
-    this.sendBtn = document.getElementById('send-btn');
-    this.typingIndicator = document.getElementById('typing-indicator');
-    this.messages = [];
-    
-    this.init();
-  }
+constructor() {
+  this.chatContainer = document.getElementById('chatMessages'); // Matches index.html
+  this.userInput = document.getElementById('chatInput');        // Matches index.html
+  this.sendBtn = document.getElementById('chatSend');           // Matches index.html
+  this.typingIndicator = document.getElementById('typing-indicator') || document.createElement('div'); // Fallback if missing
+  this.messages = [];
+  
+  this.init();
+}
 
   init() {
     this.sendBtn.addEventListener('click', () => this.handleSend());
