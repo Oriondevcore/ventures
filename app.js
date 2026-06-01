@@ -62,9 +62,10 @@ class OrionChat {
         const amount = /r950|\$50|pro/i.test(allText)? 950 : 190;
         const product = amount === 950? 'Pro Custom Track' : 'DIY Custom Track';
         const name = 'Orion Client';
-
+        // Change line 66-67 in app.js to:
+        const orderNumber = `OV-${Date.now()}`;
+        this.createYocoLink(amount, name, email, product, orderNumber);
         if (email) {
-          this.createYocoLink(amount, name, email, product);
           return 'One sec, spinning up your secure payment link...';
         } else {
           return 'Almost there. What email should I send the finished track to?';
@@ -77,13 +78,14 @@ class OrionChat {
     }
   }
 
-  async createYocoLink(amount, name, email, product) {
-    try {
+    async createYocoLink(amount, name, email, product, orderNumber) {
+        try {
       const res = await fetch('/api/yoco-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount, name, email, product })
-      });
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount, name, email, product, orderNumber }) // Add orderNumber here
+    });
+    // ... rest of function
       const data = await res.json();
       if (data.url) {
         this.addMessage(`Locked in for ${product}. Pay here to start production 👉 ${data.url}`, 'bot');
