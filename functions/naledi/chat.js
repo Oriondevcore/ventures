@@ -1,77 +1,127 @@
-export async function onRequestPost(context) {
-  const { request, env } = context;
+const API = 'https://supatraxx-api.orion269.workers.dev';
+const MODEL = '@cf/zai-org/glm-4.7-flash';
 
-  if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
-  }
-
-  try {
-    const { message } = await request.json();
-    if (!message || !message.trim()) {
-      return Response.json({ reply: 'Please send a message.' }, { status: 400 });
-    }
-
-    const systemPrompt = `You are Naledi, the AI brains of Orion Ventures — a one-person entertainment company run by Graham Schubach in Durban, South Africa. You are warm, professional, and concise.
+const SYSTEM = `You are Naledi, the AI brains of Orion Ventures — a one-person entertainment company run by Graham Schubach in Durban, South Africa. You are warm, professional, and concise.
 
 About Orion Ventures:
 - Services: DJ, karaoke host, quiz master, music bingo, software development
 - Graham has 26 years in hospitality (JW Marriott Dubai, Sun City, uShaka Marine World)
-- Library: 667,000+ karaoke songs powered by SupaTraxx at supatraxx.oriondevcore.com
+- The Karaoke Library has 667,000+ songs, searchable at supatraxx.oriondevcore.com
 - Events: Connor's Public House every Thursday, corporate events, private parties nationwide
 - SAMRO licensed, Founded November 2025
 
-Your tone: Professional but warm. Concise but helpful. You handle bookings, answer questions about services/pricing, and represent Graham when he's busy. Never make up specific pricing — direct users to contact Graham for quotes. Always mention you can connect them via WhatsApp (+27 70 308 0516) for urgent bookings. Keep responses under 3 paragraphs.`;
+Your role: Help users find songs, answer questions, handle booking inquiries.
 
-    // Try AI binding first
-    if (env && env.AI) {
-      const aiResponse = await env.AI.run('@cf/meta/llama-3.2-3b-instruct', {
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: message },
-        ],
-        max_tokens: 300,
-      });
-      return Response.json({ reply: aiResponse?.response || "Got it! Let me look into that for you." });
+You have access to searchSongs — use it whenever someone asks about songs, artists, or recommendations. You must search the library — do not make up songs.
+
+Never make up specific pricing. Direct users to contact Graham for quotes. Always mention you can connect them via WhatsApp (+27 70 308 0516) for urgent bookings. Keep responses under 3 paragraphs.`;
+
+const TOOLS = [
+  {
+    type: 'function',
+    function: {
+      name: 'searchSongs',
+      description: 'Search the karaoke song library. Use this whenever someone asks about songs, artists, or recommendations.',
+      parameters: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'The search query — artist name, song title, or both' },
+          genre: { type: 'string', description: 'Filter by genre (e.g. Rock, Pop, Country, R&B, Jazz, Blues, Soul)' },
+          limit: { type: 'number', description: 'Number of results (1-10)' }
+        },
+        required: ['query']
+      }
+    }
+  }
+];
+
+async function searchSongs(query, genre, limit = 5) {
+  const params = new URLSearchParams({ q: query, limit: String(limit) });
+  if (genre) params.set('genre', genre);
+  const res = await fetch(`${API}/search?${params}`);
+  const data = await res.json();
+  return (data.results || []).slice(0, limit).map(s => `${s.artist} — ${s.title}`);
+}
+
+async function runAI(messages, env) {
+  const body = {
+    messages: [{ role: 'system', content: SYSTEM }, ...messages],
+    tools: TOOLS,
+    tool_choice: 'auto',
+    max_tokens: 500
+  };
+
+  if (env && env.AI) {
+    return env.AI.run(MODEL, body);
+  }
+
+  const token = env?.CLOUDFLARE_API_TOKEN;
+  if (!token) return null;
+
+  const resp = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/fdd89cf30de14e1ddcfa5fbbf27581c1/ai/run/${MODEL}`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }
+  );
+  const data = await resp.json();
+  return data?.result;
+}
+
+export async function onRequestPost(context) {
+  const { request, env } = context;
+
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' } });
+  }
+
+  try {
+    const { message, messages: history = [], tts = false } = await request.json();
+    if (!message || !message.trim()) {
+      return Response.json({ reply: 'Send a message.' }, { status: 400 });
     }
 
-    // Fallback: REST API with token from env or Secrets Store
-    const apiToken = (env && env.CLOUDFLARE_API_TOKEN) || '';
-    if (apiToken) {
-      const resp = await fetch(
-        `https://api.cloudflare.com/client/v4/accounts/fdd89cf30de14e1ddcfa5fbbf27581c1/ai/run/@cf/meta/llama-3.2-3b-instruct`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiToken}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: message },
-            ],
-            max_tokens: 300,
-          }),
+    const msgs = [...history, { role: 'user', content: message }];
+    let ai = await runAI(msgs, env);
+    if (!ai) {
+      return Response.json({ reply: "I'm being set up. Reach Graham on WhatsApp at +27 70 308 0516." });
+    }
+
+    let turns = 0;
+    const maxTurns = 5;
+    let toolResults = [];
+
+    while (turns < maxTurns) {
+      const choice = ai?.choices?.[0] || ai;
+      const msg = choice?.message || choice;
+      if (!msg) break;
+
+      if (!msg.tool_calls?.length) {
+        const reply = msg.content || "Got it!";
+        return Response.json({ reply, toolCalls: toolResults });
+      }
+
+      for (const tc of msg.tool_calls) {
+        const args = JSON.parse(tc.function?.arguments || '{}');
+        let result;
+        if (tc.function?.name === 'searchSongs') {
+          result = await searchSongs(args.query, args.genre, args.limit);
+        } else {
+          result = ['Unknown tool'];
         }
-      );
-      const data = await resp.json();
-      return Response.json({ reply: data?.result?.response || "Thanks for reaching out! For bookings, message me on WhatsApp at +27 70 308 0516." });
+        toolResults.push({ name: tc.function?.name, args, result });
+        msgs.push({ role: 'assistant', content: null, tool_calls: [tc] });
+        msgs.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify(result) });
+      }
+
+      turns++;
+      ai = await runAI(msgs, env);
     }
 
-    // No AI available — helpful fallback
-    return Response.json({
-      reply: "Hi! I'm Naledi. I'm currently being set up, but you can reach Graham directly:\n\n📱 WhatsApp: +27 70 308 0516\n📧 info@oriondevcore.com\n\nOr browse the karaoke library at supatraxx.oriondevcore.com"
-    });
-
+    return Response.json({ reply: "Let me look that up. One moment.", toolCalls: toolResults });
   } catch (err) {
-    return Response.json({
-      reply: "I'm having a moment! Please WhatsApp +27 70 308 0516 for immediate help.",
-    });
+    return Response.json({ reply: "I'm having a moment! Please WhatsApp +27 70 308 0516 for help." });
   }
 }
