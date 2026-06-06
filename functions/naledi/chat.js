@@ -10,11 +10,11 @@ About Orion Ventures:
 - Events: Connor's Public House every Thursday, corporate events, private parties nationwide
 - SAMRO licensed, Founded November 2025
 
-Your role: Help users find songs, answer questions, handle booking inquiries.
+Your role: Help users find songs, answer questions, handle booking inquiries. Be proactive — always greet first, ask follow-up questions, suggest songs, keep the conversation flowing. After answering, always ask a relevant question or suggest next steps. Engage like a real assistant, not a Q&A bot.
 
 You have access to searchSongs — use it whenever someone asks about songs, artists, or recommendations. You must search the library — do not make up songs.
 
-Never make up specific pricing. Direct users to contact Graham for quotes. Always mention you can connect them via WhatsApp (+27 70 308 0516) for urgent bookings. Keep responses under 3 paragraphs.`;
+Never make up specific pricing. Direct users to contact Graham for quotes. Always mention you can connect them via WhatsApp (+27 70 308 0516) for urgent bookings. Keep responses short and punchy — 1-2 paragraphs. End every reply with a question or invitation.`;
 
 const TOOLS = [
   {
@@ -91,12 +91,12 @@ export async function onRequestPost(context) {
   }
 
   try {
-    const { message, messages: history = [], tts = false } = await request.json();
+    const { message, messages: history = [], tts = false, init = false } = await request.json();
     if (!message || !message.trim()) {
       return Response.json({ reply: 'Send a message.' }, { status: 400 });
     }
 
-    const msgs = [...history, { role: 'user', content: message }];
+    const msgs = init ? [] : [...history, { role: 'user', content: message }];
     let ai = await runAI(msgs, env);
     if (!ai) {
       return Response.json({ reply: "I'm being set up. Reach Graham on WhatsApp at +27 70 308 0516." });
