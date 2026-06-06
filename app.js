@@ -12,6 +12,8 @@ class NalediChat {
     if (!text) return;
     this.appendMsg('user', text);
     this.input.value = '';
+    const typingEl = document.getElementById('naledi-typing');
+    if (typingEl) typingEl.style.display = 'block';
     try {
       const response = await fetch('/naledi/chat', {
         method: 'POST',
@@ -19,10 +21,13 @@ class NalediChat {
         body: JSON.stringify({ message: text })
       });
       const data = await response.json();
-      this.appendMsg('bot', data.reply || "Naledi is processing...");
+      if (typingEl) typingEl.style.display = 'none';
+      setTimeout(() => {
+        this.appendMsg('bot', data.reply || "Naledi's thinking...");
+      }, 400);
     } catch (e) {
-      console.error("Connection Error:", e);
-      this.appendMsg('bot', "Connection error. Please try again.");
+      if (typingEl) typingEl.style.display = 'none';
+      this.appendMsg('bot', "Connection error. Try again?");
     }
   }
 
@@ -37,10 +42,8 @@ class NalediChat {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  new NalediChat('chatMessages', 'chatInput', 'chatSend');
   new NalediChat('chatPopupMessages', 'chatPopupInput', 'chatPopupSend');
 
-  // Floating chat FAB toggle
   const fab = document.getElementById('chatFab');
   const popup = document.getElementById('chatPopup');
   const close = document.getElementById('chatClose');
