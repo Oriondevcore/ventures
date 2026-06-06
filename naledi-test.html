@@ -51,6 +51,9 @@
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   #audio-indicator { position: fixed; bottom: 80px; right: 16px; background: var(--accent2); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 12px; display: none; animation: pulse 1.5s infinite; z-index: 100; }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .6; } }
+  #mic { background: none; border: 1px solid var(--border); border-radius: 50%; width: 34px; height: 34px; font-size: 16px; cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  #mic:hover { border-color: var(--accent); background: #1a1a2e; }
+  #mic.recording { border-color: var(--red); background: #2e1a1a; animation: pulse 1s infinite; }
 </style>
 </head>
 <body>
@@ -99,6 +102,7 @@
     <label class="toggle" title="Show tool calls in sidebar">
       <input type="checkbox" id="toolsToggle" checked> 🔧 Tools
     </label>
+    <button id="mic" title="Speak to Naledi">🎤</button>
     <input id="input" type="text" placeholder="Ask Naledi about songs, bookings, or services..." autofocus>
     <button id="send">Send</button>
   </div>
@@ -254,6 +258,65 @@ document.querySelectorAll('.preset').forEach(btn => {
 
 toolsToggle.addEventListener('change', () => {
   toolsPanel.classList.toggle('hidden', !toolsToggle.checked);
+});
+
+let mediaRecorder = null;
+let recordingChunks = [];
+
+const micBtn = document.getElementById('mic');
+
+micBtn.addEventListener('click', async () => {
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.stop();
+    micBtn.classList.remove('recording');
+    return;
+  }
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    recordingChunks = [];
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+
+    mediaRecorder.ondataavailable = e => {
+      if (e.data.size > 0) recordingChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+      for (const track of stream.getTracks()) track.stop();
+      const blob = new Blob(recordingChunks, { type: 'audio/webm' });
+      if (blob.size < 1000) return;
+
+      micBtn.textContent = '⏳';
+      micBtn.disabled = true;
+
+      try {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = async () => {
+          const base64 = reader.result.split(',')[1];
+          const res = await fetch('/naledi/stt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ audio: base64 })
+          });
+          const data = await res.json();
+          if (data.text) {
+            sendMessage(data.text);
+          }
+          micBtn.textContent = '🎤';
+          micBtn.disabled = false;
+        };
+      } catch {
+        micBtn.textContent = '🎤';
+        micBtn.disabled = false;
+      }
+    };
+
+    mediaRecorder.start();
+    micBtn.classList.add('recording');
+  } catch {
+    addMessage('naledi', 'Mic access denied. Check browser permissions.');
+  }
 });
 
 input.focus();

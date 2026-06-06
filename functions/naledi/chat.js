@@ -43,6 +43,19 @@ async function searchSongs(query, genre, limit = 5) {
   return (data.results || []).slice(0, limit).map(s => `${s.artist} — ${s.title}`);
 }
 
+async function generateTTS(text, env) {
+  if (!text || !env?.AI) return null;
+  try {
+    const result = await env.AI.run('@cf/myshell-ai/melotts', {
+      prompt: text.slice(0, 500),
+      lang: 'en'
+    });
+    return result?.audio || null;
+  } catch {
+    return null;
+  }
+}
+
 async function runAI(messages, env) {
   const body = {
     messages: [{ role: 'system', content: SYSTEM }, ...messages],
@@ -100,7 +113,8 @@ export async function onRequestPost(context) {
 
       if (!msg.tool_calls?.length) {
         const reply = msg.content || "Got it!";
-        return Response.json({ reply, toolCalls: toolResults });
+        const audio = tts ? await generateTTS(reply, env) : null;
+        return Response.json({ reply, audio, toolCalls: toolResults });
       }
 
       for (const tc of msg.tool_calls) {
@@ -120,7 +134,9 @@ export async function onRequestPost(context) {
       ai = await runAI(msgs, env);
     }
 
-    return Response.json({ reply: "Let me look that up. One moment.", toolCalls: toolResults });
+    const fallbackReply = "Let me look that up. One moment.";
+    const audio = tts ? await generateTTS(fallbackReply, env) : null;
+    return Response.json({ reply: fallbackReply, audio, toolCalls: toolResults });
   } catch (err) {
     return Response.json({ reply: "I'm having a moment! Please WhatsApp +27 70 308 0516 for help." });
   }
