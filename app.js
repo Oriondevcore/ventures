@@ -43,56 +43,80 @@ class NalediChat {
   }
 }
 
-function openCheckout(product, amount, name) {
-  const modal = document.getElementById('checkoutModal');
-  const title = document.getElementById('checkoutTitle');
-  const desc = document.getElementById('checkoutDesc');
-  const nameInput = document.getElementById('checkoutName');
-  const emailInput = document.getElementById('checkoutEmail');
-  title.textContent = `Buy ${name}`;
-  desc.textContent = product;
-  nameInput.value = '';
-  emailInput.value = '';
-  modal.dataset.product = product;
-  modal.dataset.amount = amount;
-  modal.dataset.name = name;
-  modal.classList.add('open');
+function getPublicKey() {
+  return window.YOCO_PK || 'pk_live_ZGM2YjY0ZjEtZmZkYy00MDg4LWI5YzgtZDRkMjc4MGNiZGM4';
 }
 
-async function handleCheckoutConfirm() {
-  const modal = document.getElementById('checkoutModal');
-  const name = document.getElementById('checkoutName').value.trim();
-  const email = document.getElementById('checkoutEmail').value.trim();
-  if (!name || !email) {
-    alert('Please fill in your name and email.');
-    return;
+function showToast(msg, type) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  if (type === 'error') t.style.borderColor = 'var(--state-error)';
+  document.body.appendChild(t);
+  setTimeout(() => t.classList.add('show'), 10);
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 4000);
+}
+
+function setBtnLoading(btn, loading, text) {
+  if (loading) {
+    btn.dataset.orig = btn.textContent;
+    btn.textContent = 'Processing...';
+    btn.disabled = true;
+  } else {
+    btn.textContent = btn.dataset.orig || text;
+    btn.disabled = false;
   }
-  const confirmBtn = document.getElementById('checkoutConfirm');
-  confirmBtn.textContent = 'Processing...';
-  confirmBtn.disabled = true;
+}
+
+async function startYocoPayment(amount, name, email, product, orderRef) {
   try {
+    const yoco = new YocoSDK({ publicKey: getPublicKey() });
+    const result = await yoco.showPopup({
+      amountInCents: Math.round(amount * 100),
+      currency: 'ZAR',
+      name: name,
+      description: product,
+      metadata: {
+        customerName: name,
+        customerEmail: email,
+        orderNumber: orderRef,
+        product: product,
+      },
+    });
+
     const res = await fetch('/api/yoco-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        amount: parseFloat(modal.dataset.amount),
-        name,
-        email,
-        product: modal.dataset.product + ' — ' + modal.dataset.name
-      })
+        token: result.id,
+        amountInCents: Math.round(amount * 100),
+        currency: 'ZAR',
+        metadata: {
+          customerName: name,
+          customerEmail: email,
+          orderNumber: orderRef,
+          product: product,
+        },
+      }),
     });
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
+
+    const charge = await res.json();
+    if (charge.success) {
+      showToast('Payment successful! Thank you.', 'success');
+      return true;
     } else {
-      alert('Payment link failed. Please try again.');
-      confirmBtn.textContent = 'Pay Now';
-      confirmBtn.disabled = false;
+      showToast('Payment failed: ' + (charge.details || charge.error), 'error');
+      return false;
     }
   } catch (e) {
-    alert('Connection error. Please try again.');
-    confirmBtn.textContent = 'Pay Now';
-    confirmBtn.disabled = false;
+    if (e.message && e.message.includes('cancelled')) {
+      showToast('Payment cancelled.', 'error');
+    } else {
+      showToast('Payment error: ' + (e.message || 'Connection failed'), 'error');
+    }
+    return false;
   }
 }
 
@@ -133,26 +157,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  let pendingItem = null;
+
   document.querySelectorAll('.buy-btn').forEach(btn => {
     btn.onclick = (e) => {
       e.stopPropagation();
-      openCheckout(
-        btn.dataset.product,
-        btn.dataset.amount,
-        btn.dataset.name
-      );
+      pendingItem = {
+        amount: parseFloat(btn.dataset.amount),
+        product: btn.dataset.product,
+        name: btn.dataset.name,
+      };
+      document.getElementById('checkoutTitle').textContent = 'Buy ' + btn.dataset.name;
+      document.getElementById('checkoutDesc').textContent = btn.dataset.product;
+      document.getElementById('checkoutName').value = '';
+      document.getElementById('checkoutEmail').value = '';
+      document.getElementById('checkoutModal').classList.add('open');
     };
   });
 
   document.getElementById('checkoutCancel').onclick = () => {
     document.getElementById('checkoutModal').classList.remove('open');
+    pendingItem = null;
   };
   document.getElementById('checkoutModal').onclick = (e) => {
     if (e.target === e.currentTarget) {
       e.target.classList.remove('open');
+      pendingItem = null;
     }
   };
-  document.getElementById('checkoutConfirm').onclick = handleCheckoutConfirm;
+
+  document.getElementById('checkoutConfirm').onclick = async () => {
+    const name = document.getElementById('checkoutName').value.trim();
+    const email = document.getElementById('checkoutEmail').value.trim();
+    if (!name || !email) {
+      showToast('Please fill in your name and email.', 'error');
+      return;
+    }
+    if (!pendingItem) return;
+
+    const confirmBtn = document.getElementById('checkoutConfirm');
+    setBtnLoading(confirmBtn, true, 'Pay Now');
+    document.getElementById('checkoutCancel').disabled = true;
+
+    const orderRef = 'OV-' + Date.now();
+    const ok = await startYocoPayment(
+      pendingItem.amount,
+      name,
+      email,
+      pendingItem.product + ' — ' + pendingItem.name,
+      orderRef
+    );
+
+    setBtnLoading(confirmBtn, false, 'Pay Now');
+    document.getElementById('checkoutCancel').disabled = false;
+
+    if (ok) {
+      document.getElementById('checkoutModal').classList.remove('open');
+      pendingItem = null;
+    }
+  };
 
   document.getElementById('orderTrackBtn').onclick = async () => {
     const song = document.getElementById('trackSong').value.trim();
@@ -162,38 +225,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const notes = document.getElementById('trackNotes').value.trim();
 
     if (!song || !artist || !email) {
-      alert('Please fill in the song name, artist, and your email.');
+      showToast('Please fill in the song name, artist, and your email.', 'error');
       return;
     }
 
     const btn = document.getElementById('orderTrackBtn');
-    btn.textContent = 'Processing...';
-    btn.disabled = true;
+    setBtnLoading(btn, true, 'Order Track — $29');
 
-    try {
-      const productDesc = `Custom Karaoke Track: ${song} — ${artist} (${key})`;
-      const res = await fetch('/api/yoco-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: 29,
-          name: song + ' - ' + artist,
-          email,
-          product: productDesc + (notes ? ' | Notes: ' + notes : '')
-        })
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert('Payment link failed. Please try again.');
-        btn.textContent = 'Order Track — $29';
-        btn.disabled = false;
-      }
-    } catch (e) {
-      alert('Connection error. Please try again.');
-      btn.textContent = 'Order Track — $29';
-      btn.disabled = false;
+    const productDesc = 'Custom Karaoke Track: ' + song + ' — ' + artist + ' (' + key + ')' + (notes ? ' | Notes: ' + notes : '');
+    const orderRef = 'OV-K-' + Date.now();
+    const ok = await startYocoPayment(
+      29,
+      song + ' - ' + artist,
+      email,
+      productDesc,
+      orderRef
+    );
+
+    setBtnLoading(btn, false, 'Order Track — $29');
+
+    if (ok) {
+      document.getElementById('trackSong').value = '';
+      document.getElementById('trackArtist').value = '';
+      document.getElementById('trackNotes').value = '';
     }
   };
 });

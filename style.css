@@ -389,6 +389,26 @@ strong { color: var(--text-primary); font-weight: 600; }
 }
 .btn-secondary:hover { border-color: var(--text-muted); background: var(--bg-subtle); }
 
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+  z-index: 1200;
+  padding: 14px 24px;
+  border-radius: 980px;
+  border: 1px solid var(--accent-primary);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px; font-weight: 500;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  opacity: 0; pointer-events: none;
+  transform: translateX(-50%) translateY(16px);
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .nav-links { display: none; }

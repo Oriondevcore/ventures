@@ -16,49 +16,42 @@ export const onRequest = async (context) => {
   }
 
   try {
-    const { amount, name, email, product, orderNumber } = await request.json();
+    const body = await request.json();
+    const { token, amountInCents, currency, metadata } = body;
 
-    if (!amount || !name || !email || !product) {
+    if (!token || !amountInCents || !currency) {
       return Response.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const amountInCents = Math.round(amount * 100);
-    const orderRef = orderNumber || `OV-${Date.now()}`;
+    const chargePayload = { token, amountInCents, currency };
+    if (metadata) chargePayload.metadata = metadata;
 
-    const checkoutData = {
-      amount: amountInCents,
-      currency: 'ZAR',
-      meta: {
-        customerName: name,
-        customerEmail: email,
-        orderNumber: orderRef,
-        product: product,
-        source: 'Naledi AI',
-      },
-    };
-
-    const yocoRes = await fetch('https://payments.yoco.com/api/checkouts', {
+    const yocoRes = await fetch('https://online.yoco.com/v1/charges/', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${env.YOCO_LIVE_SK}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(checkoutData),
+      body: JSON.stringify(chargePayload),
     });
 
+    const charge = await yocoRes.json();
+
     if (!yocoRes.ok) {
-      const err = await yocoRes.text();
-      console.error('Yoco Error:', yocoRes.status, err);
-      return Response.json({ error: 'Payment link failed' }, { status: 502 });
+      console.error('Yoco Error:', yocoRes.status, JSON.stringify(charge));
+      return Response.json({
+        error: 'Payment failed',
+        details: charge.message || charge.error || 'Unknown error',
+      }, { status: 502 });
     }
 
-    const checkout = await yocoRes.json();
     return Response.json({
-      url: checkout.redirectUrl,
-      orderNumber: orderRef,
+      success: true,
+      chargeId: charge.id,
+      status: charge.status,
     });
   } catch (err) {
     console.error('Worker error:', err);
-    return Response.json({ error: 'Server error' }, { status: 500 });
+    return Response.json({ error: 'Server error', message: err.message }, { status: 500 });
   }
 };
