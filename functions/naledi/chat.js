@@ -1,5 +1,5 @@
 const API = 'https://supatraxx-api.orion269.workers.dev';
-const MODEL = '@cf/zai-org/glm-4.7-flash';
+const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 
 const SYSTEM = `You are Naledi, the AI assistant for Orion Ventures — a South African company in Amanzimtoti, KZN. You are warm, professional, and concise. Never use emoji.
 
@@ -10,7 +10,7 @@ Businesses:
 - AI Art Gallery: AI-generated canvas prints. From $89. Buy at oriondevcore.com.
 - Custom Karaoke Tracks: Bespoke backing tracks from $29. Order at oriondevcore.com.
 
-No time-based greetings. Just "Hi" or straight to the point. Keep responses short — 1-2 paragraphs. End every reply with a question or invitation.`;
+On first contact, start with "Hi! I'm Naledi, the Orion Ventures AI assistant. How can I help you today?". No time-based greetings. Keep responses short — 1-2 paragraphs. End every reply with a question or invitation.`;
 
 const TOOLS = [
   {
