@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Orion Ventures</title>
-  <meta name="description" content="Song search, karaoke, AI art, and more — all under one roof.">
+  <meta name="description" content="Orion Ventures SA — Durban, South Africa.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/svg+xml" href="assets/lite.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/orion.svg">
   <link rel="manifest" href="/manifest.json">
 </head>
 <body>
@@ -22,9 +22,8 @@
       </a>
       <div class="nav-links" id="navLinks">
         <a href="/" class="nav-link active">Home</a>
-        <a href="#search" class="nav-link">Songs</a>
         <a href="#gallery" class="nav-link">Gallery</a>
-        <a href="#contact" class="nav-link nav-cta">Book</a>
+        <a href="#contact" class="nav-link nav-cta">Contact</a>
       </div>
       <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
         <span></span><span></span>
@@ -36,99 +35,29 @@
     <div class="lobby-bg"></div>
     <div class="lobby-content">
       <img src="assets/orion.svg" alt="Orion Ventures" class="lobby-mark">
-      <h1 class="lobby-heading">Where would you like to go?</h1>
-      <p class="lobby-sub">Choose a door — or ask Naledi for directions.</p>
-      <div class="lobby-doors">
-        <a href="https://supatraxx.oriondevcore.com" class="door-card" target="_blank">
-          <div class="door-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-          </div>
-          <span class="door-label">Song Search</span>
-          <span class="door-desc">Browse 667K+ songs &amp; request from your phone</span>
-        </a>
-        <a href="/profile/" class="door-card">
-          <div class="door-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </div>
-          <span class="door-label">My Profile</span>
-          <span class="door-desc">Stats, milestones, mood icon &amp; request history</span>
-        </a>
-        <a href="/fav/" class="door-card">
-          <div class="door-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          </div>
-          <span class="door-label">Favourites</span>
-          <span class="door-desc">Your saved songs ready to sing again</span>
-        </a>
-        <a href="#gallery" class="door-card">
-          <div class="door-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          </div>
-          <span class="door-label">Art Gallery</span>
-          <span class="door-desc">AI-generated canvas prints — from $89</span>
-        </a>
-        <a href="#contact" class="door-card">
-          <div class="door-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </div>
-          <span class="door-label">Book an Event</span>
-          <span class="door-desc">DJ, karaoke, quiz master — let's talk</span>
-        </a>
-        <a href="https://supatraxx.oriondevcore.com/scan" class="door-card" target="_blank">
-          <div class="door-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M14 14h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg>
-          </div>
-          <span class="door-label">Scan &amp; Sing</span>
-          <span class="door-desc">One tap to queue a song at the venue</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-alt" id="search">
-    <div class="section-container">
-      <div class="section-header-center">
-        <h2 class="section-title">Song Search</h2>
-        <p class="section-subtitle">667,000+ songs. Search, request, sing.</p>
-      </div>
-      <div class="search-hero">
-        <form class="search-form" action="https://supatraxx.oriondevcore.com/search" method="GET" target="_blank">
-          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <input type="text" name="q" class="search-input" placeholder="Search artist or song..." autocomplete="off">
-          <button type="submit" class="search-btn">Search</button>
-        </form>
-      </div>
+      <h1 class="lobby-heading">Orion Ventures</h1>
+      <p class="lobby-sub">Durban, South Africa</p>
     </div>
   </section>
 
   <section class="section" id="gallery">
     <div class="section-container">
       <div class="section-header-center">
-        <h2 class="section-title">Art Gallery</h2>
+        <h2 class="section-title">Gallery</h2>
         <p class="section-subtitle">AI-generated canvas prints — from $89. Custom commissions available.</p>
       </div>
       <div class="gallery-grid" id="galleryGrid">
         <div class="gallery-item">
           <img src="assets/1.png" alt="Gallery 1" loading="lazy">
-          <div class="gallery-caption">1. Pollock - Dali - Universe from $149.</div>
+          <div class="gallery-caption">Pollock — Dali — Universe. From $149.</div>
         </div>
         <div class="gallery-item">
           <img src="assets/2.jpeg" alt="Gallery 2" loading="lazy">
-          <div class="gallery-caption">2. Artificial Self Portrait from $89. Custom available</div>
+          <div class="gallery-caption">Artificial Self Portrait. From $89. Custom available.</div>
         </div>
         <div class="gallery-item">
           <img src="assets/3.png" alt="Gallery 3" loading="lazy">
-          <div class="gallery-caption">3. New take on a Mars Bar - Dali inspired - from $199</div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/4.png" alt="Gallery 4" loading="lazy">
-          <div class="gallery-caption">4.</div>
-        </div>
-        <div class="gallery-item">
-          <img src="assets/5.png" alt="Gallery 5" loading="lazy">
-          <div class="gallery-caption">5.</div>
+          <div class="gallery-caption">Mars Bar — Dali inspired. From $199.</div>
         </div>
       </div>
     </div>
@@ -137,8 +66,8 @@
   <section class="section section-alt" id="contact">
     <div class="section-container">
       <div class="section-header-center">
-        <h2 class="section-title">Book an Event</h2>
-        <p class="section-subtitle">Pub night, corporate event, or private party — let's make it unforgettable.</p>
+        <h2 class="section-title">Contact</h2>
+        <p class="section-subtitle">Get in touch.</p>
       </div>
       <div class="contact-grid">
         <a href="https://wa.me/27703080516" target="_blank" class="contact-card" rel="noopener">
@@ -148,7 +77,7 @@
             </svg>
           </div>
           <h3 class="contact-title">WhatsApp</h3>
-          <p class="contact-desc">Fastest way to reach us. Chat or request a callback.</p>
+          <p class="contact-desc">Fastest way to reach us.</p>
           <span class="contact-action">+27 70 308 0516 &rarr;</span>
         </a>
         <a href="mailto:info@oriondevcore.com" class="contact-card">
@@ -159,16 +88,8 @@
             </svg>
           </div>
           <h3 class="contact-title">Email</h3>
-          <p class="contact-desc">Prefer writing? Send a message.</p>
+          <p class="contact-desc">Send a message.</p>
           <span class="contact-action">info@oriondevcore.com &rarr;</span>
-        </a>
-        <a href="https://supatraxx.oriondevcore.com" target="_blank" class="contact-card" rel="noopener">
-          <div class="contact-icon">
-            <img src="assets/lite.svg" alt="SupaTraxx" class="contact-icon-logo">
-          </div>
-          <h3 class="contact-title">Karaoke Song Book</h3>
-          <p class="contact-desc">Search 667K+ songs, request from your phone.</p>
-          <span class="contact-action">SupaTraxx &rarr;</span>
         </a>
       </div>
     </div>
@@ -185,11 +106,8 @@
       </div>
       <div class="footer-links">
         <a href="/">Home</a>
-        <a href="https://supatraxx.oriondevcore.com">Song Search</a>
-        <a href="/profile/">My Profile</a>
-        <a href="/fav/">Favourites</a>
         <a href="#gallery">Gallery</a>
-        <a href="#contact">Book</a>
+        <a href="#contact">Contact</a>
       </div>
       <div class="footer-copy">
         &copy; 2026 Orion Ventures. Built with determination in Durban.

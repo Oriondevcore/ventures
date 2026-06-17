@@ -4,7 +4,9 @@ class NalediChat {
     this.input = document.getElementById(inputId);
     this.sendBtn = document.getElementById(sendBtnId);
     if (this.sendBtn) this.sendBtn.onclick = () => this.handleSend();
-    if (this.input) this.input.onkeypress = (e) => { if (e.key === 'Enter') this.handleSend(); };
+    if (this.input) this.input.onkeypress = (e) => {
+      if (e.key === 'Enter') this.handleSend();
+    };
   }
 
   async handleSend() {
@@ -27,7 +29,7 @@ class NalediChat {
       }, 400);
     } catch (e) {
       if (typingEl) typingEl.style.display = 'none';
-      this.appendMsg('bot', "Connection error. Try again?");
+      this.appendMsg('bot', 'Connection error. Try again?');
     }
   }
 
@@ -51,4 +53,30 @@ document.addEventListener('DOMContentLoaded', () => {
     fab.onclick = () => popup.classList.toggle('open');
     if (close) close.onclick = () => popup.classList.remove('open');
   }
+
+  const hamburger = document.getElementById('navHamburger');
+  if (hamburger) {
+    hamburger.onclick = () => {
+      hamburger.classList.toggle('open');
+      const menu = document.getElementById('mobileMenu');
+      if (!menu) {
+        const m = document.createElement('div');
+        m.id = 'mobileMenu';
+        m.className = 'mobile-menu';
+        m.innerHTML = document.getElementById('navLinks').innerHTML;
+        document.body.appendChild(m);
+        setTimeout(() => m.classList.add('open'), 10);
+      } else {
+        menu.classList.toggle('open');
+      }
+    };
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.mobile-menu a')) {
+      const menu = document.getElementById('mobileMenu');
+      if (menu) menu.classList.remove('open');
+      if (hamburger) hamburger.classList.remove('open');
+    }
+  });
 });
