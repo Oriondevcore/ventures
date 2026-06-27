@@ -3,13 +3,197 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ORION PRO — AI WhatsApp Receptionist</title>
-<meta name="description" content="Name your new hire. AI receptionist for WhatsApp. 24/7, every language, never misses a lead. ORION P · R · O.">
+<title>ORION WhatsApp PRO — AI Office Manager. R2,690/mo.</title>
+<meta name="description" content="Name your new hire. AI WhatsApp office manager. 24/7, every language, one flat price. R2,690/mo. No tiers. No BS.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏹</text></svg>">
+<style>
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg-img {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+.hero-bg-img::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(12,12,13,0.85) 0%, rgba(12,12,13,0.6) 50%, rgba(12,12,13,0.4) 100%);
+}
+@media (max-width: 767px) {
+  .hero-bg-img { background-image: url('assets/hero-phone.png'); }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-bg-img { background-image: url('assets/hero-tablet.png'); }
+}
+@media (min-width: 1024px) {
+  .hero-bg-img { background-image: url('assets/hero-pc.png'); }
+}
+.hero-content { position: relative; z-index: 2; }
+
+.hero-languages {
+  position: absolute; inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-lang-word {
+  position: absolute;
+  font-size: clamp(14px, 2vw, 28px);
+  font-weight: 600;
+  color: rgba(255,255,255,0.08);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-family: var(--font);
+}
+.hero-lang-word:nth-child(1) { top: 8%; left: 5%; font-size: clamp(18px, 2.5vw, 32px); color: rgba(200,168,78,0.12); }
+.hero-lang-word:nth-child(2) { top: 15%; right: 8%; font-size: clamp(14px, 1.8vw, 24px); }
+.hero-lang-word:nth-child(3) { top: 25%; left: 12%; font-size: clamp(20px, 3vw, 36px); color: rgba(200,168,78,0.1); }
+.hero-lang-word:nth-child(4) { top: 35%; right: 15%; font-size: clamp(12px, 1.5vw, 20px); }
+.hero-lang-word:nth-child(5) { top: 45%; left: 8%; font-size: clamp(16px, 2.2vw, 28px); }
+.hero-lang-word:nth-child(6) { top: 50%; right: 5%; font-size: clamp(22px, 3.5vw, 42px); color: rgba(200,168,78,0.08); }
+.hero-lang-word:nth-child(7) { top: 60%; left: 20%; font-size: clamp(10px, 1.2vw, 16px); }
+.hero-lang-word:nth-child(8) { top: 70%; right: 20%; font-size: clamp(18px, 2.5vw, 32px); }
+.hero-lang-word:nth-child(9) { top: 78%; left: 5%; font-size: clamp(14px, 1.8vw, 24px); color: rgba(200,168,78,0.12); }
+.hero-lang-word:nth-child(10) { top: 85%; right: 8%; font-size: clamp(16px, 2.2vw, 28px); }
+.hero-lang-word:nth-child(11) { bottom: 10%; left: 30%; font-size: clamp(20px, 3vw, 36px); }
+.hero-lang-word:nth-child(12) { top: 10%; left: 45%; font-size: clamp(12px, 1.5vw, 20px); }
+
+.pricing-single {
+  padding: 100px 0;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.pricing-single .price-card {
+  display: inline-block;
+  max-width: 520px;
+  width: 100%;
+  padding: 48px 40px;
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, rgba(200,168,78,0.06) 0%, var(--elevated) 60%);
+  box-shadow: 0 0 60px var(--gold-glow);
+}
+.pricing-single .price-name {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.pricing-single .price-amount {
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.pricing-single .price-amount span {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.pricing-single .price-period {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+.pricing-single .price-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pricing-single .price-setup {
+  font-size: 14px;
+  color: var(--text-muted);
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+.pricing-single .price-setup strong { color: var(--text); }
+.pricing-single .price-features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 32px;
+}
+.pricing-single .price-features li {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 8px 0;
+  padding-left: 28px;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+.pricing-single .price-features li:last-child { border-bottom: none; }
+.pricing-single .price-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.verticals {
+  padding: 100px 0;
+}
+.vertical-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+.vertical-card {
+  padding: 28px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  transition: all 0.25s;
+  background: var(--surface);
+}
+.vertical-card:hover {
+  border-color: var(--gold-dim);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.vertical-card .vert-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: block;
+}
+.vertical-card h4 {
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.vertical-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .pricing-single .price-card { padding: 32px 24px; }
+  .vertical-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
 </head>
 <body>
 
@@ -19,9 +203,9 @@
       <span class="nav-title">ORION <span class="nav-title-pro">PRO</span></span>
     </a>
     <div class="nav-links" id="navLinks">
-      <a href="#tiers" class="nav-link">Plans</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
       <a href="#features" class="nav-link">Features</a>
-      <a href="/pricing" class="nav-link">Docs</a>
+      <a href="#verticals" class="nav-link">Industries</a>
       <a href="https://wa.me/27703080516" class="nav-link nav-cta">Talk to Naledi</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
@@ -31,25 +215,39 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#tiers" class="nav-link">Plans</a>
+  <a href="#pricing" class="nav-link">Pricing</a>
   <a href="#features" class="nav-link">Features</a>
-  <a href="/pricing" class="nav-link">Docs</a>
+  <a href="#verticals" class="nav-link">Industries</a>
   <a href="https://wa.me/27703080516" class="nav-link nav-cta">Talk to Naledi</a>
 </div>
 
-<section class="hero">
-  <div class="hero-bg"></div>
+<section class="hero" id="hero">
+  <div class="hero-bg-img"></div>
+  <div class="hero-languages">
+    <span class="hero-lang-word">SAWUBONA</span>
+    <span class="hero-lang-word">HELLO</span>
+    <span class="hero-lang-word">你好</span>
+    <span class="hero-lang-word">BONJOUR</span>
+    <span class="hero-lang-word">OLÁ</span>
+    <span class="hero-lang-word">こんにちは</span>
+    <span class="hero-lang-word">HALLO</span>
+    <span class="hero-lang-word">HOLA</span>
+    <span class="hero-lang-word">नमस्ते</span>
+    <span class="hero-lang-word">MERHABA</span>
+    <span class="hero-lang-word">CIAO</span>
+    <span class="hero-lang-word">MOLO</span>
+  </div>
   <div class="hero-content">
-    <div class="hero-badge">ORION P · ORION R · ORION O</div>
+    <div class="hero-badge">ORION WHATSAPP PRO</div>
     <h1 class="hero-title">Name Your <span class="gold">New Hire</span>.</h1>
-    <p class="hero-sub">No Onboarding. No Sick Leave. No Smoke Breaks.</p>
-    <p class="hero-desc">An AI receptionist that answers your WhatsApp messages 24/7. Speaks every language your customers speak. Never misses a lead. Never asks for a raise.</p>
+    <p class="hero-sub">The AI office manager who never sleeps, never calls in sick, speaks every language, and costs less than a junior employee.</p>
+    <p class="hero-desc">No tiers. No add-on upsells at sign-up. One product. One flat price. Your business stays open 24/7 — WhatsApp answered, leads captured, appointments booked, spam filtered — while you focus on what actually matters.</p>
     <div class="hero-ctas">
-      <a href="#tiers" class="btn btn-primary">See Plans</a>
+      <a href="#pricing" class="btn btn-primary">See Pricing</a>
       <a href="https://wa.me/27703080516" class="btn btn-secondary">Talk to Naledi</a>
     </div>
     <div class="hero-meta">
-      Starts at R1,999/mo &middot; Setup from $299 &middot; 48-hour deployment
+      R2,690/mo &middot; 7-day trial &middot; 48-hour deployment
     </div>
   </div>
 </section>
@@ -58,69 +256,75 @@
   <div class="section-inner">
     <div class="warning-label">A Word to the Wise</div>
     <blockquote class="warning-block">
-      If your goal is to be <strong>Kodak</strong> in the age of digital, <strong>Blockbuster</strong> in the age of streaming, or <strong>Nokia</strong> in the age of touch — <em>do not buy ORION PRO.</em>
+      If your goal is to be <strong>Kodak</strong> in the age of digital, <strong>Blockbuster</strong> in the age of streaming, or <strong>Nokia</strong> in the age of touch — <em>do not buy ORION WhatsApp PRO.</em>
     </blockquote>
     <p class="warning-pivot">But if you want to buy back your business, reclaim your time, and run circles around competitors who are still "thinking about it" — welcome. You're exactly who we built this for.</p>
   </div>
 </section>
 
-<section class="tiers" id="tiers">
+<section class="pricing-single" id="pricing">
   <div class="section-inner">
     <div class="section-header">
-      <h2 class="section-title">Three Ways to <span class="gold">Buy Back</span> Your Business</h2>
-      <p class="section-sub">Same AI engine. Different lane. Pick your fighter.</p>
+      <h2 class="section-title">One Price. <span class="gold">Everything.</span></h2>
+      <p class="section-sub">No tiers. No confusion. One product that does it all.</p>
     </div>
-    <div class="tier-grid">
-      <div class="tier-card">
-        <div class="tier-letter">P</div>
-        <h3 class="tier-name">ORION <span class="gold">P</span></h3>
-        <div class="tier-tag">Productivity</div>
-        <p class="tier-desc">For the solo pro. AI receptionist, voice transcription, document reading, multilingual. Your business, always open.</p>
-        <div class="tier-price">R1,999<span class="tier-price-period">/mo</span></div>
-        <ul class="tier-features">
-          <li>AI WhatsApp receptionist</li>
-          <li>Voice transcription</li>
-          <li>5 documents / pricing lists</li>
-          <li>50+ languages</li>
-          <li>48-hour setup</li>
-        </ul>
-        <a href="https://wa.me/27703080516" class="btn btn-outline">Talk to Naledi</a>
+    <div class="price-card">
+      <div class="price-name">ORION WhatsApp PRO</div>
+      <div class="price-amount">R2,690<span>/mo</span></div>
+      <p class="price-period">One flat rate. All features included.</p>
+      <p class="price-desc">Your AI WhatsApp office manager. 24/7. 50+ languages. Voice notes. Document reading. Lead capture. Smart filtering. Learns from every conversation.</p>
+      <ul class="price-features">
+        <li>AI WhatsApp office manager — 24/7, never misses a message</li>
+        <li>Voice note transcription — customers speak, Naledi action</li>
+        <li>Document reading — upload your price lists, menus, catalogues</li>
+        <li>50+ languages — Zulu, English, French, Mandarin, Japanese, Hindi, and more</li>
+        <li>Smart lead capture — instant WhatsApp notification when a lead comes in</li>
+        <li>Auto-filters spam, drunks, sales pitches — you only see real inquiries</li>
+        <li>Weekly lead report delivered to your phone</li>
+        <li>7-day free trial — no card, no contract, no lock-in</li>
+      </ul>
+      <div class="price-setup">
+        <strong>Meta Business API setup:</strong> R4,690 once-off <em>(only if you don't have your own WABA)</em><br>
+        Already have a WhatsApp Business API number? <strong>Connect it free.</strong>
       </div>
-      <div class="tier-card tier-featured">
-        <div class="tier-featured-badge">Most Popular</div>
-        <div class="tier-letter">R</div>
-        <h3 class="tier-name">ORION <span class="gold">R</span></h3>
-        <div class="tier-tag">Revenue</div>
-        <p class="tier-desc">For the growing business. Adds CRM, calendar booking, unlimited docs, advanced AI training, priority support.</p>
-        <div class="tier-price">R3,999<span class="tier-price-period">/mo</span></div>
-        <ul class="tier-features">
-          <li>Everything in P</li>
-          <li>CRM dashboard</li>
-          <li>Google Calendar booking</li>
-          <li>Unlimited document reading</li>
-          <li>Advanced AI training</li>
-          <li>Priority support</li>
-        </ul>
-        <a href="https://wa.me/27703080516" class="btn btn-primary">Talk to Naledi</a>
+      <a href="https://wa.me/27703080516" class="btn btn-primary btn-lg">Start on WhatsApp &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<section class="verticals" id="verticals">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2 class="section-title">Your Industry. <span class="gold">Pre-Trained.</span></h2>
+      <p class="section-sub">Same AI. Same price. Your template on day one.</p>
+    </div>
+    <div class="vertical-grid">
+      <div class="vertical-card">
+        <span class="vert-icon">🏨</span>
+        <h4>Hotels &amp; B&amp;Bs</h4>
+        <p>Booking inquiries, check-in/out times, amenity questions, local recommendations, cancellation policies.</p>
       </div>
-      <div class="tier-card">
-        <div class="tier-letter">O</div>
-        <h3 class="tier-name">ORION <span class="gold">O</span></h3>
-        <div class="tier-tag">Organiser</div>
-        <p class="tier-desc">For the market leader. AI outbound, dedicated support, strategy calls, custom workflows, multi-number, unlimited everything.</p>
-        <div class="tier-price">R7,999<span class="tier-price-period">/mo</span></div>
-        <ul class="tier-features">
-          <li>Everything in R</li>
-          <li>AI outbound campaigns</li>
-          <li>Dedicated support</li>
-          <li>Monthly strategy calls</li>
-          <li>Custom workflows</li>
-          <li>Multi-number support</li>
-        </ul>
-        <a href="https://wa.me/27703080516" class="btn btn-outline">Talk to Naledi</a>
+      <div class="vertical-card">
+        <span class="vert-icon">⚡</span>
+        <h4>Electricians</h4>
+        <p>Emergency vs scheduled call-outs, pricing, availability, service areas, quote collection.</p>
+      </div>
+      <div class="vertical-card">
+        <span class="vert-icon">🔧</span>
+        <h4>Plumbers</h4>
+        <p>Burst pipe or dripping tap — she knows the difference. Call-out fees, availability, emergency routing.</p>
+      </div>
+      <div class="vertical-card">
+        <span class="vert-icon">🏗️</span>
+        <h4>Builders</h4>
+        <p>Project inquiries, quoting process, timeline estimates, material questions, site visit scheduling.</p>
+      </div>
+      <div class="vertical-card">
+        <span class="vert-icon">❄️</span>
+        <h4>HVAC</h4>
+        <p>Service calls, maintenance plans, emergency repairs, filter reminders, seasonal pricing.</p>
       </div>
     </div>
-    <p class="tiers-footnote">All plans include a 7-day trial. No contract lock-in. Cancel anytime.<br>Setup fee from $299 (varies by scope).</p>
   </div>
 </section>
 
@@ -177,30 +381,6 @@
   </div>
 </section>
 
-<section class="trust" id="trust">
-  <div class="section-inner">
-    <div class="trust-label">Powered by</div>
-    <div class="trust-grid">
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="#25D366" width="28" height="28"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        <span>WhatsApp</span>
-      </div>
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="#635bFF" width="28" height="28"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 1.472 0 2.143.717 2.962 1.857l2.166-1.397c-.98-1.672-2.423-2.717-4.916-2.717-2.588 0-4.45 1.408-4.45 3.63 0 2.19 1.647 3.109 4.063 3.98 2.143.772 3.308 1.431 3.308 2.469 0 .87-.683 1.424-2.124 1.424-1.843 0-2.699-.803-3.648-2.192L7.39 14.795c1.124 1.773 2.567 3.002 5.48 3.002 2.985 0 4.863-1.462 4.863-3.818 0-2.304-1.414-3.217-4.757-4.478v.69zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0"/></svg>
-        <span>Stripe</span>
-      </div>
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="#3399CC" width="28" height="28"><path d="M4.773 14.442c.445-.258.455-.906.022-1.186l-3.057-1.977a.686.686 0 00-.37-.112H.286a.286.286 0 00-.286.286v4.108c0 .158.128.286.286.286h1.132c.135 0 .267-.04.38-.113l3.005-1.948c.024-.016.03-.048.03-.072 0-.082-.188-.128-.06-.272m17.802-7.013h-1.132a.673.673 0 00-.38.113l-3.073 1.978c-.446.286-.436.939.02 1.208l3.073 1.818c.107.064.233.098.36.098h1.132c.158 0 .286-.128.286-.286V7.715a.286.286 0 00-.286-.286m-7.087 14.456c.447-.286.436-.934-.02-1.203l-3.073-1.818a.66.66 0 00-.085-.041c-.29-.121-.6.01-.695.282l-2.092 5.337a.23.23 0 00.212.313h1.096c.13 0 .256-.044.36-.125zM16.707 2.96c-.331-.722-1.625-.73-1.968-.014l-4.745 9.985.01.004-.008.015 4.713 9.194c.36.713 1.65.698 1.974-.028l5.564-13.295c.31-.754-.237-1.557-1.018-1.557h-2.645c-.294 0-.565.156-.71.407"/></svg>
-        <span>PayFast</span>
-      </div>
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="#00B4D8" width="28" height="28"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0m2.642 6.273c.182 0 .342.054.48.163.138.11.207.249.207.42 0 .163-.069.301-.207.414a.674.674 0 01-.48.174.659.659 0 01-.474-.174.57.57 0 01-.196-.414c0-.17.065-.31.196-.42.13-.11.288-.163.474-.163m-1.36 10.354l-2.372-4.033-1.646.55v3.483c0 .196-.07.364-.212.504a.688.688 0 01-.51.218.688.688 0 01-.51-.218.714.714 0 01-.213-.504V7.598c0-.215.076-.393.229-.533a.784.784 0 01.527-.207c.2 0 .371.069.513.207a.7.7 0 01.226.533v3.96l4.314-1.443a.678.678 0 01.474-.043c.161.05.282.143.364.28.082.138.105.287.07.447a.52.52 0 01-.262.359l-3.094 1.033 2.293 3.895c.06.098.09.207.09.326 0 .195-.066.368-.197.519-.132.15-.301.226-.509.226a.607.607 0 01-.437-.196.711.711 0 01-.195-.504"/></svg>
-        <span>Yoco</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="comparison" id="comparison">
   <div class="section-inner">
     <div class="section-header">
@@ -245,7 +425,7 @@
       </div>
       <div class="comp-row">
         <span class="comp-label">Price per month</span>
-        <span class="comp-yes">R1,999+</span>
+        <span class="comp-yes"><strong>R2,690</strong></span>
         <span>R299</span>
         <span>R3k+ real</span>
         <span>R8k-R15k</span>
@@ -273,7 +453,7 @@
     <h2 class="cta-title">Buy Back <span class="gold">Your Business</span></h2>
     <p class="cta-desc">Your customers are messaging you right now. Some of them are ready to buy. The rest are talking to your competitors. Every minute you wait is a lead you don't get back.</p>
     <a href="https://wa.me/27703080516" class="btn btn-primary btn-lg">Start on WhatsApp &rarr;</a>
-    <p class="cta-note">No commitment. No pressure. Just a conversation.</p>
+    <p class="cta-note">R2,690/mo · 7-day trial · No contract · No card needed to start</p>
   </div>
 </section>
 
@@ -307,7 +487,7 @@
     </button>
   </div>
   <div class="chat-popup-messages" id="chatPopupMessages">
-    <div class="chat-msg chat-msg-bot">Howzit! I'm Naledi — the AI behind ORION PRO. While you're checking out the site, I'm running the show. Ask me anything about plans, features, or how we can help your business.</div>
+    <div class="chat-msg chat-msg-bot">Howzit! I'm Naledi — the AI behind ORION PRO. I'm your WhatsApp office manager. Ask me anything about pricing, features, or how we can help your business.</div>
   </div>
   <div class="naledi-typing" id="nalediTyping" style="display:none">Naledi is typing...</div>
   <div class="chat-popup-input-wrap">

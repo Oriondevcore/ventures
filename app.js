@@ -3,6 +3,9 @@ class NalediChat {
     this.chatBox = document.getElementById(containerId);
     this.input = document.getElementById(inputId);
     this.sendBtn = document.getElementById(sendBtnId);
+    this.apiUrl = 'https://helpme-api.orion269.workers.dev/api/incoming';
+    this.sessionId = localStorage.getItem('naledi_session') || 'web_' + crypto.randomUUID();
+    localStorage.setItem('naledi_session', this.sessionId);
     if (this.sendBtn) this.sendBtn.onclick = () => this.handleSend();
     if (this.input) this.input.onkeypress = (e) => {
       if (e.key === 'Enter') this.handleSend();
@@ -14,13 +17,13 @@ class NalediChat {
     if (!text) return;
     this.appendMsg('user', text);
     this.input.value = '';
-    const typingEl = document.getElementById('naledi-typing');
+    const typingEl = document.getElementById('nalediTyping');
     if (typingEl) typingEl.style.display = 'block';
     try {
-      const response = await fetch('/naledi/chat', {
+      const response = await fetch(this.apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
+        body: JSON.stringify({ body: text, from: this.sessionId, name: 'Website Visitor' })
       });
       const data = await response.json();
       if (typingEl) typingEl.style.display = 'none';
