@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORION PRO for Medical Practices | WhatsApp Automation</title>
+  <meta name="description" content="Automate your medical practice reception with WhatsApp. Naledi handles appointment bookings, patient enquiries, reminders, and after-hours triage — all on WhatsApp.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-header {
+      text-align: center;
+      padding: 40px 20px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .page-header .orion-logo {
+      font-size: 1.6rem;
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .page-header .orion-logo span {
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 6px;
+      display: block;
+      color: var(--light-text);
+      margin-top: 2px;
+    }
+    .doctors-hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: linear-gradient(135deg, rgba(18,18,18,0.98) 0%, rgba(26,26,26,0.95) 100%);
+      border-bottom: 1px solid rgba(212,175,55,0.2);
+    }
+    .doctors-hero h1 {
+      font-size: 2.8rem;
+      font-weight: 300;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .doctors-hero h1 strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .doctors-hero .subtitle {
+      font-size: 1.2rem;
+      color: var(--light-text);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .doctors-hero .offer-badge {
+      display: inline-block;
+      background: rgba(212,175,55,0.12);
+      border: 1px solid var(--gold);
+      padding: 12px 28px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .doctors-hero .offer-badge .free {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .doctors-hero .offer-badge p {
+      margin: 4px 0 0;
+      font-size: 0.95rem;
+      color: var(--light-text);
+    }
+    .doctors-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .doctors-section h2 {
+      font-size: 2rem;
+      font-weight: 300;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .doctors-section h2 strong {
+      color: var(--gold);
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 60px;
+    }
+    .problem-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 32px;
+      border-radius: 8px;
+    }
+    .problem-card .problem {
+      font-size: 1rem;
+      color: #ff6b6b;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .problem-card .solution {
+      font-size: 0.95rem;
+      color: var(--light-text);
+      line-height: 1.6;
+    }
+    .problem-card .solution strong {
+      color: #4ecdc4;
+    }
+    .feature-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+    .feature-item {
+      text-align: center;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      transition: border-color 0.3s;
+    }
+    .feature-item:hover {
+      border-color: rgba(212,175,55,0.3);
+    }
+    .feature-item .icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .feature-item h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: white;
+    }
+    .feature-item p {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      line-height: 1.5;
+    }
+    .steps-list {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .step {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 32px;
+      align-items: flex-start;
+    }
+    .step-number {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      border-radius: 50%;
+      background: rgba(212,175,55,0.15);
+      border: 1px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .step-content h3 {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+    .step-content p {
+      color: var(--light-text);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+    .doctors-pricing {
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid rgba(212,175,55,0.15);
+    }
+    .doctors-pricing .price-card {
+      display: inline-block;
+      background: rgba(212,175,55,0.05);
+      border: 1px solid rgba(212,175,55,0.25);
+      padding: 40px 48px;
+      border-radius: 8px;
+      max-width: 420px;
+    }
+    .doctors-pricing .price-amount {
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--gold);
+    }
+    .doctors-pricing .price-amount span {
+      font-size: 1.2rem;
+      color: var(--light-text);
+    }
+    .doctors-pricing .price-period {
+      color: var(--light-text);
+      margin-bottom: 24px;
+    }
+    .doctors-pricing .price-cta {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 14px 40px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+    .doctors-pricing .price-cta:hover {
+      opacity: 0.9;
+    }
+    .cta-section {
+      text-align: center;
+      padding: 60px 20px 80px;
+    }
+    .cta-section h2 {
+      font-size: 2rem;
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      color: var(--light-text);
+      max-width: 500px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .back-link {
+      text-align: center;
+      padding: 20px;
+    }
+    .back-link a {
+      color: var(--light-text);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back-link a:hover {
+      color: var(--gold);
+    }
+    @media (max-width: 768px) {
+      .doctors-hero h1 { font-size: 2rem; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .feature-list { grid-template-columns: 1fr; }
+      .doctors-pricing .price-card { padding: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="orion-logo">Orion<span>Ventures</span></div>
+  </div>
+
+  <div class="doctors-hero">
+    <div class="offer-badge">
+      <div class="free">1 Month Free</div>
+      <p>For your first month. No commitment. No risk.</p>
+    </div>
+    <h1>Your Receptionist.<br><strong>Now She Never Sleeps.</strong></h1>
+    <p class="subtitle">Naledi handles your patient enquiries, bookings, and after-hours calls on WhatsApp — so your receptionist can focus on patients in the room, not the phone.</p>
+  </div>
+
+  <div class="doctors-section">
+    <h2>What Every Practice <strong>Struggles With</strong></h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem">Missed Calls = Lost Patients</div>
+        <div class="solution"><strong>Naledi answers every WhatsApp instantly</strong> — 24/7. Booking requests, opening hours, directions, pricing. She handles it while you're with a patient.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem">Receptionist Burnout</div>
+        <div class="solution"><strong>Your receptionist answers the same questions 50 times a day.</strong> Naledi handles the repetitive enquiries so your staff can focus on what matters.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem">After-Hours Patients</div>
+        <div class="solution"><strong>Patients message at 10pm.</strong> Naledi books their appointment, sends a confirmation, and adds it to your calendar. You wake up to a booked day.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem">Language Barriers</div>
+        <div class="solution"><strong>Naledi speaks 50+ languages</strong> — including Zulu, Xhosa, Afrikaans, and English. Every patient gets helped in their home language.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doctors-section">
+    <h2>What <strong>Naledi</strong> Does For Your Practice</h2>
+    <div class="feature-list">
+      <div class="feature-item">
+        <h3>Appointment Booking</h3>
+        <p>Patients message their preferred time. Naledi checks availability and books it. Confirmation sent instantly.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Appointment Reminders</h3>
+        <p>Automated WhatsApp reminders reduce no-shows. Patients confirm or reschedule with one tap.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Patient Enquiries</h3>
+        <p>Opening hours, directions, pricing, insurance accepted — answered instantly in any language.</p>
+      </div>
+      <div class="feature-item">
+        <h3>After-Hours Triage</h3>
+        <p>Naledi captures patient details and urgency after hours. You review in the morning with full context.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Prescription Refills</h3>
+        <p>Patients request refills via WhatsApp. Naledi logs the request for your team to action.</p>
+      </div>
+      <div class="feature-item">
+        <h3>New Patient Intake</h3>
+        <p>Naledi collects patient info, medical history, and consent forms before their first visit.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="doctors-section">
+    <h2>How It <strong>Works</strong></h2>
+    <div class="steps-list">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Connect Your WhatsApp</h3>
+          <p>We link Naledi to your practice WhatsApp number. One-time setup, takes a few hours. Patients keep messaging you like always — Naledi handles the replies.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Train Naledi On Your Practice</h3>
+          <p>We tell Naledi your hours, services, pricing, location, and booking rules. She learns your practice in one session.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Go Live</h3>
+          <p>Your patients message your WhatsApp like always. Naledi responds instantly. You get a daily summary of bookings and enquiries.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doctors-pricing">
+    <div class="price-card">
+      <p style="color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 8px;">Limited Launch Offer</p>
+      <div class="price-amount">R2,690 <span>/month</span></div>
+      <div class="price-period">After your free month</div>
+      <p style="color: var(--light-text); font-size: 0.9rem; margin-bottom: 20px;">WhatsApp Business API setup: R4,690 once-off<br><span style="font-size: 0.8rem;">Or bring your own WABA — free</span></p>
+      <p style="color: var(--light-text); font-size: 0.85rem; margin-bottom: 24px;">No contract. Cancel anytime.</p>
+      <a href="#" class="price-cta" onclick="document.querySelector('.chat-launcher-btn')?.click()">Talk to Naledi</a>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Ready To Never Miss A Patient Again?</h2>
+    <p>Your first month is free. No credit card. No commitment. If it doesn't work for your practice, you owe nothing.</p>
+    <a href="#" class="price-cta" style="background: var(--gold); color: var(--bg); padding: 14px 40px; border-radius: 6px; font-weight: 600; font-size: 1rem; text-decoration: none;" onclick="document.querySelector('.chat-launcher-btn')?.click()">Start Your Free Month</a>
+  </div>
+
+  <div class="back-link">
+    <a href="/">&larr; Back to Orion Ventures</a>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

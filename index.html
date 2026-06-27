@@ -9,11 +9,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏹</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>O</text></svg>">
 <style>
 .hero {
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 24px 80px;
 }
 .hero-bg-img {
   position: absolute; inset: 0;
@@ -25,18 +32,23 @@
 .hero-bg-img::after {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(12,12,13,0.85) 0%, rgba(12,12,13,0.6) 50%, rgba(12,12,13,0.4) 100%);
+  background: linear-gradient(180deg, rgba(12,12,13,0.88) 0%, rgba(12,12,13,0.82) 25%, rgba(12,12,13,0.75) 50%, rgba(12,12,13,0.82) 75%, rgba(12,12,13,0.88) 100%);
 }
 @media (max-width: 767px) {
   .hero-bg-img { background-image: url('assets/hero-phone.png'); }
+  .hero { padding: 100px 20px 60px; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero-bg-img { background-image: url('assets/hero-tablet.png'); }
 }
 @media (min-width: 1024px) {
   .hero-bg-img { background-image: url('assets/hero-pc.png'); }
+  .hero-content { max-width: 800px; }
 }
 .hero-content { position: relative; z-index: 2; }
+.hero-title { font-size: clamp(40px, 7vw, 80px); margin-bottom: 20px; }
+.hero-sub { font-size: clamp(17px, 2.5vw, 24px); margin-bottom: 12px; }
+.hero-desc { font-size: 16px; max-width: 600px; line-height: 1.8; margin-bottom: 36px; }
 
 .hero-languages {
   position: absolute; inset: 0;
@@ -46,31 +58,109 @@
 }
 .hero-lang-word {
   position: absolute;
-  font-size: clamp(14px, 2vw, 28px);
+  font-size: clamp(12px, 1.8vw, 26px);
   font-weight: 600;
-  color: rgba(255,255,255,0.08);
-  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.04);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
   font-family: var(--font);
 }
-.hero-lang-word:nth-child(1) { top: 8%; left: 5%; font-size: clamp(18px, 2.5vw, 32px); color: rgba(200,168,78,0.12); }
-.hero-lang-word:nth-child(2) { top: 15%; right: 8%; font-size: clamp(14px, 1.8vw, 24px); }
-.hero-lang-word:nth-child(3) { top: 25%; left: 12%; font-size: clamp(20px, 3vw, 36px); color: rgba(200,168,78,0.1); }
-.hero-lang-word:nth-child(4) { top: 35%; right: 15%; font-size: clamp(12px, 1.5vw, 20px); }
-.hero-lang-word:nth-child(5) { top: 45%; left: 8%; font-size: clamp(16px, 2.2vw, 28px); }
-.hero-lang-word:nth-child(6) { top: 50%; right: 5%; font-size: clamp(22px, 3.5vw, 42px); color: rgba(200,168,78,0.08); }
-.hero-lang-word:nth-child(7) { top: 60%; left: 20%; font-size: clamp(10px, 1.2vw, 16px); }
-.hero-lang-word:nth-child(8) { top: 70%; right: 20%; font-size: clamp(18px, 2.5vw, 32px); }
-.hero-lang-word:nth-child(9) { top: 78%; left: 5%; font-size: clamp(14px, 1.8vw, 24px); color: rgba(200,168,78,0.12); }
-.hero-lang-word:nth-child(10) { top: 85%; right: 8%; font-size: clamp(16px, 2.2vw, 28px); }
-.hero-lang-word:nth-child(11) { bottom: 10%; left: 30%; font-size: clamp(20px, 3vw, 36px); }
-.hero-lang-word:nth-child(12) { top: 10%; left: 45%; font-size: clamp(12px, 1.5vw, 20px); }
+.hero-lang-word:nth-child(1) { top: 10%; left: 6%; font-size: clamp(16px, 2.2vw, 30px); color: rgba(200,168,78,0.06); }
+.hero-lang-word:nth-child(2) { top: 18%; right: 10%; font-size: clamp(12px, 1.5vw, 20px); }
+.hero-lang-word:nth-child(3) { top: 28%; left: 14%; font-size: clamp(18px, 2.5vw, 32px); color: rgba(200,168,78,0.04); }
+.hero-lang-word:nth-child(4) { top: 38%; right: 18%; font-size: clamp(10px, 1.3vw, 18px); }
+.hero-lang-word:nth-child(5) { top: 48%; left: 8%; font-size: clamp(14px, 2vw, 24px); }
+.hero-lang-word:nth-child(6) { top: 55%; right: 6%; font-size: clamp(20px, 3vw, 38px); color: rgba(200,168,78,0.03); }
+.hero-lang-word:nth-child(7) { top: 65%; left: 22%; font-size: clamp(9px, 1.1vw, 14px); }
+.hero-lang-word:nth-child(8) { top: 72%; right: 22%; font-size: clamp(16px, 2.2vw, 28px); }
+.hero-lang-word:nth-child(9) { top: 80%; left: 5%; font-size: clamp(12px, 1.5vw, 20px); color: rgba(200,168,78,0.04); }
+.hero-lang-word:nth-child(10) { top: 88%; right: 8%; font-size: clamp(14px, 1.8vw, 24px); }
+.hero-lang-word:nth-child(11) { bottom: 6%; left: 35%; font-size: clamp(18px, 2.5vw, 32px); }
+.hero-lang-word:nth-child(12) { top: 5%; left: 50%; font-size: clamp(10px, 1.2vw, 16px); }
+
+.story-section {
+  padding: 120px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  max-width: 1060px;
+  margin: 0 auto 60px;
+}
+.story-card {
+  text-align: center;
+  padding: 40px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: all 0.3s;
+}
+.story-card:hover {
+  border-color: var(--gold-dim);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+}
+.story-card .story-logo {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  letter-spacing: -0.03em;
+  opacity: 0.5;
+}
+.story-card .story-year {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.story-card h3 {
+  font-size: 20px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.story-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.story-card .story-status {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 14px;
+  border-radius: 980px;
+}
+.story-status.dead { color: #ef4444; border: 1px solid rgba(239,68,68,0.3); background: rgba(239,68,68,0.08); }
+
+.story-pivot {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.story-pivot h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  margin-bottom: 20px;
+}
+.story-pivot p {
+  font-size: 17px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
 
 .pricing-single {
   padding: 100px 0;
   text-align: center;
-  border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   background: var(--surface);
 }
@@ -145,7 +235,7 @@
 }
 .pricing-single .price-features li:last-child { border-bottom: none; }
 .pricing-single .price-features li::before {
-  content: '✓';
+  content: '\2713';
   position: absolute;
   left: 0;
   color: var(--gold);
@@ -173,10 +263,12 @@
   transform: translateY(-3px);
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
 }
-.vertical-card .vert-icon {
-  font-size: 36px;
-  margin-bottom: 12px;
-  display: block;
+.vertical-card .vert-letter {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 8px;
+  letter-spacing: -0.03em;
 }
 .vertical-card h4 {
   font-size: 15px;
@@ -189,6 +281,9 @@
   line-height: 1.5;
 }
 
+@media (max-width: 900px) {
+  .story-grid { grid-template-columns: 1fr; gap: 16px; }
+}
 @media (max-width: 600px) {
   .pricing-single .price-card { padding: 32px 24px; }
   .vertical-grid { grid-template-columns: repeat(2, 1fr); }
@@ -203,10 +298,10 @@
       <span class="nav-title">ORION <span class="nav-title-pro">PRO</span></span>
     </a>
     <div class="nav-links" id="navLinks">
+      <a href="#story" class="nav-link">The Story</a>
       <a href="#pricing" class="nav-link">Pricing</a>
       <a href="#features" class="nav-link">Features</a>
-      <a href="#verticals" class="nav-link">Industries</a>
-      <a href="https://wa.me/27703080516" class="nav-link nav-cta">Talk to Naledi</a>
+      <a href="https://wa.me/27703080516" class="nav-link nav-cta">Talk to Orion PRO</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
       <span></span><span></span>
@@ -215,9 +310,9 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
+  <a href="#story" class="nav-link">The Story</a>
   <a href="#pricing" class="nav-link">Pricing</a>
   <a href="#features" class="nav-link">Features</a>
-  <a href="#verticals" class="nav-link">Industries</a>
   <a href="https://wa.me/27703080516" class="nav-link nav-cta">Talk to Naledi</a>
 </div>
 
@@ -225,40 +320,75 @@
   <div class="hero-bg-img"></div>
   <div class="hero-languages">
     <span class="hero-lang-word">SAWUBONA</span>
-    <span class="hero-lang-word">HELLO</span>
-    <span class="hero-lang-word">你好</span>
+    <span class="hero-lang-word">HOWZIT</span>
+    <span class="hero-lang-word">NI HAO</span>
     <span class="hero-lang-word">BONJOUR</span>
-    <span class="hero-lang-word">OLÁ</span>
-    <span class="hero-lang-word">こんにちは</span>
+    <span class="hero-lang-word">OLA</span>
+    <span class="hero-lang-word">KONNICHIWA</span>
     <span class="hero-lang-word">HALLO</span>
-    <span class="hero-lang-word">HOLA</span>
-    <span class="hero-lang-word">नमस्ते</span>
-    <span class="hero-lang-word">MERHABA</span>
+    <span class="hero-lang-word">LEKKER</span>
+    <span class="hero-lang-word">NAMASTE</span>
+    <span class="hero-lang-word">MIDDAG</span>
     <span class="hero-lang-word">CIAO</span>
     <span class="hero-lang-word">MOLO</span>
   </div>
   <div class="hero-content">
     <div class="hero-badge">ORION WHATSAPP PRO</div>
-    <h1 class="hero-title">Name Your <span class="gold">New Hire</span>.</h1>
-    <p class="hero-sub">The AI office manager who never sleeps, never calls in sick, speaks every language, and costs less than a junior employee.</p>
-    <p class="hero-desc">No tiers. No add-on upsells at sign-up. One product. One flat price. Your business stays open 24/7 — WhatsApp answered, leads captured, appointments booked, spam filtered — while you focus on what actually matters.</p>
+    <h1 class="hero-title">Say 'Howzit' in OVER 50 LANGUAGES <span class="gold">INSTANTLY!</span>.</h1>
+    <p class="hero-sub">BOOK APPOINTMENTS DIRECT TO YOUR CALENDAR -  24/7, 365 days a year, Chats in over 50 languages including isiZULU and AFRIKAANS, and gives you more TIME for PLAY.</p>
+    <p class="hero-desc">| 1. BUY | 2. SCAN | 3. ENJOY! | Your WhatsApp answered around the clock. Leads captured. Appointments booked. Spam filtered. You focus on building your business.</p>
     <div class="hero-ctas">
-      <a href="#pricing" class="btn btn-primary">See Pricing</a>
-      <a href="https://wa.me/27703080516" class="btn btn-secondary">Talk to Naledi</a>
+      <a href="#story" class="btn btn-primary">The Story</a>
+      <a href="#pricing" class="btn btn-secondary">See Pricing</a>
     </div>
     <div class="hero-meta">
-      R2,690/mo &middot; 7-day trial &middot; 48-hour deployment
+      R2,690/mo &middot; CHAT NOW! &middot; 48-hour deployment
     </div>
   </div>
 </section>
 
-<section class="warning" id="warning">
+<section class="story-section" id="story">
   <div class="section-inner">
-    <div class="warning-label">A Word to the Wise</div>
-    <blockquote class="warning-block">
-      If your goal is to be <strong>Kodak</strong> in the age of digital, <strong>Blockbuster</strong> in the age of streaming, or <strong>Nokia</strong> in the age of touch — <em>do not buy ORION WhatsApp PRO.</em>
-    </blockquote>
-    <p class="warning-pivot">But if you want to buy back your business, reclaim your time, and run circles around competitors who are still "thinking about it" — welcome. You're exactly who we built this for.</p>
+    <div class="section-header">
+      <h2 class="section-title">The Ones Who <span class="gold">Didn't Adapt</span></h2>
+      <p class="section-sub">Every generation, a giant falls. Not because they lacked resources. Because they refused to believe the world had changed.</p>
+    </div>
+    <div class="story-grid">
+      <div class="story-card">
+        <img src="assets/kodak-logo.png" alt="Kodak" class="story-logo-img" style="max-width:140px;height:auto;margin-bottom:16px;opacity:0.6">
+        <div class="story-year">Founded 1888</div>
+        <h3>Invented Digital. Buried It.</h3>
+        <p>Kodak invented the first digital camera in 1975. Their response? They hid it. They were afraid it would kill their film business. It did anyway. 170,000 employees became 0.</p>
+        <span class="story-status dead">Gone</span>
+      </div>
+      <div class="story-card">
+        <img src="assets/blockbuster-logo.png" alt="Blockbuster" class="story-logo-img" style="max-width:160px;height:auto;margin-bottom:16px;opacity:0.6">
+        <div class="story-year">Founded 1985</div>
+        <h3>Had Netflix. Said No.</h3>
+        <p>In 2000, Netflix offered to sell to Blockbuster for $50 million. Blockbuster laughed. By 2010, Blockbuster was bankrupt. Netflix was worth billions. The refusal to see where the world was going cost them everything.</p>
+        <span class="story-status dead">Gone</span>
+      </div>
+      <div class="story-card">
+        <img src="assets/blackberry-logo.png" alt="Blackberry" class="story-logo-img" style="max-width:150px;height:auto;margin-bottom:16px;opacity:0.6">
+        <div class="story-year">Founded 1984</div>
+        <h3>Owned Business. Ignored Touch.</h3>
+        <p>Blackberry dominated the business phone market. They had keyboards, security, BBM. When the iPhone launched, they called it a toy. Business owners switched anyway. Blackberry's market share went from 50% to 0%.</p>
+        <span class="story-status dead">Gone</span>
+      </div>
+      <div class="story-card">
+        <div class="story-logo" style="opacity:0.5;">NOKIA</div>
+        <div class="story-year">Founded 1865</div>
+        <h3>King of Phones. Missed Touch.</h3>
+        <p>Nokia owned 50% of the global mobile market. The 3310 was legendary. When the iPhone launched in 2007, they called it a fragile toy with no keyboard. By 2013, their phone division was sold for scrap. $250 billion to zero.</p>
+        <span class="story-status dead">Gone</span>
+      </div>
+    </div>
+    <div class="story-pivot">
+      <h2>However YOU are <span class="gold">Not Them</span>.</h2>
+      <p>You're reading this because you're one of the business owners who sees what's coming. Your customers already expect 24/7 answers on WhatsApp. Your competitors are either ignoring this or already using it. There is no middle ground.</p>
+      <p class="hero-meta">The question is not whether AI receptionists will replace human ones. The question is whether you'll be the one offering it first — or the one your customers left for being too slow.</p>
+      <a href="#pricing" class="btn btn-primary btn-lg">See What It Costs &rarr;</a>
+    </div>
   </div>
 </section>
 
@@ -274,18 +404,18 @@
       <p class="price-period">One flat rate. All features included.</p>
       <p class="price-desc">Your AI WhatsApp office manager. 24/7. 50+ languages. Voice notes. Document reading. Lead capture. Smart filtering. Learns from every conversation.</p>
       <ul class="price-features">
-        <li>AI WhatsApp office manager — 24/7, never misses a message</li>
-        <li>Voice note transcription — customers speak, Naledi action</li>
-        <li>Document reading — upload your price lists, menus, catalogues</li>
-        <li>50+ languages — Zulu, English, French, Mandarin, Japanese, Hindi, and more</li>
-        <li>Smart lead capture — instant WhatsApp notification when a lead comes in</li>
-        <li>Auto-filters spam, drunks, sales pitches — you only see real inquiries</li>
+        <li>AI WhatsApp office manager operating 24/7, never misses a message</li>
+        <li>Voice note transcription, spoken language converted to action</li>
+        <li>Document reading, upload price lists, menus, catalogues</li>
+        <li>50+ languages, Zulu, English, French, Mandarin, Japanese, Hindi, and more</li>
+        <li>Smart lead capture with instant WhatsApp notification to your phone</li>
+        <li>Auto-filters spam, drunks, sales pitches, you only see real inquiries</li>
         <li>Weekly lead report delivered to your phone</li>
-        <li>7-day free trial — no card, no contract, no lock-in</li>
+        <li>7-day free trial, no card required, no contract, no lock-in</li>
       </ul>
       <div class="price-setup">
-        <strong>Meta Business API setup:</strong> R4,690 once-off <em>(only if you don't have your own WABA)</em><br>
-        Already have a WhatsApp Business API number? <strong>Connect it free.</strong>
+        <strong>Meta Business API setup:</strong> R4,690 once-off <em>(only required if you don't have your own WABA number)</em><br>
+        Already have a WhatsApp Business API number? <strong>Connect it for free.</strong>
       </div>
       <a href="https://wa.me/27703080516" class="btn btn-primary btn-lg">Start on WhatsApp &rarr;</a>
     </div>
@@ -296,33 +426,33 @@
   <div class="section-inner">
     <div class="section-header">
       <h2 class="section-title">Your Industry. <span class="gold">Pre-Trained.</span></h2>
-      <p class="section-sub">Same AI. Same price. Your template on day one.</p>
+      <p class="section-sub">Same AI. Same price. Your template ready on day one.</p>
     </div>
     <div class="vertical-grid">
       <div class="vertical-card">
-        <span class="vert-icon">🏨</span>
+        <div class="vert-letter">Hospitality</div>
         <h4>Hotels &amp; B&amp;Bs</h4>
-        <p>Booking inquiries, check-in/out times, amenity questions, local recommendations, cancellation policies.</p>
+        <p>Booking inquiries, check-in and check-out times, amenity questions, local recommendations, cancellation policies.</p>
       </div>
       <div class="vertical-card">
-        <span class="vert-icon">⚡</span>
-        <h4>Electricians</h4>
-        <p>Emergency vs scheduled call-outs, pricing, availability, service areas, quote collection.</p>
+        <div class="vert-letter">Electrical</div>
+        <h4>Sparkie Verified</h4>
+        <p>Emergency versus scheduled call-outs, pricing, availability, service areas, quote collection after hours.</p>
       </div>
       <div class="vertical-card">
-        <span class="vert-icon">🔧</span>
-        <h4>Plumbers</h4>
-        <p>Burst pipe or dripping tap — she knows the difference. Call-out fees, availability, emergency routing.</p>
+        <div class="vert-letter">Plumbers</div>
+        <h4>AI that knows it's shit</h4>
+        <p>Burst pipe or dripping tap, she knows the difference. Call-out fees, availability, emergency routing by time of day.</p>
       </div>
       <div class="vertical-card">
-        <span class="vert-icon">🏗️</span>
-        <h4>Builders</h4>
+        <div class="vert-letter">Builders</div>
+        <h4>Your business Corner Stone</h4>
         <p>Project inquiries, quoting process, timeline estimates, material questions, site visit scheduling.</p>
       </div>
       <div class="vertical-card">
-        <span class="vert-icon">❄️</span>
+        <div class="vert-letter">Air-conditioning</div>
         <h4>HVAC</h4>
-        <p>Service calls, maintenance plans, emergency repairs, filter reminders, seasonal pricing.</p>
+        <p>Service calls, maintenance plans, emergency repairs, filter reminders, seasonal pricing changes.</p>
       </div>
     </div>
   </div>
@@ -340,21 +470,21 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
         <h3>Name Them</h3>
-        <p>Your AI hire gets a name, a face, a personality. They represent your brand — not a generic robot.</p>
+        <p>Your AI hire gets a name, a face, a personality. They represent your brand, not a generic robot.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
         <h3>Zero Overhead</h3>
-        <p>No salary, no UIF, no pension, no sick leave, no smoke breaks. One predictable monthly fee.</p>
+        <p>No salary, no UIF, no pension, no sick leave, no smoke breaks. One predictable monthly fee, nothing else.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         </div>
         <h3>Any Language</h3>
-        <p>Your customer speaks Zulu, French, Mandarin, or Arabic? Your hire speaks it back. 50+ languages natively.</p>
+        <p>Your customer speaks Zulu, French, Mandarin, or Arabic. Your hire speaks it back. 50+ languages, built in.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
@@ -368,14 +498,14 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
         <h3>Improves Every Day</h3>
-        <p>Every conversation makes your hire smarter. They learn your customers, your tone, your products — continuously.</p>
+        <p>Every conversation makes your hire smarter. They learn your customers, your tone, your products, continuously.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
         <h3>Zero Setup Friction</h3>
-        <p>We configure everything. You just connect your WhatsApp number. From sign-up to live in 48 hours.</p>
+        <p>We handle everything. You just connect your WhatsApp number. From sign-up to live within 48 hours.</p>
       </div>
     </div>
   </div>
@@ -453,7 +583,7 @@
     <h2 class="cta-title">Buy Back <span class="gold">Your Business</span></h2>
     <p class="cta-desc">Your customers are messaging you right now. Some of them are ready to buy. The rest are talking to your competitors. Every minute you wait is a lead you don't get back.</p>
     <a href="https://wa.me/27703080516" class="btn btn-primary btn-lg">Start on WhatsApp &rarr;</a>
-    <p class="cta-note">R2,690/mo · 7-day trial · No contract · No card needed to start</p>
+    <p class="cta-note">R2,690/mo &middot; 7-day trial &middot; No contract &middot; No card needed to start</p>
   </div>
 </section>
 
@@ -487,7 +617,7 @@
     </button>
   </div>
   <div class="chat-popup-messages" id="chatPopupMessages">
-    <div class="chat-msg chat-msg-bot">Howzit! I'm Naledi — the AI behind ORION PRO. I'm your WhatsApp office manager. Ask me anything about pricing, features, or how we can help your business.</div>
+    <div class="chat-msg chat-msg-bot">Howzit. I'm Naledi, the AI behind ORION PRO. I'm your WhatsApp office manager. Ask me anything about pricing, features, or how I can help your business.</div>
   </div>
   <div class="naledi-typing" id="nalediTyping" style="display:none">Naledi is typing...</div>
   <div class="chat-popup-input-wrap">
