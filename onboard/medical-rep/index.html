@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORION PRO — Medical Rep Partnership</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f0e8;
+    color: #1a1a1a;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .container { max-width: 600px; margin: 0 auto; }
+  .header {
+    text-align: center;
+    padding: 24px 0 20px;
+    border-bottom: 2px solid #d4af37;
+    margin-bottom: 24px;
+  }
+  .header h1 { font-size: 24px; letter-spacing: 2px; text-transform: uppercase; }
+  .header .gold { color: #d4af37; }
+  .header .sub { font-size: 13px; color: #666; margin-top: 4px; }
+  .header .commission { font-size: 14px; color: #d4af37; font-weight: 700; margin-top: 4px; }
+  .form-group { margin-bottom: 20px; }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    transition: border-color 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #d4af37;
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  .half { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background: #d4af37;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.9; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .hidden { display: none; }
+  .success-msg { text-align: center; padding: 40px 20px; }
+  .success-msg h2 { color: #d4af37; margin-bottom: 12px; }
+  .success-msg p { color: #666; font-size: 14px; }
+  .error-msg { color: #e74c3c; font-size: 12px; margin-top: 4px; display: none; }
+  .error-msg.show { display: block; }
+  .loading { text-align: center; padding: 20px; }
+  .info-box {
+    background: #faf8f3;
+    border-left: 4px solid #d4af37;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    border-radius: 0 4px 4px 0;
+  }
+  @media (max-width: 480px) { .half { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1><span class="gold">ORION</span> PRO</h1>
+    <div class="sub">Business Partner Registration</div>
+    <div class="commission">Earn 10-15% recurring commission</div>
+  </div>
+
+  <div class="info-box">
+    You are not an employee. You are a Business Partner. You buy the business-in-a-box, get a sales manual, and earn commission for every doctor you refer. Read the full terms at <a href="/onboarding/" style="color:#d4af37;">oriondevcore.com/onboarding/</a>
+  </div>
+
+  <form id="onboardForm">
+    <input type="hidden" name="type" value="medical-rep">
+
+    <div class="half">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" name="first_name" required>
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" name="last_name" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>WhatsApp Number</label>
+      <input type="tel" name="phone" required placeholder="e.g. 0712345678">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" required>
+    </div>
+
+    <div class="form-group">
+      <label>Territory (Which areas do you cover?)</label>
+      <textarea name="territory" required placeholder="e.g. All of KwaZulu-Natal, or specific: Durban, Pietermaritzburg, Richards Bay"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Current Profession</label>
+      <input type="text" name="profession" placeholder="e.g. Medical sales rep, nurse, receptionist">
+    </div>
+
+    <div class="form-group">
+      <label>How many doctors do you estimate you can reach per month?</label>
+      <select name="reach">
+        <option value="1-5">1-5 per month</option>
+        <option value="5-10">5-10 per month</option>
+        <option value="10-20">10-20 per month</option>
+        <option value="20+">20+ per month</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>How did you hear about ORION PRO?</label>
+      <input type="text" name="referral" placeholder="e.g. Referred by a friend, social media">
+    </div>
+
+    <div class="error-msg" id="errorMsg">Please fill in all required fields.</div>
+    <button type="submit" class="btn" id="submitBtn">Apply to Become a Partner</button>
+  </form>
+
+  <div class="success-msg hidden" id="successMsg">
+    <h2>Application Received</h2>
+    <p>Thank you for partnering with ORION PRO. Naledi will message you on WhatsApp with your partner kit and next steps.</p>
+  </div>
+
+  <div class="loading hidden" id="loadingMsg">Submitting...</div>
+</div>
+
+<script>
+document.getElementById('onboardForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  const btn = document.getElementById('submitBtn');
+  const err = document.getElementById('errorMsg');
+  const loading = document.getElementById('loadingMsg');
+
+  btn.disabled = true;
+  err.classList.remove('show');
+  loading.classList.remove('hidden');
+
+  try {
+    const res = await fetch('https://nwa.oriondevcore.com/api/onboard', {
+      method: 'POST',
+      body: JSON.stringify(Object.fromEntries(data)),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (!res.ok) throw new Error('Server error');
+    form.classList.add('hidden');
+    document.getElementById('successMsg').classList.remove('hidden');
+  } catch (e) {
+    err.textContent = 'Something went wrong. Please try again or WhatsApp Graham.';
+    err.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    loading.classList.add('hidden');
+  }
+});
+</script>
+</body>
+</html>

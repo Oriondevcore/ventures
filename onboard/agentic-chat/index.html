@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORION AI — Agentic Chat Onboarding</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f0e8;
+    color: #1a1a1a;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .container { max-width: 600px; margin: 0 auto; }
+  .header {
+    text-align: center;
+    padding: 24px 0 20px;
+    border-bottom: 2px solid #d4af37;
+    margin-bottom: 24px;
+  }
+  .header h1 { font-size: 24px; letter-spacing: 2px; text-transform: uppercase; }
+  .header .gold { color: #d4af37; }
+  .header .sub { font-size: 13px; color: #666; margin-top: 4px; }
+  .header .tagline { font-size: 12px; color: #999; margin-top: 2px; }
+  .form-group { margin-bottom: 20px; }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    transition: border-color 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #d4af37;
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  .half { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background: #d4af37;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.9; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .hidden { display: none; }
+  .success-msg { text-align: center; padding: 40px 20px; }
+  .success-msg h2 { color: #d4af37; margin-bottom: 12px; }
+  .success-msg p { color: #666; font-size: 14px; }
+  .error-msg { color: #e74c3c; font-size: 12px; margin-top: 4px; display: none; }
+  .error-msg.show { display: block; }
+  .loading { text-align: center; padding: 20px; }
+  @media (max-width: 480px) { .half { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1><span class="gold">ORION</span> AI</h1>
+    <div class="sub">WhatsApp AI Agentic Chat</div>
+    <div class="tagline">US Market &mdash; AI that books, sells, and supports on autopilot</div>
+  </div>
+
+  <form id="onboardForm">
+    <input type="hidden" name="type" value="agentic-chat">
+
+    <div class="form-group">
+      <label>Business Name</label>
+      <input type="text" name="business_name" required>
+    </div>
+
+    <div class="half">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" name="first_name" required>
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" name="last_name" required>
+      </div>
+    </div>
+
+    <div class="half">
+      <div class="form-group">
+        <label>WhatsApp Number</label>
+        <input type="tel" name="phone" required placeholder="+1 (555) 123-4567">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Industry</label>
+      <select name="industry">
+        <option value="retail">Retail / E-commerce</option>
+        <option value="realestate">Real Estate</option>
+        <option value="healthcare">Healthcare</option>
+        <option value="legal">Legal</option>
+        <option value="automotive">Automotive</option>
+        <option value="hospitality">Hospitality</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>How many WhatsApp enquiries do you get per day?</label>
+      <select name="enquiries">
+        <option value="1-10">1-10 per day</option>
+        <option value="10-50">10-50 per day</option>
+        <option value="50-100">50-100 per day</option>
+        <option value="100+">100+ per day</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>What would you like the AI to handle?</label>
+      <textarea name="needs" required placeholder="e.g. Book appointments, answer FAQs, qualify leads, process orders, after-hours support"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Timezone</label>
+      <select name="timezone">
+        <option value="EST">Eastern (EST)</option>
+        <option value="CST">Central (CST)</option>
+        <option value="MST">Mountain (MST)</option>
+        <option value="PST">Pacific (PST)</option>
+        <option value="AKST">Alaska (AKST)</option>
+        <option value="HST">Hawaii (HST)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>How did you hear about us?</label>
+      <input type="text" name="referral" placeholder="e.g. Google, friend, social media">
+    </div>
+
+    <div class="error-msg" id="errorMsg">Please fill in all required fields.</div>
+    <button type="submit" class="btn" id="submitBtn">Get Started</button>
+  </form>
+
+  <div class="success-msg hidden" id="successMsg">
+    <h2>You're In</h2>
+    <p>Naledi will message you on WhatsApp within minutes to get you set up. Welcome to the future of business communication.</p>
+  </div>
+
+  <div class="loading hidden" id="loadingMsg">Submitting...</div>
+</div>
+
+<script>
+document.getElementById('onboardForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  const btn = document.getElementById('submitBtn');
+  const err = document.getElementById('errorMsg');
+  const loading = document.getElementById('loadingMsg');
+
+  btn.disabled = true;
+  err.classList.remove('show');
+  loading.classList.remove('hidden');
+
+  try {
+    const res = await fetch('https://nwa.oriondevcore.com/api/onboard', {
+      method: 'POST',
+      body: JSON.stringify(Object.fromEntries(data)),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (!res.ok) throw new Error('Server error');
+    form.classList.add('hidden');
+    document.getElementById('successMsg').classList.remove('hidden');
+  } catch (e) {
+    err.textContent = 'Something went wrong. Please try again.';
+    err.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    loading.classList.add('hidden');
+  }
+});
+</script>
+</body>
+</html>

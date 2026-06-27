@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORION PRO MED — Practitioner Onboarding</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f0e8;
+    color: #1a1a1a;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .container { max-width: 600px; margin: 0 auto; }
+  .header {
+    text-align: center;
+    padding: 24px 0 20px;
+    border-bottom: 2px solid #d4af37;
+    margin-bottom: 24px;
+  }
+  .header h1 { font-size: 24px; letter-spacing: 2px; text-transform: uppercase; }
+  .header .gold { color: #d4af37; }
+  .header .sub { font-size: 13px; color: #666; margin-top: 4px; }
+  .step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .step-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #ddd;
+  }
+  .step-dot.active { background: #d4af37; }
+  .form-group { margin-bottom: 20px; }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  label .optional { font-weight: 400; color: #999; }
+  input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    transition: border-color 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #d4af37;
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  .half { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background: #d4af37;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.9; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .hidden { display: none; }
+  .success-msg {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .success-msg h2 { color: #d4af37; margin-bottom: 12px; }
+  .success-msg p { color: #666; font-size: 14px; }
+  .error-msg {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+  .loading { text-align: center; padding: 20px; }
+  @media (max-width: 480px) {
+    .half { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1><span class="gold">ORION</span> PRO MED</h1>
+    <div class="sub">Practitioner Onboarding</div>
+  </div>
+
+  <div class="step-indicator">
+    <span class="step-dot active"></span>
+    <span class="step-dot"></span>
+    <span class="step-dot"></span>
+  </div>
+
+  <form id="onboardForm">
+    <input type="hidden" name="type" value="practitioner">
+
+    <div class="form-group">
+      <label>Practice Name</label>
+      <input type="text" name="practice_name" required placeholder="e.g. Durban Medical Centre">
+    </div>
+
+    <div class="half">
+      <div class="form-group">
+        <label>Doctor's First Name</label>
+        <input type="text" name="first_name" required>
+      </div>
+      <div class="form-group">
+        <label>Doctor's Last Name</label>
+        <input type="text" name="last_name" required>
+      </div>
+    </div>
+
+    <div class="half">
+      <div class="form-group">
+        <label>WhatsApp Number</label>
+        <input type="tel" name="phone" required placeholder="e.g. 0712345678">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Practice Address</label>
+      <input type="text" name="address" required>
+    </div>
+
+    <div class="form-group">
+      <label>Operating Hours</label>
+      <textarea name="hours" required placeholder="e.g. Mon-Fri 8am-5pm, Sat 8am-12pm"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Services Offered</label>
+      <textarea name="services" required placeholder="e.g. General consultations, blood tests, vaccinations, chronic medication management"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Booking Rules</label>
+      <textarea name="booking_rules" placeholder="e.g. Same-day bookings available? How far ahead can patients book? Walk-ins welcome?"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Insurance / Medical Aids Accepted</label>
+      <input type="text" name="insurance" placeholder="e.g. Discovery, Momentum, Bonitas">
+    </div>
+
+    <div class="form-group">
+      <label>How did you hear about us?</label>
+      <input type="text" name="referral" placeholder="e.g. Referred by (name)">
+    </div>
+
+    <div class="form-group">
+      <label>Preferred Payment Method</label>
+      <select name="payment_method">
+        <option value="payfast">PayFast</option>
+        <option value="yoco">Yoco</option>
+        <option value="stripe">Stripe</option>
+        <option value="paypal">PayPal</option>
+      </select>
+    </div>
+
+    <div class="error-msg" id="errorMsg">Please fill in all required fields.</div>
+    <button type="submit" class="btn" id="submitBtn">Submit & Start Onboarding</button>
+  </form>
+
+  <div class="success-msg hidden" id="successMsg">
+    <h2>Welcome to ORION PRO MED</h2>
+    <p>Naledi has received your details. She will message you on WhatsApp shortly to complete your setup. Your practice will be live within 48 hours.</p>
+    <p style="margin-top:16px;font-size:12px;color:#999;">You can close this page.</p>
+  </div>
+
+  <div class="loading hidden" id="loadingMsg">Submitting...</div>
+</div>
+
+<script>
+document.getElementById('onboardForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  const btn = document.getElementById('submitBtn');
+  const err = document.getElementById('errorMsg');
+  const loading = document.getElementById('loadingMsg');
+
+  btn.disabled = true;
+  err.classList.remove('show');
+  loading.classList.remove('hidden');
+
+  try {
+    const res = await fetch('https://nwa.oriondevcore.com/api/onboard', {
+      method: 'POST',
+      body: JSON.stringify(Object.fromEntries(data)),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (!res.ok) throw new Error('Server error');
+    form.classList.add('hidden');
+    document.getElementById('successMsg').classList.remove('hidden');
+  } catch (e) {
+    err.textContent = 'Something went wrong. Please try again or WhatsApp Graham.';
+    err.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    loading.classList.add('hidden');
+  }
+});
+</script>
+</body>
+</html>
