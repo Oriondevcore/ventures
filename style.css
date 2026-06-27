@@ -437,6 +437,44 @@ h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -0.02e
   line-height: 1.7;
 }
 
+/* ── Trust / Partner Logos ── */
+.trust {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+}
+
+.trust-label {
+  text-align: center;
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.trust-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.trust-item:hover { opacity: 0.8; }
+
+.trust-item span {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: -0.01em;
+}
+
 /* ── Comparison ── */
 .comparison {
   padding: 120px 0;
