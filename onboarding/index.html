@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORION PRO — Onboarding Process</title>
+<style>
+  @page { margin: 15mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #1a1a1a;
+    background: #fff;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #d4af37;
+    margin-bottom: 24px;
+  }
+  .header h1 { font-size: 28px; letter-spacing: 2px; text-transform: uppercase; }
+  .header .gold { color: #d4af37; }
+  .header .sub { font-size: 14px; color: #666; margin-top: 4px; }
+  section { margin-bottom: 32px; }
+  h2 {
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #d4af37;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+  }
+  h3 { font-size: 15px; margin-bottom: 8px; color: #333; }
+  .step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #faf8f3;
+    border-radius: 6px;
+    border-left: 4px solid #d4af37;
+  }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    background: #d4af37;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .step-content { flex: 1; }
+  .step-content h3 { font-size: 15px; margin-bottom: 4px; }
+  .step-content .who { font-size: 12px; color: #d4af37; font-weight: 600; margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: #555; }
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .timeline-item {
+    text-align: center;
+    padding: 12px;
+    background: #f5f0e8;
+    border-radius: 6px;
+  }
+  .timeline-item .day { font-size: 20px; font-weight: 700; color: #d4af37; }
+  .timeline-item .label { font-size: 11px; color: #666; margin-top: 4px; }
+  .highlight-box {
+    background: #faf8f3;
+    border-left: 4px solid #d4af37;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    border-radius: 0 4px 4px 0;
+  }
+  .highlight-box strong { color: #d4af37; }
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: #999;
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  ul { list-style: none; padding: 0; }
+  ul li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    font-size: 13px;
+  }
+  ul li::before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    color: #d4af37;
+    font-weight: 700;
+  }
+  @media print { body { padding: 0; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="gold">ORION</span> ONBOARDING PROCESS</h1>
+  <div class="sub">From sign-up to live in 48 hours — KwaZulu-Natal, South Africa</div>
+</div>
+
+<section>
+  <h2>Overview</h2>
+  <p style="font-size:13px;margin-bottom:12px;">The entire process from a doctor saying "yes" to having Naledi live on their WhatsApp takes 48 hours. Here is exactly what happens at each step.</p>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="day">Day 1</div>
+      <div class="label">Sign-up & Payment</div>
+    </div>
+    <div class="timeline-item">
+      <div class="day">Day 1</div>
+      <div class="label">WABA Setup</div>
+    </div>
+    <div class="timeline-item">
+      <div class="day">Day 2</div>
+      <div class="label">Naledi Training</div>
+    </div>
+    <div class="timeline-item">
+      <div class="day">Day 2</div>
+      <div class="label">Go-Live</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Step-by-Step Process</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <div class="who">BP / Medical Rep</div>
+      <h3>Doctor Says Yes</h3>
+      <p>Doctor agrees to sign up. BP collects: practice name, doctor's name, practice WhatsApp number, email address. BP sends this to Orion via WhatsApp.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <div class="who">Orion + Doctor</div>
+      <h3>Payment</h3>
+      <p>Orion sends the doctor a payment link (PayFast, Yoco, Stripe, PayPal). Doctor pays setup fee + first month (or chooses contract special). Payment is confirmed automatically via PayFast ITN webhook.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <div class="who">Orion + Doctor</div>
+      <h3>Welcome & Data Collection</h3>
+      <p>Naledi sends a welcome message to the doctor's WhatsApp. She collects via chat:
+        <br>- Practice name and address
+        <br>- Operating hours
+        <br>- Services offered
+        <br>- Booking rules (same-day? walk-ins? how far ahead?)
+        <br>- Pricing for common services
+        <br>- Insurance / medical aids accepted
+        <br>- Any FAQs patients ask
+        <br>Doctor can voice-note all of this. Naledi transcribes and organizes it.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <div class="who">Orion handles</div>
+      <h3>WABA Setup (WhatsApp Business API)</h3>
+      <p>If doctor needs a new WABA number: Orion registers it via Meta (R4,690 once-off). If doctor has their own WABA: we connect it for free. Takes 2-6 hours depending on Meta approval.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-content">
+      <div class="who">Naledi learns</div>
+      <h3>Training Session</h3>
+      <p>Orion feeds all collected info into Naledi's knowledge base. Naledi learns the practice's hours, services, pricing, booking rules, and FAQs. A quick test session runs: Orion sends sample patient messages to verify Naledi responds correctly.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">6</div>
+    <div class="step-content">
+      <div class="who">Doctor approves</div>
+      <h3>Testing & Approval</h3>
+      <p>Doctor sends test messages to their own WhatsApp. Naledi responds. Doctor sees how it works, requests any changes. Orion tweaks the knowledge base if needed.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">7</div>
+    <div class="step-content">
+      <div class="who">Live</div>
+      <h3>Go-Live</h3>
+      <p>Naledi is live on the doctor's WhatsApp. Real patients start messaging. Naledi handles enquiries, books appointments, sends reminders. Doctor gets a daily summary. Ongoing support via WhatsApp.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>What the BP / Medical Rep Does</h2>
+  <ul>
+    <li>Identify interested doctors</li>
+    <li>Introduce ORION PRO (show features page + this onboarding page)</li>
+    <li>Let Naledi demo herself on the doctor's phone</li>
+    <li>Collect practice name, WhatsApp number, email from the doctor</li>
+    <li>Send the lead to Orion via WhatsApp</li>
+    <li>That's it. Orion handles the rest.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>What the Doctor Does</h2>
+  <ul>
+    <li>Say yes to the BP</li>
+    <li>Pay the setup fee via payment link</li>
+    <li>Answer Naledi's questions about their practice (voice notes allowed)</li>
+    <li>Review and approve the test responses</li>
+    <li>Start receiving patient messages handled by Naledi</li>
+    <li>Done. Takes 30 minutes of their time total.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>What Orion Does</h2>
+  <ul>
+    <li>Handle all Meta/WABA registration</li>
+    <li>Train Naledi on the practice</li>
+    <li>Run the test session</li>
+    <li>Go-live deployment</li>
+    <li>Ongoing support and monitoring</li>
+    <li>Monthly reports to the doctor</li>
+    <li>Pay commission to the BP</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Payment Flow</h2>
+  <div class="highlight-box">
+    <strong>Day 1:</strong> Doctor pays R4,690 setup + R6,999 first month (special) = <strong>R11,689 total</strong> via PayFast link.<br>
+    <strong>Monthly thereafter:</strong> R6,999/month (first 3 months at special rate) or R8,999/month (month-to-month).<br>
+    <strong>BP commission:</strong> 10-15% of monthly subscription for the lifetime of the client.<br>
+    <strong>Payment methods:</strong> PayFast, Yoco, Stripe, PayPal.
+  </div>
+</section>
+
+<div class="footer">
+  ORION WhatsApp PRO — Orion Ventures — Graham Henry — Durban, South Africa<br>
+  Questions? WhatsApp: 072 497 1810
+</div>
+
+</body>
+</html>
