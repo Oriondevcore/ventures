@@ -1,8 +1,8 @@
 {
-  "name": "Orion Ventures",
-  "short_name": "Orion",
+  "name": "ORION PRO",
+  "short_name": "ORION PRO",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#080809",
-  "theme_color": "#00e5ff"
+  "background_color": "#0c0c0d",
+  "theme_color": "#c8a84e"
 }

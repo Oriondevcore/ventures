@@ -33,6 +33,7 @@ export async function onRequestPost(context) {
     }
 
     const isKaraoke = metadata?.product?.includes('Custom Karaoke Track');
+    const isNaledi = metadata?.product?.toLowerCase().includes('naledi');
     const orderPayload = {
       chargeId: charge.id,
       product: metadata?.product || 'Unknown product',
@@ -40,7 +41,8 @@ export async function onRequestPost(context) {
       currency: currency || 'ZAR',
       customerName: metadata?.customerName || 'Unknown',
       customerEmail: metadata?.customerEmail || 'unknown@email.com',
-      orderType: isKaraoke ? 'karaoke' : 'print',
+      customerPhone: metadata?.customerPhone || null,
+      orderType: isKaraoke ? 'karaoke' : isNaledi ? 'naledi' : 'print',
       orderNumber: metadata?.orderNumber || `OV-${Date.now()}`,
       notes: metadata?.notes || null,
     };

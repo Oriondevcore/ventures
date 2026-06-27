@@ -43,83 +43,6 @@ class NalediChat {
   }
 }
 
-function getPublicKey() {
-  return window.YOCO_PK || 'pk_live_ZGM2YjY0ZjEtZmZkYy00MDg4LWI5YzgtZDRkMjc4MGNiZGM4';
-}
-
-function showToast(msg, type) {
-  const existing = document.querySelector('.toast');
-  if (existing) existing.remove();
-  const t = document.createElement('div');
-  t.className = 'toast';
-  t.textContent = msg;
-  if (type === 'error') t.style.borderColor = 'var(--state-error)';
-  document.body.appendChild(t);
-  setTimeout(() => t.classList.add('show'), 10);
-  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 4000);
-}
-
-function setBtnLoading(btn, loading, text) {
-  if (loading) {
-    btn.dataset.orig = btn.textContent;
-    btn.textContent = 'Processing...';
-    btn.disabled = true;
-  } else {
-    btn.textContent = btn.dataset.orig || text;
-    btn.disabled = false;
-  }
-}
-
-async function startYocoPayment(amount, name, email, product, orderRef) {
-  try {
-    const yoco = new YocoSDK({ publicKey: getPublicKey() });
-    const result = await yoco.showPopup({
-      amountInCents: Math.round(amount * 100),
-      currency: 'ZAR',
-      name: name,
-      description: product,
-      metadata: {
-        customerName: name,
-        customerEmail: email,
-        orderNumber: orderRef,
-        product: product,
-      },
-    });
-
-    const res = await fetch('/api/yoco-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        token: result.id,
-        amountInCents: Math.round(amount * 100),
-        currency: 'ZAR',
-        metadata: {
-          customerName: name,
-          customerEmail: email,
-          orderNumber: orderRef,
-          product: product,
-        },
-      }),
-    });
-
-    const charge = await res.json();
-    if (charge.success) {
-      showToast('Payment successful! Thank you.', 'success');
-      return true;
-    } else {
-      showToast('Payment failed: ' + (charge.details || charge.error), 'error');
-      return false;
-    }
-  } catch (e) {
-    if (e.message && e.message.includes('cancelled')) {
-      showToast('Payment cancelled.', 'error');
-    } else {
-      showToast('Payment error: ' + (e.message || 'Connection failed'), 'error');
-    }
-    return false;
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   new NalediChat('chatPopupMessages', 'chatPopupInput', 'chatPopupSend');
 
@@ -134,18 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.getElementById('navHamburger');
   if (hamburger) {
     hamburger.onclick = () => {
-      hamburger.classList.toggle('open');
       const menu = document.getElementById('mobileMenu');
-      if (!menu) {
-        const m = document.createElement('div');
-        m.id = 'mobileMenu';
-        m.className = 'mobile-menu';
-        m.innerHTML = document.getElementById('navLinks').innerHTML;
-        document.body.appendChild(m);
-        setTimeout(() => m.classList.add('open'), 10);
-      } else {
-        menu.classList.toggle('open');
-      }
+      hamburger.classList.toggle('open');
+      menu.classList.toggle('open');
     };
   }
 
@@ -157,97 +71,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  let pendingItem = null;
-
-  document.querySelectorAll('.buy-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      pendingItem = {
-        amount: parseFloat(btn.dataset.amount),
-        product: btn.dataset.product,
-        name: btn.dataset.name,
-      };
-      document.getElementById('checkoutTitle').textContent = 'Buy ' + btn.dataset.name;
-      document.getElementById('checkoutDesc').textContent = btn.dataset.product;
-      document.getElementById('checkoutName').value = '';
-      document.getElementById('checkoutEmail').value = '';
-      document.getElementById('checkoutModal').classList.add('open');
-    };
+  const nav = document.getElementById('nav');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+        ticking = false;
+      });
+      ticking = true;
+    }
   });
 
-  document.getElementById('checkoutCancel').onclick = () => {
-    document.getElementById('checkoutModal').classList.remove('open');
-    pendingItem = null;
-  };
-  document.getElementById('checkoutModal').onclick = (e) => {
-    if (e.target === e.currentTarget) {
-      e.target.classList.remove('open');
-      pendingItem = null;
-    }
-  };
-
-  document.getElementById('checkoutConfirm').onclick = async () => {
-    const name = document.getElementById('checkoutName').value.trim();
-    const email = document.getElementById('checkoutEmail').value.trim();
-    if (!name || !email) {
-      showToast('Please fill in your name and email.', 'error');
-      return;
-    }
-    if (!pendingItem) return;
-
-    const confirmBtn = document.getElementById('checkoutConfirm');
-    setBtnLoading(confirmBtn, true, 'Pay Now');
-    document.getElementById('checkoutCancel').disabled = true;
-
-    const orderRef = 'OV-' + Date.now();
-    const ok = await startYocoPayment(
-      pendingItem.amount,
-      name,
-      email,
-      pendingItem.product + ' — ' + pendingItem.name,
-      orderRef
-    );
-
-    setBtnLoading(confirmBtn, false, 'Pay Now');
-    document.getElementById('checkoutCancel').disabled = false;
-
-    if (ok) {
-      document.getElementById('checkoutModal').classList.remove('open');
-      pendingItem = null;
-    }
-  };
-
-  document.getElementById('orderTrackBtn').onclick = async () => {
-    const song = document.getElementById('trackSong').value.trim();
-    const artist = document.getElementById('trackArtist').value.trim();
-    const key = document.getElementById('trackKey').value;
-    const email = document.getElementById('trackEmail').value.trim();
-    const notes = document.getElementById('trackNotes').value.trim();
-
-    if (!song || !artist || !email) {
-      showToast('Please fill in the song name, artist, and your email.', 'error');
-      return;
-    }
-
-    const btn = document.getElementById('orderTrackBtn');
-    setBtnLoading(btn, true, 'Order Track — $29');
-
-    const productDesc = 'Custom Karaoke Track: ' + song + ' — ' + artist + ' (' + key + ')' + (notes ? ' | Notes: ' + notes : '');
-    const orderRef = 'OV-K-' + Date.now();
-    const ok = await startYocoPayment(
-      29,
-      song + ' - ' + artist,
-      email,
-      productDesc,
-      orderRef
-    );
-
-    setBtnLoading(btn, false, 'Order Track — $29');
-
-    if (ok) {
-      document.getElementById('trackSong').value = '';
-      document.getElementById('trackArtist').value = '';
-      document.getElementById('trackNotes').value = '';
-    }
-  };
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
 });
