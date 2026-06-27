@@ -16,61 +16,25 @@
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>O</text></svg>">
 <style>
-.hero {
-  position: relative;
-  overflow: hidden;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 120px 24px 80px;
-}
-.hero-bg-img {
-  position: absolute; inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 0;
-}
-.hero-bg-img::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(12,12,13,0.88) 0%, rgba(12,12,13,0.82) 25%, rgba(12,12,13,0.75) 50%, rgba(12,12,13,0.82) 75%, rgba(12,12,13,0.88) 100%);
-}
-@media (max-width: 767px) {
-  .hero-bg-img { background-image: url('assets/hero-phone.webp'); }
-  .hero { padding: 100px 20px 60px; }
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-  .hero-bg-img { background-image: url('assets/hero-tablet.webp'); }
-}
-@media (min-width: 1024px) {
-  .hero-bg-img { background-image: url('assets/hero-pc.webp'); }
-  .hero-content { max-width: 800px; }
-}
+:root{--gold:#C8A84E;--gold-dim:rgba(200,168,78,.4);--gold-glow:rgba(200,168,78,.18);--bg:#0C0C0D;--surface:#111;--elevated:#171717;--text:#F5F5F5;--text-secondary:#BFBF;--text-muted:#8A8A8A;--border:rgba(255,255,255,.08);--radius:12px;--radius-lg:16px;--radius-xl:24px;--font:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+.section-inner{max-width:1200px;margin:0 auto;padding:0 24px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--radius);font-weight:600;text-decoration:none;transition:.25s}
+.btn-primary{background:var(--gold);color:#000}.btn-primary:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.btn-secondary{border:1px solid var(--border);color:var(--text);background:transparent}.btn-secondary:hover{border-color:var(--gold-dim)}
+.gold{color:var(--gold)}
+.hero {position: relative;overflow: hidden;min-height: 100vh;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;padding: 120px 24px 80px;}
+.hero-bg-img {position: absolute; inset: 0;background-size: cover;background-position: center;background-repeat: no-repeat;z-index: 0;}
+.hero-bg-img::after {content: '';position: absolute; inset: 0;background: linear-gradient(180deg, rgba(12,12,13,0.88) 0%, rgba(12,12,13,0.82) 25%, rgba(12,12,13,0.75) 50%, rgba(12,12,13,0.82) 75%, rgba(12,12,13,0.88) 100%);}
+@media (max-width: 767px) {.hero-bg-img { background-image: url('assets/hero-phone.webp'); }.hero { padding: 100px 20px 60px;}}
+@media (min-width: 768px) and (max-width: 1023px) {.hero-bg-img { background-image: url('assets/hero-tablet.webp');}}
+@media (min-width: 1024px) {.hero-bg-img { background-image: url('assets/hero-pc.webp'); }.hero-content { max-width: 800px;}}
 .hero-content { position: relative; z-index: 2; }
 .hero-title { font-size: clamp(40px, 7vw, 80px); margin-bottom: 20px; }
 .hero-sub { font-size: clamp(17px, 2.5vw, 24px); margin-bottom: 12px; }
 .hero-desc { font-size: 16px; max-width: 600px; line-height: 1.8; margin-bottom: 36px; }
-
-.hero-languages {
-  position: absolute; inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-}
-.hero-lang-word {
-  position: absolute;
-  font-size: clamp(12px, 1.8vw, 26px);
-  font-weight: 600;
-  color: #cf27270a;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-family: var(--font);
-}
+.hero-languages {position: absolute; inset: 0;z-index: 1;pointer-events: none;overflow: hidden;}
+.hero-lang-word {position: absolute;font-size: clamp(12px, 1.8vw, 26px);font-weight: 600;color: rgba(255,255,255,0.04);letter-spacing: 0.06em;text-transform: uppercase;white-space: nowrap;font-family: var(--font);}
 .hero-lang-word:nth-child(1) { top: 10%; left: 6%; font-size: clamp(16px, 2.2vw, 30px); color: rgba(200,168,78,0.06); }
 .hero-lang-word:nth-child(2) { top: 18%; right: 10%; font-size: clamp(12px, 1.5vw, 20px); }
 .hero-lang-word:nth-child(3) { top: 28%; left: 14%; font-size: clamp(18px, 2.5vw, 32px); color: rgba(200,168,78,0.04); }
@@ -83,224 +47,73 @@
 .hero-lang-word:nth-child(10) { top: 88%; right: 8%; font-size: clamp(14px, 1.8vw, 24px); }
 .hero-lang-word:nth-child(11) { bottom: 6%; left: 35%; font-size: clamp(18px, 2.5vw, 32px); }
 .hero-lang-word:nth-child(12) { top: 5%; left: 50%; font-size: clamp(10px, 1.2vw, 16px); }
-
-.story-section {
-  padding: 120px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-}
-.story-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 24px;
-  max-width: 1060px;
-  margin: 0 auto 60px;
-}
-.story-card {
-  text-align: center;
-  padding: 40px 24px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  transition: all 0.3s;
-}
-.story-card:hover {
-  border-color: var(--gold-dim);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 48px rgba(0,0,0,0.3);
-}
-.story-card .story-logo {
-  font-size: 36px;
-  font-weight: 900;
-  color: var(--text-muted);
-  margin-bottom: 16px;
-  letter-spacing: -0.03em;
-  opacity: 0.5;
-}
-.story-card .story-year {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-.story-card h3 {
-  font-size: 20px;
-  color: var(--text);
-  margin-bottom: 12px;
-}
-.story-card p {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.7;
-}
-.story-card .story-status {
-  display: inline-block;
-  margin-top: 16px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 4px 14px;
-  border-radius: 980px;
-}
-.story-status.dead { color: #ef4444; border: 1px solid rgba(239,68,68,0.3); background: rgba(239,68,68,0.08); }
-.story-card .story-status-img {
-  display: block;
-  margin: 12px auto 0;
-  max-width: 140px;
-  height: auto;
-  opacity: 0.85;
-}
-
-.story-pivot {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto;
-}
-.story-pivot h2 {
-  font-size: clamp(28px, 4vw, 44px);
-  margin-bottom: 20px;
-}
-.story-pivot p {
-  font-size: 17px;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  margin-bottom: 32px;
-}
-
-.pricing-single {
-  padding: 100px 0;
-  text-align: center;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-}
-.pricing-single .price-card {
-  display: inline-block;
-  max-width: 520px;
-  width: 100%;
-  padding: 48px 40px;
-  border: 1px solid var(--gold-dim);
-  border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, rgba(200,168,78,0.06) 0%, var(--elevated) 60%);
-  box-shadow: 0 0 60px var(--gold-glow);
-}
-.pricing-single .price-name {
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--gold);
-  margin-bottom: 8px;
-}
-.pricing-single .price-amount {
-  font-size: clamp(48px, 6vw, 72px);
-  font-weight: 900;
-  color: var(--text);
-  letter-spacing: -0.03em;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.pricing-single .price-amount span {
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-.pricing-single .price-period {
-  font-size: 16px;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-}
-.pricing-single .price-desc {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 32px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.pricing-single .price-setup {
-  font-size: 14px;
-  color: var(--text-muted);
-  padding: 16px 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--bg);
-  margin-bottom: 32px;
-  line-height: 1.6;
-}
-.pricing-single .price-setup strong { color: var(--text); }
-.pricing-single .price-features {
-  list-style: none;
-  text-align: left;
-  margin-bottom: 32px;
-}
-.pricing-single .price-features li {
-  font-size: 14px;
-  color: var(--text-secondary);
-  padding: 8px 0;
-  padding-left: 28px;
-  position: relative;
-  border-bottom: 1px solid var(--border);
-}
-.pricing-single .price-features li:last-child { border-bottom: none; }
-.pricing-single .price-features li::before {
-  content: '\2713';
-  position: absolute;
-  left: 0;
-  color: var(--gold);
-  font-weight: 700;
-}
-
-.verticals {
-  padding: 100px 0;
-}
-.vertical-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-}
-.vertical-card {
-  padding: 28px 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  text-align: center;
-  transition: all 0.25s;
-  background: var(--surface);
-}
-.vertical-card:hover {
-  border-color: var(--gold-dim);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-}
-.vertical-card .vert-letter {
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--gold);
-  margin-bottom: 8px;
-  letter-spacing: -0.03em;
-}
-.vertical-card h4 {
-  font-size: 15px;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-.vertical-card p {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-@media (max-width: 900px) {
-  .story-grid { grid-template-columns: 1fr; gap: 16px; }
-}
-@media (max-width: 600px) {
-  .pricing-single .price-card { padding: 32px 24px; }
-  .vertical-grid { grid-template-columns: repeat(2, 1fr); }
-}
+.hero-badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dim);padding:6px 14px;border-radius:980px;margin-bottom:20px}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.hero-meta{font-size:13px;color:var(--text-muted)}
+.story-section {padding: 120px 0;border-top: 1px solid var(--border);border-bottom: 1px solid var(--border);background: var(--surface);}
+.section-header{text-align:center;max-width:720px;margin:0 auto 60px}
+.section-title{font-size:clamp(28px,4vw,44px);margin-bottom:16px}
+.section-sub{font-size:17px;color:var(--text-secondary);line-height:1.8}
+.story-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));gap: 24px;max-width: 1060px;margin: 0 auto 60px;}
+.story-card {text-align: center;padding: 40px 24px;border: 1px solid var(--border);border-radius: var(--radius-lg);transition: all 0.3s;background:var(--elevated)}
+.story-card:hover {border-color: var(--gold-dim);transform: translateY(-4px);box-shadow: 0 12px 48px rgba(0,0,0,0.3);}
+.story-card .story-year {font-size: 12px;font-weight: 700;text-transform: uppercase;letter-spacing: 0.1em;color: var(--text-muted);margin-bottom: 8px;}
+.story-card h3 {font-size: 20px;color: var(--text);margin-bottom: 12px;}
+.story-card p {font-size: 14px;color: var(--text-muted);line-height: 1.7;}
+.story-pivot {text-align: center;max-width: 700px;margin: 0 auto;}
+.story-pivot h2 {font-size: clamp(28px, 4vw, 44px);margin-bottom: 20px;}
+.story-pivot p {font-size: 17px;color: var(--text-secondary);line-height: 1.8;margin-bottom: 32px;}
+.pricing-single {padding: 100px 0;text-align: center;border-bottom: 1px solid var(--border);background: var(--surface);}
+.price-card {display: inline-block;max-width: 520px;width: 100%;padding: 48px 40px;border: 1px solid var(--gold-dim);border-radius: var(--radius-xl);background: linear-gradient(135deg, rgba(200,168,78,0.06) 0%, var(--elevated) 60%);box-shadow: 0 0 60px var(--gold-glow);}
+.price-name {font-size: 14px;font-weight: 600;text-transform: uppercase;letter-spacing: 0.12em;color: var(--gold);margin-bottom: 8px;}
+.price-amount {font-size: clamp(48px, 6vw, 72px);font-weight: 900;color: var(--text);letter-spacing: -0.03em;line-height: 1;margin-bottom: 4px;}
+.price-amount span {font-size: 28px;font-weight: 600;color: var(--text-secondary);}
+.price-period {font-size: 16px;color: var(--text-muted);margin-bottom: 24px;}
+.price-desc {font-size: 15px;color: var(--text-secondary);line-height: 1.7;margin-bottom: 32px;max-width: 400px;margin-left: auto;margin-right: auto;}
 .price-proof{font-size:13px;color:var(--gold);margin-bottom:20px;font-weight:600}
+.price-setup {font-size: 14px;color: var(--text-muted);padding: 16px 20px;border: 1px solid var(--border);border-radius: var(--radius);background: var(--bg);margin-bottom: 32px;line-height: 1.6;}
+.price-setup strong { color: var(--text); }
+.price-features {list-style: none;text-align: left;margin-bottom: 32px;}
+.price-features li {font-size: 14px;color: var(--text-secondary);padding: 8px 0;padding-left: 28px;position: relative;border-bottom: 1px solid var(--border);}
+.price-features li:last-child { border-bottom: none; }
+.price-features li::before {content: '\2713';position: absolute;left: 0;color: var(--gold);font-weight: 700;}
+.verticals {padding: 100px 0;}
+.vertical-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));gap: 16px;}
+.vertical-card {padding: 28px 20px;border: 1px solid var(--border);border-radius: var(--radius-lg);text-align: center;transition: all 0.25s;background: var(--surface);}
+.vertical-card:hover {border-color: var(--gold-dim);transform: translateY(-3px);box-shadow: 0 8px 32px rgba(0,0,0,0.2);}
+.vertical-card .vert-letter {font-size: 28px;font-weight: 900;color: var(--gold);margin-bottom: 8px;letter-spacing: -0.03em;}
+.vertical-card h4 {font-size: 15px;color: var(--text);margin-bottom: 8px;}
+.vertical-card p {font-size: 13px;color: var(--text-muted);line-height: 1.5;}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.feature-card{padding:32px 24px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface)}
+.feature-icon{width:48px;height:48px;border-radius:12px;border:1px solid var(--gold-dim);display:grid;place-items:center;margin-bottom:16px;color:var(--gold)}
+.comp-table{display:grid;gap:1px;background:var(--border);border-radius:var(--radius-lg);overflow-x:auto}
+.comp-row{display:grid;grid-template-columns:1.2fr repeat(4,1fr);gap:1px;background:var(--border)}
+.comp-row>span{padding:16px 12px;background:var(--surface);font-size:14px;text-align:center}
+.comp-header>span{background:var(--elevated);font-weight:700}
+.comp-yes{color:var(--gold);font-weight:700}
+.comp-no{color:var(--text-muted)}
+.comp-partial{color:#f59e0b}
+.cta{padding:100px 0;text-align:center;background:var(--surface);border-top:1px solid var(--border)}
+.cta-title{font-size:clamp(32px,5vw,52px);margin-bottom:16px}
+.cta-desc{font-size:17px;color:var(--text-secondary);max-width:640px;margin:0 auto 32px;line-height:1.8}
+.cta-note{font-size:13px;color:var(--text-muted);margin-top:16px}
+.footer{padding:60px 0;border-top:1px solid var(--border)}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-links a{color:var(--text-muted);text-decoration:none;font-size:14px}
+.footer-text,.footer-copy{font-size:13px;color:var(--text-muted)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(12,12,13,.8);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{text-decoration:none;color:var(--text);font-weight:900;font-size:20px;letter-spacing:-.02em}
+.nav-title-pro{color:var(--gold)}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:500}
+.nav-cta{padding:10px 18px;border:1px solid var(--gold);border-radius:var(--radius);color:var(--gold)}
+.nav-hamburger{display:none}
+.mobile-menu{display:none}
+@media (max-width: 900px) {.story-grid { grid-template-columns: 1fr; gap: 16px; }.nav-links{display:none}.nav-hamburger{display:block}}
+@media (max-width: 600px) {.price-card { padding: 32px 24px; }.vertical-grid { grid-template-columns: repeat(2, 1fr); }.comp-row{grid-template-columns:1.2fr repeat(4,120px)}}
 </style>
 </head>
 <body>
@@ -314,20 +127,13 @@
       <a href="#story" class="nav-link">The Story</a>
       <a href="#pricing" class="nav-link">Pricing</a>
       <a href="#features" class="nav-link">Features</a>
-<a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="nav-link nav-cta" aria-label="Talk to Orion PRO on WhatsApp">Talk to Orion PRO</a>
+      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20the%207%20day%20trial" class="nav-link nav-cta" aria-label="Talk to Orion PRO on WhatsApp">Talk to Orion PRO</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
       <span></span><span></span>
     </button>
   </div>
 </nav>
-
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#story" class="nav-link">The Story</a>
-  <a href="#pricing" class="nav-link">Pricing</a>
-  <a href="#features" class="nav-link">Features</a>
-  <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="nav-link nav-cta" aria-label="Talk to Orion PRO on WhatsApp">Talk to Orion PRO</a>
-</div>
 
 <section class="hero" id="hero">
   <div class="hero-bg-img"></div>
@@ -352,7 +158,7 @@
     <p class="hero-desc">1. Buy. 2. Scan. 3. Enjoy. Your WhatsApp answered around the clock. Leads captured. Appointments booked. Spam filtered. You focus on building your business.</p>
     <div class="hero-ctas">
       <a href="#story" class="btn btn-primary">The Story</a>
-      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="btn btn-secondary">Talk to Orion PRO</a>
+      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20the%207%20day%20trial" class="btn btn-secondary">Start 7-Day Trial</a>
     </div>
     <div class="hero-meta">
       R2,690/mo &middot; Built in Durban &middot; 48-hour deployment
@@ -377,19 +183,19 @@
         <img src="assets/blockbuster-logo.webp" alt="Blockbuster" loading="lazy" style="max-width:160px;height:auto;margin-bottom:16px;opacity:0.6">
         <div class="story-year">Founded 1985</div>
         <h3>Had Netflix. Said No.</h3>
-        <p>In 2000, Netflix offered to sell to Blockbuster for $50 million. Blockbuster laughed. By 2010, Blockbuster was bankrupt. Netflix was worth billions. The refusal to see where the world was going cost them everything.</p>
+        <p>In 2000, Netflix offered to sell to Blockbuster for $50 million. Blockbuster laughed. By 2010, Blockbuster was bankrupt. The refusal to see where the world was going cost them everything.</p>
       </div>
       <div class="story-card">
         <img src="assets/blackberry-logo.webp" alt="Blackberry" loading="lazy" style="max-width:150px;height:auto;margin-bottom:16px;opacity:0.6">
         <div class="story-year">Founded 1984</div>
         <h3>Owned Business. Ignored Touch.</h3>
-        <p>Blackberry dominated the business phone market. They had keyboards, security, BBM. When the iPhone launched, they called it a toy. Business owners switched anyway. Blackberry's market share went from 50% to 0%.</p>
+        <p>Blackberry dominated the business phone market. When the iPhone launched, they called it a toy. Business owners switched anyway. Blackberry's market share went from 50% to 0%.</p>
       </div>
       <div class="story-card">
         <div style="font-size:36px;font-weight:900;color:var(--text-muted);margin-bottom:16px;opacity:0.5;">NOKIA</div>
         <div class="story-year">Founded 1865</div>
         <h3>King of Phones. Missed Touch.</h3>
-        <p>Nokia owned 50% of the global mobile market. The 3310 was legendary. When the iPhone launched in 2007, they called it a fragile toy with no keyboard. By 2013, their phone division was sold for scrap. $250 billion to zero.</p>
+        <p>Nokia owned 50% of the global mobile market. When the iPhone launched in 2007, they called it a fragile toy. By 2013, their phone division was sold for scrap. $250 billion to zero.</p>
       </div>
     </div>
     <div class="story-pivot">
@@ -411,23 +217,23 @@
       <div class="price-name">ORION WhatsApp PRO</div>
       <div class="price-amount">R2,690<span>/mo</span></div>
       <p class="price-period">One flat rate. All features included.</p>
+      <p class="price-proof">Built in Durban. Powered by Meta’s official WhatsApp Business API.</p>
       <p class="price-desc">Your AI WhatsApp office manager. 24/7. 50+ languages. Voice notes. Document reading. Lead capture. Smart filtering. Learns from every conversation.</p>
-      <p class="price-proof">Built in Durban. Powered by Meta's official WhatsApp Business API.</p>
       <ul class="price-features">
         <li>AI WhatsApp office manager operating 24/7, never misses a message</li>
         <li>Voice note transcription, spoken language converted to action</li>
-        <li>Document reading, upload price lists, menus, catalogues <span style="color:#888;font-size:0.85rem;">(R5.75/scan, first 5 free/mo)</span></li>
+        <li>Document reading, upload price lists, menus, catalogues</li>
         <li>50+ languages, Zulu, English, French, Mandarin, Japanese, Hindi, and more</li>
         <li>Smart lead capture with instant WhatsApp notification to your phone</li>
         <li>Auto-filters spam, drunks, sales pitches, you only see real inquiries</li>
         <li>Weekly lead report delivered to your phone</li>
-        <li>No contract, no lock-in, cancel anytime</li>
+        <li>7-day free trial, no card required, no contract, no lock-in</li>
       </ul>
       <div class="price-setup">
         <strong>Meta Business API setup:</strong> R4,690 once-off <em>(only required if you don't have your own WABA number)</em><br>
         Already have a WhatsApp Business API number? <strong>Connect it for free.</strong>
       </div>
-      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="btn btn-primary btn-lg">Start on WhatsApp &rarr;</a>
+      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20the%207%20day%20trial" class="btn btn-primary btn-lg">Start on WhatsApp &rarr;</a>
     </div>
   </div>
 </section>
@@ -456,12 +262,12 @@
       </div>
       <div class="vertical-card">
         <div class="vert-letter">Builders</div>
-        <h4>Your business Corner Stone</h4>
+        <h4>Your Business Cornerstone</h4>
         <p>Project inquiries, quoting process, timeline estimates, material questions, site visit scheduling.</p>
       </div>
       <div class="vertical-card">
-        <div class="vert-letter">Air-conditioning</div>
-        <h4>HVAC</h4>
+        <div class="vert-letter">HVAC</div>
+        <h4>Air-conditioning</h4>
         <p>Service calls, maintenance plans, emergency repairs, filter reminders, seasonal pricing changes.</p>
       </div>
     </div>
@@ -476,44 +282,32 @@
     </div>
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
         <h3>Name Them</h3>
         <p>Your AI hire gets a name, a face, a personality. They represent your brand, not a generic robot.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <h3>Zero Overhead</h3>
         <p>No salary, no UIF, no pension, no sick leave, no smoke breaks. One predictable monthly fee, nothing else.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        </div>
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
         <h3>Any Language</h3>
         <p>Your customer speaks Zulu, French, Mandarin, or Arabic. Your hire speaks it back. 50+ languages, built in.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        </div>
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
         <h3>Knows Your Business</h3>
         <p>Upload your price list, menu, catalog, or FAQ. Your hire reads it, understands it, and never gets it wrong.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
         <h3>Improves Every Day</h3>
         <p>Every conversation makes your hire smarter. They learn your customers, your tone, your products, continuously.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
         <h3>Zero Setup Friction</h3>
         <p>We handle everything. You just connect your WhatsApp number. From sign-up to live within 48 hours.</p>
       </div>
@@ -537,37 +331,37 @@
       </div>
       <div class="comp-row">
         <span class="comp-label">Real AI understanding</span>
-        <span class="comp-yes">&check;</span>
-        <span class="comp-no">&cross;</span>
+        <span class="comp-yes">&#10003;</span>
+        <span class="comp-no">&#10005;</span>
         <span class="comp-partial">Partial</span>
-        <span class="comp-na">&mdash;</span>
+        <span class="comp-no">&#8212;</span>
       </div>
       <div class="comp-row">
         <span class="comp-label">Voice transcription</span>
-        <span class="comp-yes">&check;</span>
-        <span class="comp-no">&cross;</span>
-        <span class="comp-no">&cross;</span>
-        <span class="comp-no">&cross;</span>
+        <span class="comp-yes">&#10003;</span>
+        <span class="comp-no">&#10005;</span>
+        <span class="comp-no">&#10005;</span>
+        <span class="comp-no">&#10005;</span>
       </div>
       <div class="comp-row">
         <span class="comp-label">Document reading</span>
-        <span class="comp-yes">&check;</span>
-        <span class="comp-no">&cross;</span>
-        <span class="comp-no">&cross;</span>
-        <span class="comp-yes">&check;</span>
+        <span class="comp-yes">&#10003;</span>
+        <span class="comp-no">&#10005;</span>
+        <span class="comp-no">&#10005;</span>
+        <span class="comp-yes">&#10003;</span>
       </div>
       <div class="comp-row">
         <span class="comp-label">50+ languages</span>
-        <span class="comp-yes">&check;</span>
-        <span class="comp-no">EN only</span>
-        <span class="comp-no">EN only</span>
-        <span class="comp-na">Varies</span>
+        <span class="comp-yes">&#10003;</span>
+        <span>EN only</span>
+        <span>EN only</span>
+        <span>Varies</span>
       </div>
       <div class="comp-row">
         <span class="comp-label">Price per month</span>
         <span class="comp-yes"><strong>R2,690</strong></span>
         <span>R299</span>
-        <span>R3k+ real</span>
+        <span>R3k+</span>
         <span>R8k-R15k</span>
       </div>
       <div class="comp-row">
@@ -592,52 +386,4 @@
   <div class="section-inner">
     <h2 class="cta-title">Buy Back <span class="gold">Your Business</span></h2>
     <p class="cta-desc">Your customers are messaging you right now. Some of them are ready to buy. The rest are talking to your competitors. Every minute you wait is a lead you don't get back.</p>
-    <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="btn btn-primary btn-lg">Start on WhatsApp &rarr;</a>
-    <p class="cta-note">R2,690/mo &middot; No contract &middot; Cancel anytime</p>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <span class="footer-logo">ORION <span class="gold">PRO</span></span>
-    </div>
-    <div class="footer-links">
-      <a href="https://wa.me/27703080516">Contact</a>
-      <a href="mailto:info@oriondevcore.com">Email</a>
-      <a href="https://nwa.oriondevcore.com/legal">Legal (POPIA)</a>
-      <a href="https://docs.oriondevcore.com">Docs</a>
-    </div>
-    <p class="footer-text">Orion Universe &middot; Graham Schubach &middot; Durban, South Africa</p>
-    <p class="footer-copy">&copy; 2026 Orion Universe. Built for the bold.</p>
-  </div>
-</footer>
-
-<div class="chat-fab" id="chatFab" aria-label="Open chat">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </svg>
-</div>
-
-<div class="chat-popup" id="chatPopup">
-  <div class="chat-popup-header">
-    <span>Naledi — ORION PRO</span>
-    <button class="chat-popup-close" id="chatClose" aria-label="Close chat">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
-  <div class="chat-popup-messages" id="chatPopupMessages">
-    <div class="chat-msg chat-msg-bot">Howzit. I'm Naledi, the AI behind ORION PRO. I'm your WhatsApp office manager. Ask me anything about pricing, features, or how I can help your business.</div>
-  </div>
-  <div class="naledi-typing" id="nalediTyping" style="display:none">Naledi is typing...</div>
-  <div class="chat-popup-input-wrap">
-    <input type="text" class="chat-popup-input" id="chatPopupInput" placeholder="Type a message..." autocomplete="off">
-    <button class="chat-popup-send" id="chatPopupSend" aria-label="Send">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
-  </div>
-</div>
-
-<script src="app.js"></script>
-</body>
-</html>
+    <a href="https://wa.me/277030805
