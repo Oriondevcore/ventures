@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0c0c0d"/>
+    </radialGradient>
+    <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a84ff"/>
+      <stop offset="50%" stop-color="#c8a84e"/>
+      <stop offset="100%" stop-color="#0a84ff"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a84ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#0a84ff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#c8a84e" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glowFilter">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="url(#bg)"/>
+
+  <!-- Outer ring (circuit track) -->
+  <circle cx="256" cy="256" r="200" fill="none" stroke="#0a84ff" stroke-width="1" opacity="0.15"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#c8a84e" stroke-width="0.5" opacity="0.1"/>
+
+  <!-- Orbital lines -->
+  <line x1="56" y1="256" x2="456" y2="256" stroke="#0a84ff" stroke-width="0.5" opacity="0.08"/>
+  <line x1="256" y1="56" x2="256" y2="456" stroke="#0a84ff" stroke-width="0.5" opacity="0.08"/>
+
+  <!-- Circuit traces from edges to center -->
+  <path d="M56 200 L120 200 L140 220 L140 256" stroke="#0a84ff" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <path d="M456 312 L392 312 L372 292 L372 256" stroke="#0a84ff" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <path d="M200 456 L200 392 L220 372 L256 372" stroke="#c8a84e" stroke-width="1.5" fill="none" opacity="0.25"/>
+  <path d="M312 56 L312 120 L292 140 L256 140" stroke="#c8a84e" stroke-width="1.5" fill="none" opacity="0.25"/>
+
+  <!-- Circuit nodes -->
+  <circle cx="140" cy="256" r="4" fill="#0a84ff" opacity="0.5"/>
+  <circle cx="372" cy="256" r="4" fill="#0a84ff" opacity="0.5"/>
+  <circle cx="256" cy="372" r="4" fill="#c8a84e" opacity="0.4"/>
+  <circle cx="256" cy="140" r="4" fill="#c8a84e" opacity="0.4"/>
+
+  <!-- Outer glow (nebula) -->
+  <ellipse cx="240" cy="240" rx="140" ry="140" fill="url(#glow)" filter="url(#glowFilter)"/>
+
+  <!-- Main star (Mintaka - the star in Orion's Belt) -->
+  <g filter="url(#glowFilter)">
+    <!-- Center point -->
+    <circle cx="256" cy="256" r="6" fill="#fff"/>
+
+    <!-- 4-point star shape (like a stylized compass/star) -->
+    <path d="M256 140 L264 244 L380 256 L264 268 L256 372 L248 268 L132 256 L248 244 Z" fill="url(#starGrad)" opacity="0.9"/>
+
+    <!-- Secondary star layer -->
+    <path d="M256 180 L260 250 L330 256 L260 262 L256 332 L252 262 L182 256 L252 250 Z" fill="#fff" opacity="0.3"/>
+  </g>
+
+  <!-- Inner glow ring -->
+  <circle cx="256" cy="256" r="80" fill="none" stroke="#0a84ff" stroke-width="0.5" opacity="0.15" stroke-dasharray="4 8"/>
+
+  <!-- Tiny stars scattered -->
+  <circle cx="120" cy="120" r="1.5" fill="#fff" opacity="0.4"/>
+  <circle cx="400" cy="100" r="1" fill="#fff" opacity="0.3"/>
+  <circle cx="100" cy="400" r="1.5" fill="#fff" opacity="0.35"/>
+  <circle cx="380" cy="380" r="1" fill="#fff" opacity="0.3"/>
+  <circle cx="170" cy="100" r="1" fill="#fff" opacity="0.25"/>
+  <circle cx="350" cy="420" r="1.2" fill="#fff" opacity="0.2"/>
+  <circle cx="80" cy="300" r="1" fill="#fff" opacity="0.3"/>
+  <circle cx="430" cy="180" r="1" fill="#fff" opacity="0.25"/>
+
+  <!-- AI neural network dots near edges -->
+  <circle cx="80" cy="180" r="2" fill="#0a84ff" opacity="0.2"/>
+  <circle cx="440" cy="320" r="2" fill="#0a84ff" opacity="0.2"/>
+  <circle cx="320" cy="440" r="2" fill="#c8a84e" opacity="0.2"/>
+  <circle cx="180" cy="80" r="2" fill="#c8a84e" opacity="0.2"/>
+</svg>

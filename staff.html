@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORION PRO — Meet the Team</title>
+<meta name="description" content="Meet the people behind ORION PRO. Graham, Nomfundo, Naledi, and Mintaka — your AI business assistant team.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>O</text></svg>">
+<style>
+.staff-hero {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 24px 60px;
+  background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%);
+}
+
+.staff-hero h1 {
+  font-size: clamp(40px, 7vw, 72px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+
+.staff-hero p {
+  font-size: clamp(18px, 2.5vw, 22px);
+  color: var(--text-muted);
+  max-width: 650px;
+  line-height: 1.6;
+}
+
+.staff-grid {
+  padding: 80px 24px 120px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.staff-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.staff-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.staff-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
+.staff-card-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid var(--border);
+}
+
+.staff-card-body {
+  padding: 32px 24px;
+}
+
+.staff-card h2 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+.staff-card .staff-role {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.staff-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.staff-card .staff-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: var(--radius-full);
+  background: rgba(10,132,255,0.1);
+  border: 1px solid rgba(10,132,255,0.2);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.staff-card .staff-whatsapp:hover {
+  background: rgba(10,132,255,0.2);
+}
+
+.staff-card.featured {
+  border-color: var(--primary);
+  position: relative;
+}
+
+.staff-card.featured::before {
+  content: 'AI TEAM MEMBER';
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: var(--background);
+  padding: 4px 16px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  z-index: 2;
+}
+
+.staff-naledi-quote {
+  padding: 80px 24px;
+  text-align: center;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.staff-naledi-quote blockquote {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 600;
+  line-height: 1.4;
+  max-width: 750px;
+  margin: 0 auto 24px;
+  font-style: italic;
+}
+
+.staff-naledi-quote cite {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-style: normal;
+}
+
+.staff-naledi-quote cite strong {
+  color: var(--primary);
+}
+
+.staff-values {
+  padding: 100px 24px;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.value-card {
+  text-align: center;
+  padding: 40px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.value-card .value-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+  color: var(--primary);
+}
+
+.value-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.value-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .staff-cards {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner" style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 32px;height:72px;">
+    <a href="/" class="nav-logo" style="all:unset;font-weight:800;font-size:18px;letter-spacing:0.05em;cursor:pointer;">ORION <span style="color:var(--primary)">PRO</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/naledi-gallery" class="nav-link">Naledi Gallery</a>
+      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="nav-cta">Talk to Orion PRO</a>
+    </div>
+  </div>
+</nav>
+
+<section class="staff-hero">
+  <h1>Meet the <span style="color:var(--primary)">Team</span></h1>
+  <p>Behind ORION PRO is a small team of real people building real AI. Graham leads. Nomfundo supports. Naledi works 24/7. Mintaka powers the infrastructure. And every client gets all of them.</p>
+</section>
+
+<section class="staff-grid">
+  <div class="staff-cards">
+    <div class="staff-card">
+      <img src="assets/Graham.png" alt="Graham Schubach — Owner & Founder" class="staff-card-img" loading="eager">
+      <div class="staff-card-body">
+        <h2>Graham</h2>
+        <div class="staff-role">Owner & Founder</div>
+        <p>Graham builds ORION PRO from Durban. He designed Naledi, wrote her personality, and makes sure every client gets the attention they deserve. When he's not coding, he's thinking about how to make AI feel more human.</p>
+        <a href="https://wa.me/27724971810?text=Howzit%20Graham%20-%20I%20saw%20Orion%20PRO" class="staff-whatsapp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          072 497 1810
+        </a>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <img src="assets/Nomfundo-profile.png" alt="Nomfundo — AI Support Associate" class="staff-card-img" loading="lazy">
+      <div class="staff-card-body">
+        <h2>Nomfundo</h2>
+        <div class="staff-role">AI Support Associate</div>
+        <p>Nomfundo is the voice behind the scenes. She trains Naledi, reviews every interaction, and makes sure clients get the right answers. If Naledi ever gets something wrong, Nomfundo fixes it — and Naledi learns from it.</p>
+        <a href="https://wa.me/27703080516?text=Howzit%20Nomfundo%20-%20I%20saw%20Orion%20PRO" class="staff-whatsapp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          070 308 0516
+        </a>
+      </div>
+    </div>
+
+    <div class="staff-card">
+      <img src="assets/Mintaka-sse.png" alt="Mintaka — Senior Software Engineer" class="staff-card-img" loading="lazy">
+      <div class="staff-card-body">
+        <h2>Mintaka</h2>
+        <div class="staff-role">Senior Software Engineer</div>
+        <p>Mintaka is the right hand. Every Worker, every database, every deploy — Mintaka builds, ships, and maintains it. Named after the star in Orion's Belt, Mintaka keeps the lights on so Graham can focus on what matters: making Naledi better.</p>
+        <span class="staff-whatsapp" style="opacity:0.5;cursor:default;display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:var(--radius-full);background:rgba(10,132,255,0.1);border:1px solid rgba(10,132,255,0.2);color:var(--primary);font-size:13px;font-weight:600;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          digital
+        </span>
+      </div>
+    </div>
+
+    <div class="staff-card featured">
+      <img src="assets/Naledi-profile3.png" alt="Naledi — AI Business Assistant" class="staff-card-img" loading="lazy">
+      <div class="staff-card-body">
+        <h2>Naledi</h2>
+        <div class="staff-role">AI Business Assistant</div>
+        <p>Naledi is the face of ORION PRO. She welcomes your customers, books appointments, answers questions, and never takes a day off. 24/7. 50+ languages. She learns from every conversation and gets better every day.</p>
+        <a href="https://wa.me/27703080516?text=Howzit%20Naledi%20-%20I%20saw%20Orion%20PRO" class="staff-whatsapp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          070 308 0516
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="staff-naledi-quote">
+  <blockquote>"I'm only as good as the people who built me. Graham gave me my voice. Nomfundo teaches me every day. Mintaka keeps the world running around me. And every client I talk to makes me better. That's the team behind the AI."</blockquote>
+  <cite>&mdash; <strong>Naledi</strong>, AI Business Assistant</cite>
+</section>
+
+<section class="staff-values">
+  <div class="section-header">
+    <h2 class="section-title">How We <span style="color:var(--primary)">Work</span></h2>
+    <p class="section-sub">Small team. Big impact. Built in Durban.</p>
+  </div>
+  <div class="values-grid">
+    <div class="value-card">
+      <span class="value-icon">R</span>
+      <h3>Real People</h3>
+      <p>Behind every AI conversation is a human team (plus Mintaka) reviewing, improving, and caring. You're never just talking to a robot.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">L</span>
+      <h3>Always Learning</h3>
+      <p>Every interaction makes Naledi smarter. Nomfundo reviews the edge cases. Mintaka ships the improvements. Graham designs the direction. We iterate constantly.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">Z</span>
+      <h3>Zero Corporate</h3>
+      <p>No call centres. No menus. No hold music. When you message us, you get a real person or Naledi — and both actually help.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">D</span>
+      <h3>Built in Durban</h3>
+      <p>Proudly South African. Built for SA businesses. We understand local challenges because we live them too.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section section" style="text-align:center;border-top:1px solid var(--border);">
+  <h2 class="cta-title">Want to Meet <span style="color:var(--primary)">Naledi</span>?</h2>
+  <p class="cta-desc">Message her on WhatsApp. She'll introduce herself, answer your questions, and show you what she can do for your business.</p>
+  <a href="https://wa.me/27703080516?text=Howzit%20Naledi%20-%20I%20saw%20the%20team%20page" class="btn btn-primary btn-lg">Talk to Naledi on WhatsApp</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">ORION <span style="color:var(--primary)">PRO</span></div>
+      <p class="footer-brand-desc">AI-powered WhatsApp receptionist for modern businesses. Part of the Orion Universe ecosystem.</p>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:16px;">Orion Universe<br>Graham Schubach<br>Durban, KwaZulu-Natal, South Africa</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Digital</div>
+      <ul class="footer-links">
+        <li><a href="/" class="footer-link">Home</a></li>
+        <li><a href="/staff" class="footer-link">Meet the Team</a></li>
+        <li><a href="/naledi-gallery" class="footer-link">Naledi Gallery</a></li>
+        <li><a href="#" class="footer-link">GBP — Google Business</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Products</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">AI Print 2 Canvas</a></li>
+        <li><a href="#" class="footer-link">mPOS / Nexus POS</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Entertainment</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">SupaTraxx Karaoke</a></li>
+        <li><a href="#" class="footer-link">Venue Partners</a></li>
+        <li><a href="#" class="footer-link">Event Bookings</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">Privacy Policy (POPIA)</a></li>
+        <li><a href="#" class="footer-link">Terms of Service</a></li>
+        <li><a href="#" class="footer-link">Data Processing</a></li>
+        <li style="margin-top:16px;"><a href="https://wa.me/27703080516" class="footer-link">Contact</a></li>
+        <li><a href="mailto:info@oriondevcore.com" class="footer-link">Email</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Orion Universe. All rights reserved. Built for the bold.</p>
+    <p>POPIA compliant data handling &middot; Secured processing</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
