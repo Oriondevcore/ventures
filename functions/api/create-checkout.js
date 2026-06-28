@@ -38,9 +38,12 @@ export async function onRequestPost(context) {
     const checkout = await yocoRes.json();
 
     if (!yocoRes.ok) {
+      const bodyText = JSON.stringify(checkout);
       return Response.json({
         success: false,
-        error: checkout.message || checkout.reason || checkout.error || JSON.stringify(checkout),
+        error: checkout.message || checkout.reason || checkout.error || 'Yoco returned ' + yocoRes.status + ': ' + bodyText,
+        yocoStatus: yocoRes.status,
+        yocoBody: checkout,
       });
     }
 
@@ -50,7 +53,7 @@ export async function onRequestPost(context) {
       checkoutId: checkout.id,
     });
   } catch (err) {
-    return Response.json({ success: false, error: 'Server error. Please try again.' });
+    return Response.json({ success: false, error: 'Server error: ' + err.message });
   }
 }
 
