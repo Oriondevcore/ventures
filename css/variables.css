@@ -4,7 +4,16 @@
    ═══════════════════════════════════════════ */
 
 :root {
-  /* ── Colour Palette ── */
+ /* ── Colour Palette ── */
+  --primary:#0A84FF;
+  --secondary:#00C2FF;
+  --accent:#6A5CFF;
+  --background:#07111F;
+  --card:#101C2F;
+  --text:#F8FAFC;
+  --muted:#A7B4C9;
+  --success:#2ED573;
+  --warning:#FFC048;
   --black: #0c0c0d;
   --surface: #131315;
   --surface-2: #1a1a1e;

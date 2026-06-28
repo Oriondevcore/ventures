@@ -8,9 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/variables.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="../style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>O</text></svg>">
 <style>
 .industry-hero {
@@ -61,19 +59,6 @@
   line-height: 1.8;
   margin-bottom: 40px;
 }
-.hero-ctas {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 32px;
-}
-.hero-meta {
-  font-size: 13px;
-  color: var(--text-dim);
-  letter-spacing: 0.05em;
-}
-.gold { color: var(--gold); }
 
 .naledi-intro {
   padding: 100px 24px;
@@ -134,8 +119,10 @@
   border-color: var(--border-light);
   transform: translateY(-2px);
 }
-.pain-icon {
-  font-size: 32px;
+.pain-card svg {
+  width: 32px;
+  height: 32px;
+  color: var(--gold);
   margin-bottom: 16px;
 }
 .pain-card h3 {
@@ -182,160 +169,18 @@
   color: var(--text-muted);
   line-height: 1.7;
 }
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.feature-card {
-  padding: 32px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  transition: all 0.3s;
-}
-.feature-card:hover {
-  border-color: var(--gold-dim);
-  transform: translateY(-2px);
-}
-.feature-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius);
-  background: rgba(200,168,78,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold);
-  margin-bottom: 20px;
-}
-.feature-card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-.feature-card p {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.7;
-}
-
-.pricing-section {
-  padding: 100px 24px;
-  text-align: center;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-}
-.price-card {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 48px 40px;
-  border: 1px solid var(--gold-dim);
-  border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, rgba(200,168,78,0.06) 0%, var(--surface) 60%);
-}
-.price-name {
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--gold);
-  margin-bottom: 8px;
-}
-.price-amount {
-  font-size: clamp(48px, 6vw, 72px);
-  font-weight: 900;
-  color: var(--text);
-  letter-spacing: -0.03em;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.price-amount span {
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-.price-period {
-  font-size: 16px;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-}
-.price-desc {
-  font-size: 15px;
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin-bottom: 32px;
-}
-.price-setup {
-  font-size: 14px;
-  color: var(--text-muted);
-  padding: 16px 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--black);
-  margin-bottom: 32px;
-  line-height: 1.6;
-}
-.price-setup strong { color: var(--text); }
-.price-features {
-  list-style: none;
-  text-align: left;
-  margin-bottom: 32px;
-}
-.price-features li {
-  font-size: 14px;
-  color: var(--text-muted);
-  padding: 8px 0;
-  padding-left: 28px;
-  position: relative;
-  border-bottom: 1px solid var(--border);
-}
-.price-features li:last-child { border-bottom: none; }
-.price-features li::before {
-  content: '\2713';
-  position: absolute;
-  left: 0;
-  color: var(--gold);
-  font-weight: 700;
-}
-
-.cta-section {
-  padding: 100px 24px;
-  text-align: center;
-  border-top: 1px solid var(--border);
-}
-.cta-title {
-  font-size: clamp(28px, 4vw, 48px);
-  font-weight: 900;
-  margin-bottom: 20px;
-}
-.cta-desc {
-  font-size: 17px;
-  color: var(--text-muted);
-  max-width: 600px;
-  margin: 0 auto 32px;
-  line-height: 1.7;
-}
-.cta-note {
-  font-size: 13px;
-  color: var(--text-dim);
-  margin-top: 16px;
-}
 </style>
 </head>
 <body>
 
 <nav class="nav">
   <div class="nav-inner" style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 32px;height:72px;">
-    <a href="/" style="font-weight:800;font-size:18px;letter-spacing:0.05em;">ORION <span class="gold">PRO</span></a>
-    <div style="display:flex;align-items:center;gap:32px;">
-      <a href="#how" style="font-size:14px;color:var(--text-muted);font-weight:500;">How It Works</a>
-      <a href="#features" style="font-size:14px;color:var(--text-muted);font-weight:500;">Features</a>
-      <a href="#pricing" style="font-size:14px;color:var(--text-muted);font-weight:500;">Pricing</a>
-      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20run%20a%20salon" style="font-size:14px;font-weight:600;color:var(--black);background:var(--gold);padding:8px 20px;border-radius:8px;">Talk to Orion PRO</a>
+    <a href="/" class="nav-logo" style="all:unset;font-weight:800;font-size:18px;letter-spacing:0.05em;cursor:pointer;">ORION <span class="gold">PRO</span></a>
+    <div class="nav-links">
+      <a href="#how" class="nav-link">How It Works</a>
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20run%20a%20salon" class="nav-cta">Talk to Orion PRO</a>
     </div>
   </div>
 </nav>
@@ -345,11 +190,11 @@
   <h1>Hello, I'm <span class="gold">Naledi.</span></h1>
   <p class="hero-sub">While your team is making people look good, I'm booking appointments, answering style questions, and making sure nobody feels ignored.</p>
   <p class="hero-desc">Think of me as part of your team. I work 24/7, speak 50+ languages, and I never take a day off. Your clients deserve to be heard. I make sure they are.</p>
-  <div class="hero-ctas">
+  <div class="hero-cta">
     <a href="#pricing" class="btn btn-primary btn-lg">See What It Costs</a>
     <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20run%20a%20salon" class="btn btn-secondary btn-lg">Talk to Orion PRO</a>
   </div>
-  <p class="hero-meta">R2,690/mo &middot; SLA Guaranteed &middot; Live in 48 hours</p>
+  <p class="hero-note">R2,690/mo &middot; SLA Guaranteed &middot; Live in 48 hours</p>
 </section>
 
 <section class="naledi-intro">
@@ -360,29 +205,29 @@
   </div>
 </section>
 
-<section class="pain-points" id="pain">
+<section class="pain-points section" id="pain">
   <div class="section-header">
     <h2 class="section-title">What <span class="gold">Actually</span> Hurts</h2>
     <p class="section-sub">You started a salon to make people feel beautiful. Not to play receptionist.</p>
   </div>
   <div class="pain-grid">
     <div class="pain-card">
-      <div class="pain-icon">📞</div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <h3>Missed Bookings</h3>
       <p>Your stylist is with a client. The phone rings. That's a cut and colour you just lost to the salon down the road.</p>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">🌙</div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <h3>Late-Night Requests</h3>
       <p>A client messages at 10pm asking for a Saturday slot. By morning, it's taken. The client goes somewhere else.</p>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">💇</div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <h3>Service Questions</h3>
       <p>"How much for balayage?" "Do you do gel nails?" "Is the bridal package available?" Your team is busy styling.</p>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">🌍</div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
       <h3>Language Barrier</h3>
       <p>Your client speaks Sotho. Your receptionist speaks English. The booking goes wrong. The client arrives frustrated.</p>
     </div>
@@ -413,7 +258,7 @@
   </div>
 </section>
 
-<section class="features" id="features">
+<section class="section features" id="features">
   <div class="section-header">
     <h2 class="section-title">What Naledi <span class="gold">Does</span></h2>
     <p class="section-sub">Not a chatbot. A team member.</p>
@@ -423,69 +268,70 @@
       <div class="feature-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       </div>
-      <h3>Book Appointments</h3>
-      <p>Clients message. Naledi checks stylist availability. Books the slot. Sends confirmation. Done. No phone tag.</p>
+      <h3 class="feature-title">Book Appointments</h3>
+      <p class="feature-desc">Clients message. Naledi checks stylist availability. Books the slot. Sends confirmation. Done. No phone tag.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
-      <h3>Remember Clients</h3>
-      <p>Preferred stylist, usual services, product preferences, colour formulas. Naledi builds relationships. "Same balayage as last time, Zanele?"</p>
+      <h3 class="feature-title">Remember Clients</h3>
+      <p class="feature-desc">Preferred stylist, usual services, product preferences, colour formulas. Naledi builds relationships. "Same balayage as last time, Zanele?"</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
       </div>
-      <h3>50+ Languages</h3>
-      <p>isiZulu, Afrikaans, English, Sotho, Xhosa. Your clients speak their language. Naledi speaks it back.</p>
+      <h3 class="feature-title">50+ Languages</h3>
+      <p class="feature-desc">isiZulu, Afrikaans, English, Sotho, Xhosa. Your clients speak their language. Naledi speaks it back.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       </div>
-      <h3>Confirm & Remind</h3>
-      <p>Automatic appointment confirmations. Day-before reminders. No-shows drop. Your chairs stay full.</p>
+      <h3 class="feature-title">Confirm & Remind</h3>
+      <p class="feature-desc">Automatic appointment confirmations. Day-before reminders. No-shows drop. Your chairs stay full.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       </div>
-      <h3>Answer Service Questions</h3>
-      <p>Pricing, packages, product recommendations, bridal bookings. Naledi knows your services like your senior stylist.</p>
+      <h3 class="feature-title">Answer Service Questions</h3>
+      <p class="feature-desc">Pricing, packages, product recommendations, bridal bookings. Naledi knows your services like your senior stylist.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       </div>
-      <h3>24/7 Coverage</h3>
-      <p>Mornings. Evenings. Sundays. Naledi never sleeps. Your clients always have someone to talk to.</p>
+      <h3 class="feature-title">24/7 Coverage</h3>
+      <p class="feature-desc">Mornings. Evenings. Sundays. Naledi never sleeps. Your clients always have someone to talk to.</p>
     </div>
   </div>
 </section>
 
-<section class="pricing-section" id="pricing">
+<section class="pricing-section section" id="pricing" style="text-align:center;background:var(--surface);border-top:1px solid var(--border);">
   <div class="section-header">
     <h2 class="section-title">One Price. <span class="gold">Everything.</span></h2>
     <p class="section-sub">No tiers. No confusion. One product that does it all.</p>
   </div>
-  <div class="price-card">
-    <div class="price-name">ORION WhatsApp PRO</div>
-    <div class="price-amount">R2,690<span>/mo</span></div>
-    <p class="price-period">One flat rate. All features included.</p>
-    <p class="price-desc">Your AI booking coordinator. 24/7. 50+ languages. Voice notes. Service knowledge. Client memory. Smart filtering.</p>
-    <ul class="price-features">
-      <li>Appointment booking and confirmation</li>
-      <li>Client memory — stylists, services, preferences</li>
-      <li>Voice note transcription</li>
-      <li>Service knowledge — pricing, packages, products</li>
-      <li>50+ languages including isiZulu and Afrikaans</li>
-      <li>Automatic reminders to reduce no-shows</li>
-      <li>Smart spam filtering</li>
-      <li>Weekly booking report</li>
-      <li>SLA guaranteed</li>
+  <div class="pricing-card featured" style="max-width:520px;margin:0 auto;">
+    <div class="pricing-badge">Best Value</div>
+    <div class="pricing-name" style="font-size:14px;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);margin-bottom:8px;">ORION WhatsApp PRO</div>
+    <div class="pricing-price">R2,690<span style="font-size:28px;font-weight:600;color:var(--text-muted);">/mo</span></div>
+    <p class="pricing-period">One flat rate. All features included.</p>
+    <p class="feature-desc" style="margin-bottom:32px;">Your AI booking coordinator. 24/7. 50+ languages. Voice notes. Service knowledge. Client memory. Smart filtering.</p>
+    <ul class="pricing-features">
+      <li class="pricing-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Appointment booking and confirmation</li>
+      <li class="pricing-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Client memory — stylists, services, preferences</li>
+      <li class="pricing-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Voice note transcription</li>
+      <li class="pricing-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Service knowledge — pricing, packages, products</li>
+      <li class="pricing-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 50+ languages including isiZulu and Afrikaans</li>
+      <li class="pricing-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Automatic reminders to reduce no-shows</li>
+      <li class="pricing-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Smart spam filtering</li>
+      <li class="pricing-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Weekly booking report</li>
+      <li class="pricing-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> SLA guaranteed</li>
     </ul>
-    <div class="price-setup">
+    <div class="price-setup" style="font-size:14px;color:var(--text-muted);padding:16px 20px;border:1px solid var(--border);border-radius:var(--radius);background:var(--black);margin-bottom:32px;line-height:1.6;">
       <strong>Meta Business API setup:</strong> R4,690 once-off <em>(only if you don't have your own WABA number)</em><br>
       Already have a WhatsApp Business API number? <strong>Connect it for free.</strong>
     </div>
@@ -493,60 +339,58 @@
   </div>
 </section>
 
-<section class="cta-section">
+<section class="cta-section section" style="text-align:center;border-top:1px solid var(--border);">
   <h2 class="cta-title">Your Clients Deserve <span class="gold">Better</span></h2>
   <p class="cta-desc">Right now, someone is trying to book at your salon. They want a specific stylist. They have a question about pricing. They're looking for something special. Don't let them go to the place down the road. Let Naledi help them now.</p>
   <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20run%20a%20salon" class="btn btn-primary btn-lg">Start on WhatsApp →</a>
-  <p class="cta-note">R2,690/mo · SLA & Terms apply · Live in 48 hours</p>
+  <p class="hero-note" style="margin-top:16px;">R2,690/mo · SLA & Terms apply · Live in 48 hours</p>
 </section>
 
 <footer class="footer">
-  <div style="max-width:1200px;margin:0 auto;padding:0 32px;">
-    <div style="display:grid;grid-template-columns:2fr repeat(4,1fr);gap:48px;">
-      <div>
-        <span style="font-weight:800;font-size:18px;">ORION <span class="gold">PRO</span></span>
-        <p style="font-size:13px;color:var(--text-muted);margin-top:12px;line-height:1.7;">AI-powered WhatsApp receptionist for modern businesses. Part of the Orion Universe ecosystem.</p>
-        <p style="font-size:12px;color:var(--text-dim);margin-top:16px;">Orion Universe<br>Graham Schubach<br>Durban, KwaZulu-Natal, South Africa</p>
-      </div>
-      <div>
-        <h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">AI & Digital</h4>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
-          <li><a href="/" style="font-size:13px;color:var(--text-muted);">Naledi — WhatsApp AI</a></li>
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">GBP — Google Business</a></li>
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">SEO Optimization</a></li>
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Website Design</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">Products</h4>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">AI Print 2 Canvas</a></li>
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">mPOS / Nexus POS</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">Entertainment</h4>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">SupaTraxx Karaoke</a></li>
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Venue Partners</a></li>
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Event Bookings</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">Legal</h4>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Privacy Policy (POPIA)</a></li>
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Terms of Service</a></li>
-          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Data Processing</a></li>
-          <li style="margin-top:16px;"><a href="https://wa.me/27703080516" style="font-size:13px;color:var(--text-muted);">Contact</a></li>
-          <li><a href="mailto:info@oriondevcore.com" style="font-size:13px;color:var(--text-muted);">Email</a></li>
-        </ul>
-      </div>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">ORION <span class="gold">PRO</span></div>
+      <p class="footer-brand-desc">AI-powered WhatsApp receptionist for modern businesses. Part of the Orion Universe ecosystem.</p>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:16px;">Orion Universe<br>Graham Schubach<br>Durban, KwaZulu-Natal, South Africa</p>
     </div>
-    <div style="margin-top:48px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
-      <p style="font-size:11px;color:var(--text-dim);">&copy; 2026 Orion Universe. All rights reserved. Built for the bold.</p>
-      <p style="font-size:11px;color:var(--text-dim);">POPIA compliant data handling · Secured AI processing</p>
+    <div>
+      <div class="footer-col-title">AI & Digital</div>
+      <ul class="footer-links">
+        <li><a href="/" class="footer-link">Naledi — WhatsApp AI</a></li>
+        <li><a href="#" class="footer-link">GBP — Google Business</a></li>
+        <li><a href="#" class="footer-link">SEO Optimization</a></li>
+        <li><a href="#" class="footer-link">Website Design</a></li>
+      </ul>
     </div>
+    <div>
+      <div class="footer-col-title">Products</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">AI Print 2 Canvas</a></li>
+        <li><a href="#" class="footer-link">mPOS / Nexus POS</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Entertainment</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">SupaTraxx Karaoke</a></li>
+        <li><a href="#" class="footer-link">Venue Partners</a></li>
+        <li><a href="#" class="footer-link">Event Bookings</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">Privacy Policy (POPIA)</a></li>
+        <li><a href="#" class="footer-link">Terms of Service</a></li>
+        <li><a href="#" class="footer-link">Data Processing</a></li>
+        <li style="margin-top:16px;"><a href="https://wa.me/27703080516" class="footer-link">Contact</a></li>
+        <li><a href="mailto:info@oriondevcore.com" class="footer-link">Email</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Orion Universe. All rights reserved. Built for the bold.</p>
+    <p>POPIA compliant data handling · Secured AI processing</p>
   </div>
 </footer>
 
