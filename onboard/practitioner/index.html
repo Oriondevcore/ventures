@@ -202,7 +202,6 @@
       <div class="price">R1 <small>test payment</small></div>
       <p class="pay-desc">This is a test transaction with your business card.</p>
 
-      <div id="yoco-card"></div>
       <div class="error-msg" id="payError">Payment failed. Please try again.</div>
       <div class="loading hidden" id="payLoading"><span class="spinner"></span>Processing payment...</div>
       <button class="btn btn-green" id="payBtn">Pay R1 Test</button>
@@ -235,7 +234,6 @@
 
 <script>
 let yoco = null;
-let cardElement = null;
 let submissionId = null;
 
 async function initYoco() {
@@ -243,7 +241,6 @@ async function initYoco() {
     const res = await fetch('/api/yoco-pk');
     const data = await res.json();
     yoco = new YocoSDK({ publicKey: data.pk });
-    cardElement = yoco.mount('#yoco-card');
   } catch (e) {
     document.getElementById('payError').textContent = 'Could not load payment form. Please WhatsApp Graham.';
     document.getElementById('payError').classList.add('show');
@@ -310,18 +307,24 @@ document.getElementById('payBtn').addEventListener('click', async () => {
   loading.classList.remove('hidden');
 
   try {
-    const token = await cardElement.tokenize();
-    if (!token || !token.id) throw new Error('Tokenization failed');
+    const result = await yoco.showPopup({
+      amountInCents: 100,
+      currency: 'ZAR',
+      name: 'ORION PRO MED Setup',
+      description: 'Naledi onboarding setup fee'
+    });
+
+    if (!result || !result.id) throw new Error('Tokenization failed');
 
     const form = document.getElementById('onboardForm');
     const fd = new FormData(form);
     const data = Object.fromEntries(fd);
 
-    const res = await fetch('/api/yoco-checkout', {
+    const chargeRes = await fetch('/api/yoco-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        token: token.id,
+        token: result.id,
         amountInCents: 100,
         currency: 'ZAR',
         metadata: {
@@ -336,8 +339,8 @@ document.getElementById('payBtn').addEventListener('click', async () => {
       })
     });
 
-    const result = await res.json();
-    if (!result.success) throw new Error(result.error || 'Payment failed');
+    const charge = await chargeRes.json();
+    if (!charge.success) throw new Error(charge.error || 'Payment failed');
 
     showStep(3);
   } catch (e) {
