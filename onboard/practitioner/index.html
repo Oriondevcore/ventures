@@ -227,7 +227,6 @@
 </div>
 
 <script>
-let yoco = null;
 let submissionId = null;
 
 // On page load, check if we returned from Yoco checkout
@@ -235,24 +234,19 @@ let submissionId = null;
   const params = new URLSearchParams(window.location.search);
   if (params.get('payment') === 'success') {
     showStep(3);
+  } else if (params.get('payment') === 'cancelled') {
+    document.getElementById('payError').textContent = 'Payment cancelled. Try again.';
+    document.getElementById('payError').classList.add('show');
+  } else if (params.get('payment') === 'failed') {
+    document.getElementById('payError').textContent = 'Payment failed. Try again or WhatsApp Graham.';
+    document.getElementById('payError').classList.add('show');
   }
 })();
 
-async function initYoco() {
-  if (yoco) return;
-  // Load Yoco SDK dynamically and wait for it
-  if (typeof YocoSDK === 'undefined') {
-    await new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://js.yoco.com/sdk/v1/yoco-sdk-web.js';
-      s.onload = resolve;
-      s.onerror = () => reject(new Error('Failed to load Yoco SDK'));
-      document.head.appendChild(s);
-    });
-  }
+async function fetchYocoPk() {
   const res = await fetch('/api/yoco-pk');
   const data = await res.json();
-  yoco = new YocoSDK({ publicKey: data.pk });
+  return data.pk;
 }
 
 function updateSteps(active) {
@@ -313,15 +307,6 @@ document.getElementById('payBtn').addEventListener('click', async () => {
   err.classList.remove('show');
   loading.classList.remove('hidden');
 
-  await initYoco();
-  if (!yoco) {
-    err.textContent = 'Could not load Yoco. Please refresh and try again.';
-    err.classList.add('show');
-    btn.disabled = false;
-    loading.classList.add('hidden');
-    return;
-  }
-
   const form = document.getElementById('onboardForm');
   const fd = new FormData(form);
   const data = Object.fromEntries(fd);
@@ -355,29 +340,8 @@ document.getElementById('payBtn').addEventListener('click', async () => {
     return;
   }
 
-  // Step 2: Popup with checkoutId (v2 flow — no amountInCents)
-  yoco.showPopup({
-    checkoutId: checkout.checkoutId,
-    callback: function(result) {
-      if (!result || result.error) {
-        err.textContent = (result && result.error && result.error.message) || 'Payment failed. Please try again.';
-        err.classList.add('show');
-        btn.disabled = false;
-        loading.classList.add('hidden');
-        return;
-      }
-
-      showStep(3);
-      btn.disabled = false;
-      loading.classList.add('hidden');
-    },
-    onCancel: function() {
-      err.textContent = 'Payment cancelled.';
-      err.classList.add('show');
-      btn.disabled = false;
-      loading.classList.add('hidden');
-    }
-  });
+  // Step 2: Redirect to Yoco hosted payment page
+  window.location.href = checkout.redirectUrl;
 });
 </script>
 </body>
