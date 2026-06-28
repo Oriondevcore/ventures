@@ -193,12 +193,12 @@
       <h3>Almost There!</h3>
       <p style="color:#666;font-size:14px;margin-bottom:4px;">Your practice details are saved.</p>
       <p style="color:#666;font-size:14px;margin-bottom:16px;">Complete payment to activate your account.</p>
-      <div class="price">R1 <small>test payment</small></div>
+      <div class="price">R2 <small>test payment</small></div>
       <p class="pay-desc">This is a test transaction with your business card.</p>
 
       <div class="error-msg" id="payError">Payment failed. Please try again.</div>
       <div class="loading hidden" id="payLoading"><span class="spinner"></span>Redirecting to Yoco...</div>
-      <button class="btn btn-green" id="payBtn">Pay R1 with Yoco</button>
+      <button class="btn btn-green" id="payBtn">Pay R2 with Yoco</button>
       <p style="font-size:11px;color:#999;margin-top:12px;">You'll be redirected to Yoco's secure payment page.</p>
     </div>
   </div>
@@ -328,7 +328,7 @@ document.getElementById('payBtn').addEventListener('click', async () => {
 
   // Yoco showPopup uses a callback — not a return value
   yoco.showPopup({
-    amountInCents: 100,
+    amountInCents: 200,
     currency: 'ZAR',
     name: 'ORION PRO MED Setup',
     description: 'Naledi onboarding setup fee',
@@ -347,7 +347,7 @@ document.getElementById('payBtn').addEventListener('click', async () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             token: result.id,
-            amountInCents: 100,
+            amountInCents: 200,
             currency: 'ZAR',
             metadata: {
               product: 'Naledi — ORION PRO MED Setup',
