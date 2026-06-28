@@ -40,7 +40,7 @@ export async function onRequestPost(context) {
     if (!yocoRes.ok) {
       return Response.json({
         success: false,
-        error: checkout.message || checkout.reason || 'Failed to create checkout',
+        error: checkout.message || checkout.reason || checkout.error || JSON.stringify(checkout),
       });
     }
 
