@@ -299,6 +299,7 @@
 @media (max-width: 600px) {
   .pricing-single .price-card { padding: 32px 24px; }
   .vertical-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner > div:first-child { grid-template-columns: 1fr !important; gap: 32px !important; }
 }
 .price-proof{font-size:13px;color:var(--gold);margin-bottom:20px;font-weight:600}
 </style>
@@ -623,17 +624,51 @@
 
 <footer class="footer">
   <div class="footer-inner">
-    <div class="footer-brand">
-      <span class="footer-logo">ORION <span class="gold">PRO</span></span>
+    <div style="display:grid;grid-template-columns:2fr repeat(4,1fr);gap:48px;max-width:1200px;margin:0 auto;">
+      <div>
+        <span class="footer-logo">ORION <span class="gold">PRO</span></span>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:12px;line-height:1.7;">AI-powered WhatsApp receptionist for modern businesses. Part of the Orion Universe ecosystem.</p>
+        <p style="font-size:12px;color:var(--text-dim);margin-top:16px;">Orion Universe<br>Graham Schubach<br>Durban, KwaZulu-Natal, South Africa</p>
+      </div>
+      <div>
+        <h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">AI & Digital</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="/" style="font-size:13px;color:var(--text-muted);">Naledi — WhatsApp AI</a></li>
+          <li><a href="#pricing" style="font-size:13px;color:var(--text-muted);">GBP — Google Business</a></li>
+          <li><a href="#pricing" style="font-size:13px;color:var(--text-muted);">SEO Optimization</a></li>
+          <li><a href="#pricing" style="font-size:13px;color:var(--text-muted);">Website Design</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">Products</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="#" style="font-size:13px;color:var(--text-muted);">AI Print 2 Canvas</a></li>
+          <li><a href="#" style="font-size:13px;color:var(--text-muted);">mPOS / Nexus POS</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">Entertainment</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="#" style="font-size:13px;color:var(--text-muted);">SupaTraxx Karaoke</a></li>
+          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Venue Partners</a></li>
+          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Event Bookings</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">Legal</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Privacy Policy (POPIA)</a></li>
+          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Terms of Service</a></li>
+          <li><a href="#" style="font-size:13px;color:var(--text-muted);">Data Processing</a></li>
+          <li style="margin-top:16px;"><a href="https://wa.me/27703080516" style="font-size:13px;color:var(--text-muted);">Contact</a></li>
+          <li><a href="mailto:info@oriondevcore.com" style="font-size:13px;color:var(--text-muted);">Email</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="footer-links">
-      <a href="https://wa.me/27703080516">Contact</a>
-      <a href="mailto:info@oriondevcore.com">Email</a>
-      <a href="https://nwa.oriondevcore.com/legal">Legal (POPIA)</a>
-      <a href="https://docs.oriondevcore.com">Docs</a>
+    <div style="max-width:1200px;margin:48px auto 0;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+      <p style="font-size:11px;color:var(--text-dim);">&copy; 2026 Orion Universe. All rights reserved. Built for the bold.</p>
+      <p style="font-size:11px;color:var(--text-dim);">POPIA compliant data handling &middot; Secured AI processing</p>
     </div>
-    <p class="footer-text">Orion Universe &middot; Graham Schubach &middot; Durban, South Africa</p>
-    <p class="footer-copy">&copy; 2026 Orion Universe. Built for the bold.</p>
   </div>
 </footer>
 
