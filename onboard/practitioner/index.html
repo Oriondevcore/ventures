@@ -327,12 +327,38 @@ document.getElementById('payBtn').addEventListener('click', async () => {
   const data = Object.fromEntries(fd);
 
   // Yoco showPopup uses a callback — not a return value
+  // Step 1: Create checkout on server
+  const checkoutRes = await fetch('/api/create-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      amountInCents: 200,
+      currency: 'ZAR',
+      metadata: {
+        product: 'Naledi — ORION PRO MED Setup',
+        customerName: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
+        customerEmail: data.email || '',
+        customerPhone: data.phone || '',
+        submissionId: submissionId,
+        practiceName: data.practice_name || '',
+        type: 'naledi_onboarding'
+      }
+    })
+  });
+
+  const checkout = await checkoutRes.json();
+  if (!checkout.success) {
+    err.textContent = 'Failed to initialise payment. Please try again.';
+    err.classList.add('show');
+    btn.disabled = false;
+    loading.classList.add('hidden');
+    return;
+  }
+
+  // Step 2: Popup with checkoutId (v2 flow — no amountInCents)
   yoco.showPopup({
-    amountInCents: 200,
-    currency: 'ZAR',
-    name: 'ORION PRO MED Setup',
-    description: 'Naledi onboarding setup fee',
-    callback: async function(result) {
+    checkoutId: checkout.checkoutId,
+    callback: function(result) {
       if (!result || result.error) {
         err.textContent = (result && result.error && result.error.message) || 'Payment failed. Please try again.';
         err.classList.add('show');
@@ -341,37 +367,9 @@ document.getElementById('payBtn').addEventListener('click', async () => {
         return;
       }
 
-      try {
-        const chargeRes = await fetch('/api/yoco-checkout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            token: result.id,
-            amountInCents: 200,
-            currency: 'ZAR',
-            metadata: {
-              product: 'Naledi — ORION PRO MED Setup',
-              customerName: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
-              customerEmail: data.email || '',
-              customerPhone: data.phone || '',
-              submissionId: submissionId,
-              practiceName: data.practice_name || '',
-              type: 'naledi_onboarding'
-            }
-          })
-        });
-
-        const charge = await chargeRes.json();
-        if (!charge.success) throw new Error(charge.error || 'Payment failed');
-
-        showStep(3);
-      } catch (e) {
-        err.textContent = e.message || 'Payment failed. Please try again or WhatsApp Graham.';
-        err.classList.add('show');
-        btn.disabled = false;
-      } finally {
-        loading.classList.add('hidden');
-      }
+      showStep(3);
+      btn.disabled = false;
+      loading.classList.add('hidden');
     },
     onCancel: function() {
       err.textContent = 'Payment cancelled.';
