@@ -303,7 +303,7 @@ document.getElementById('onboardForm').addEventListener('submit', async (e) => {
   }
 });
 
-// Step 2: Pay with Yoco showPopup
+// Step 2: Pay with Yoco showPopup (callback-based SDK)
 document.getElementById('payBtn').addEventListener('click', async () => {
   const btn = document.getElementById('payBtn');
   const err = document.getElementById('payError');
@@ -313,58 +313,73 @@ document.getElementById('payBtn').addEventListener('click', async () => {
   err.classList.remove('show');
   loading.classList.remove('hidden');
 
-  try {
-    await initYoco();
-    if (!yoco) throw new Error('Could not load Yoco. Please refresh and try again.');
-
-    const result = await yoco.showPopup({
-      amountInCents: 100,
-      currency: 'ZAR',
-      name: 'ORION PRO MED Setup',
-      description: 'Naledi onboarding setup fee'
-    });
-
-    if (!result) throw new Error('Tokenization failed');
-    const tokenId = result.id || result.token || result;
-    if (!tokenId) {
-      console.error('Yoco result:', JSON.stringify(result));
-      throw new Error('Tokenization failed - no token received');
-    }
-
-    const form = document.getElementById('onboardForm');
-    const fd = new FormData(form);
-    const data = Object.fromEntries(fd);
-
-    const chargeRes = await fetch('/api/yoco-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        token: tokenId,
-        amountInCents: 100,
-        currency: 'ZAR',
-        metadata: {
-          product: 'Naledi — ORION PRO MED Setup',
-          customerName: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
-          customerEmail: data.email || '',
-          customerPhone: data.phone || '',
-          submissionId: submissionId,
-          practiceName: data.practice_name || '',
-          type: 'naledi_onboarding'
-        }
-      })
-    });
-
-    const charge = await chargeRes.json();
-    if (!charge.success) throw new Error(charge.error || 'Payment failed');
-
-    showStep(3);
-  } catch (e) {
-    err.textContent = e.message || 'Payment failed. Please try again or WhatsApp Graham.';
+  await initYoco();
+  if (!yoco) {
+    err.textContent = 'Could not load Yoco. Please refresh and try again.';
     err.classList.add('show');
     btn.disabled = false;
-  } finally {
     loading.classList.add('hidden');
+    return;
   }
+
+  const form = document.getElementById('onboardForm');
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd);
+
+  // Yoco showPopup uses a callback — not a return value
+  yoco.showPopup({
+    amountInCents: 100,
+    currency: 'ZAR',
+    name: 'ORION PRO MED Setup',
+    description: 'Naledi onboarding setup fee',
+    callback: async function(result) {
+      if (!result || result.error) {
+        err.textContent = (result && result.error && result.error.message) || 'Payment failed. Please try again.';
+        err.classList.add('show');
+        btn.disabled = false;
+        loading.classList.add('hidden');
+        return;
+      }
+
+      try {
+        const chargeRes = await fetch('/api/yoco-checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: result.id,
+            amountInCents: 100,
+            currency: 'ZAR',
+            metadata: {
+              product: 'Naledi — ORION PRO MED Setup',
+              customerName: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
+              customerEmail: data.email || '',
+              customerPhone: data.phone || '',
+              submissionId: submissionId,
+              practiceName: data.practice_name || '',
+              type: 'naledi_onboarding'
+            }
+          })
+        });
+
+        const charge = await chargeRes.json();
+        if (!charge.success) throw new Error(charge.error || 'Payment failed');
+
+        showStep(3);
+      } catch (e) {
+        err.textContent = e.message || 'Payment failed. Please try again or WhatsApp Graham.';
+        err.classList.add('show');
+        btn.disabled = false;
+      } finally {
+        loading.classList.add('hidden');
+      }
+    },
+    onCancel: function() {
+      err.textContent = 'Payment cancelled.';
+      err.classList.add('show');
+      btn.disabled = false;
+      loading.classList.add('hidden');
+    }
+  });
 });
 </script>
 </body>
