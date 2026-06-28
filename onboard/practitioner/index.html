@@ -324,7 +324,12 @@ document.getElementById('payBtn').addEventListener('click', async () => {
       description: 'Naledi onboarding setup fee'
     });
 
-    if (!result || !result.id) throw new Error('Tokenization failed');
+    if (!result) throw new Error('Tokenization failed');
+    const tokenId = result.id || result.token || result;
+    if (!tokenId) {
+      console.error('Yoco result:', JSON.stringify(result));
+      throw new Error('Tokenization failed - no token received');
+    }
 
     const form = document.getElementById('onboardForm');
     const fd = new FormData(form);
@@ -334,7 +339,7 @@ document.getElementById('payBtn').addEventListener('click', async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        token: result.id,
+        token: tokenId,
         amountInCents: 100,
         currency: 'ZAR',
         metadata: {
