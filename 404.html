@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Business Not Found | ORION PRO</title>
+<meta name="description" content="404 — the page you're looking for doesn't exist. Just like Blockbuster's revenue after 2010.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.error-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%);
+}
+.error-sticker {
+  max-width: 300px;
+  margin-bottom: 32px;
+  border-radius: var(--radius-lg);
+}
+.error-page h1 {
+  font-size: clamp(64px, 12vw, 120px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 8px;
+}
+.error-page .error-sub {
+  font-size: clamp(20px, 3vw, 32px);
+  color: var(--text-muted);
+  margin-bottom: 40px;
+}
+.error-page p {
+  font-size: 15px;
+  color: var(--text-dim);
+  max-width: 480px;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+.error-page .story-note {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 40px;
+  max-width: 400px;
+}
+.error-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+</style>
+</head>
+<body>
+  <div class="error-page">
+    <img src="assets/error-404-sticker.png" alt="Business Not Found" class="error-sticker">
+    <h1>4<span class="gold">0</span>4</h1>
+    <p class="error-sub">Business Not Found</p>
+    <p>This page doesn't exist. Kind of like Kodak's market cap. Or Blockbuster's relevance. Or Blackberry's keyboard.</p>
+    <p class="story-note">"The ones who didn't adapt." — You were warned.</p>
+    <div class="error-links">
+      <a href="/" class="btn btn-primary">Back to ORION PRO</a>
+      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20got%20a%20404%20error" class="btn btn-secondary">Tell Naledi</a>
+    </div>
+  </div>
+</body>
+</html>
