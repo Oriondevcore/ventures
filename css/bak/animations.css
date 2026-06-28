@@ -132,8 +132,8 @@
 
 /* ── Glow Pulse (for CTA buttons) ── */
 @keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(10,132,255,0.2); }
-  50% { box-shadow: 0 0 40px rgba(10,132,255,0.4); }
+  0%, 100% { box-shadow: 0 0 20px rgba(200,168,78,0.2); }
+  50% { box-shadow: 0 0 40px rgba(200,168,78,0.4); }
 }
 
 .animate-glow-pulse {

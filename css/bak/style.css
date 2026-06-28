@@ -106,7 +106,7 @@
 }
 
 .naledi-voice em {
-  color: var(--primary);
+  color: var(--gold);
   font-style: normal;
 }
 
@@ -126,11 +126,11 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius);
-  background: rgba(10,132,255,0.1);
+  background: rgba(200,168,78,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primary);
+  color: var(--gold);
   flex-shrink: 0;
 }
 
@@ -168,7 +168,7 @@
 }
 
 .feature-card:hover {
-  border-color: var(--primary-dim);
+  border-color: var(--gold-dim);
   transform: translateY(-2px);
 }
 
@@ -176,11 +176,11 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius);
-  background: rgba(10,132,255,0.08);
+  background: rgba(200,168,78,0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primary);
+  color: var(--gold);
   margin-bottom: var(--space-4);
 }
 
@@ -214,7 +214,7 @@
 }
 
 .pricing-card.featured {
-  border-color: var(--primary);
+  border-color: var(--gold);
   box-shadow: var(--shadow-glow);
 }
 
@@ -223,8 +223,8 @@
   top: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--primary);
-  color: var(--background);
+  background: var(--gold);
+  color: var(--black);
   padding: var(--space-1) var(--space-4);
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
@@ -242,7 +242,7 @@
 .pricing-price {
   font-size: var(--text-4xl);
   font-weight: var(--weight-black);
-  color: var(--primary);
+  color: var(--gold);
   margin-bottom: var(--space-1);
 }
 
@@ -327,7 +327,7 @@
 .service-price {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  color: var(--primary);
+  color: var(--gold);
 }
 
 @media (max-width: 768px) {

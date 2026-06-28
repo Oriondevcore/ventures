@@ -71,15 +71,15 @@
   white-space: nowrap;
   font-family: var(--font);
 }
-.hero-lang-word:nth-child(1) { top: 10%; left: 6%; font-size: clamp(16px, 2.2vw, 30px); color: rgba(10,132,255,0.06); }
+.hero-lang-word:nth-child(1) { top: 10%; left: 6%; font-size: clamp(16px, 2.2vw, 30px); color: rgba(0,229,255,0.06); }
 .hero-lang-word:nth-child(2) { top: 18%; right: 10%; font-size: clamp(12px, 1.5vw, 20px); }
-.hero-lang-word:nth-child(3) { top: 28%; left: 14%; font-size: clamp(18px, 2.5vw, 32px); color: rgba(10,132,255,0.04); }
+.hero-lang-word:nth-child(3) { top: 28%; left: 14%; font-size: clamp(18px, 2.5vw, 32px); color: rgba(0,229,255,0.04); }
 .hero-lang-word:nth-child(4) { top: 38%; right: 18%; font-size: clamp(10px, 1.3vw, 18px); }
 .hero-lang-word:nth-child(5) { top: 48%; left: 8%; font-size: clamp(14px, 2vw, 24px); }
-.hero-lang-word:nth-child(6) { top: 55%; right: 6%; font-size: clamp(20px, 3vw, 38px); color: rgba(10,132,255,0.03); }
+.hero-lang-word:nth-child(6) { top: 55%; right: 6%; font-size: clamp(20px, 3vw, 38px); color: rgba(0,229,255,0.03); }
 .hero-lang-word:nth-child(7) { top: 65%; left: 22%; font-size: clamp(9px, 1.1vw, 14px); }
 .hero-lang-word:nth-child(8) { top: 72%; right: 22%; font-size: clamp(16px, 2.2vw, 28px); }
-.hero-lang-word:nth-child(9) { top: 80%; left: 5%; font-size: clamp(12px, 1.5vw, 20px); color: rgba(10,132,255,0.04); }
+.hero-lang-word:nth-child(9) { top: 80%; left: 5%; font-size: clamp(12px, 1.5vw, 20px); color: rgba(0,229,255,0.04); }
 .hero-lang-word:nth-child(10) { top: 88%; right: 8%; font-size: clamp(14px, 1.8vw, 24px); }
 .hero-lang-word:nth-child(11) { bottom: 6%; left: 35%; font-size: clamp(18px, 2.5vw, 32px); }
 .hero-lang-word:nth-child(12) { top: 5%; left: 50%; font-size: clamp(10px, 1.2vw, 16px); }
@@ -183,7 +183,7 @@
   padding: 48px 40px;
   border: 1px solid var(--primary-dim);
   border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, rgba(10,132,255,0.06) 0%, var(--surface) 60%);
+  background: linear-gradient(135deg, rgba(0,229,255,0.06) 0%, var(--surface) 60%);
   box-shadow: 0 0 60px var(--shadow-glow);
 }
 .pricing-single .price-name {
