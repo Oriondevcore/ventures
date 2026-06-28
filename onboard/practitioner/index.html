@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ORION PRO MED — Practitioner Onboarding</title>
+<script src="https://js.yoco.com/sdk/v1/yoco-sdk.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -227,6 +228,7 @@
 </div>
 
 <script>
+let yoco = null;
 let submissionId = null;
 
 // On page load, check if we returned from Yoco checkout
@@ -236,6 +238,17 @@ let submissionId = null;
     showStep(3);
   }
 })();
+
+async function initYoco() {
+  try {
+    const res = await fetch('/api/yoco-pk');
+    const data = await res.json();
+    yoco = new YocoSDK({ publicKey: data.pk });
+  } catch (e) {
+    console.error('Yoco init failed:', e);
+  }
+}
+initYoco();
 
 function updateSteps(active) {
   for (let i = 1; i <= 3; i++) {
@@ -285,7 +298,7 @@ document.getElementById('onboardForm').addEventListener('submit', async (e) => {
   }
 });
 
-// Step 2: Create Yoco checkout and redirect
+// Step 2: Pay with Yoco showPopup
 document.getElementById('payBtn').addEventListener('click', async () => {
   const btn = document.getElementById('payBtn');
   const err = document.getElementById('payError');
@@ -296,14 +309,26 @@ document.getElementById('payBtn').addEventListener('click', async () => {
   loading.classList.remove('hidden');
 
   try {
+    if (!yoco) throw new Error('Payment not ready. Please refresh and try again.');
+
+    const result = await yoco.showPopup({
+      amountInCents: 100,
+      currency: 'ZAR',
+      name: 'ORION PRO MED Setup',
+      description: 'Naledi onboarding setup fee'
+    });
+
+    if (!result || !result.id) throw new Error('Tokenization failed');
+
     const form = document.getElementById('onboardForm');
     const fd = new FormData(form);
     const data = Object.fromEntries(fd);
 
-    const res = await fetch('/api/create-checkout', {
+    const chargeRes = await fetch('/api/yoco-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        token: result.id,
         amountInCents: 100,
         currency: 'ZAR',
         metadata: {
@@ -313,17 +338,17 @@ document.getElementById('payBtn').addEventListener('click', async () => {
           customerPhone: data.phone || '',
           submissionId: submissionId,
           practiceName: data.practice_name || '',
+          type: 'naledi_onboarding'
         }
       })
     });
 
-    const checkout = await res.json();
-    if (!checkout.success) throw new Error(checkout.error || 'Failed to create checkout');
+    const charge = await chargeRes.json();
+    if (!charge.success) throw new Error(charge.error || 'Payment failed');
 
-    // Redirect to Yoco's hosted payment page
-    window.location.href = checkout.redirectUrl;
+    showStep(3);
   } catch (e) {
-    err.textContent = e.message || 'Payment setup failed. Please try again or WhatsApp Graham.';
+    err.textContent = e.message || 'Payment failed. Please try again or WhatsApp Graham.';
     err.classList.add('show');
     btn.disabled = false;
   } finally {
