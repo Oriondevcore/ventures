@@ -37,7 +37,7 @@
 .hero-bg-img::after {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(12,12,13,0.88) 0%, rgba(12,12,13,0.82) 25%, rgba(12,12,13,0.75) 50%, rgba(12,12,13,0.82) 75%, rgba(12,12,13,0.88) 100%);
+  background: linear-gradient(180deg, rgba(0,7,17,0.88) 0%, rgba(0,7,17,0.82) 25%, rgba(0,7,17,0.75) 50%, rgba(0,7,17,0.82) 75%, rgba(0,7,17,0.88) 100%);
 }
 @media (max-width: 767px) {
   .hero-bg-img { background-image: url('assets/hero-phone.webp'); }
@@ -71,15 +71,15 @@
   white-space: nowrap;
   font-family: var(--font);
 }
-.hero-lang-word:nth-child(1) { top: 10%; left: 6%; font-size: clamp(16px, 2.2vw, 30px); color: rgba(200,168,78,0.06); }
+.hero-lang-word:nth-child(1) { top: 10%; left: 6%; font-size: clamp(16px, 2.2vw, 30px); color: rgba(0,229,255,0.06); }
 .hero-lang-word:nth-child(2) { top: 18%; right: 10%; font-size: clamp(12px, 1.5vw, 20px); }
-.hero-lang-word:nth-child(3) { top: 28%; left: 14%; font-size: clamp(18px, 2.5vw, 32px); color: rgba(200,168,78,0.04); }
+.hero-lang-word:nth-child(3) { top: 28%; left: 14%; font-size: clamp(18px, 2.5vw, 32px); color: rgba(0,229,255,0.04); }
 .hero-lang-word:nth-child(4) { top: 38%; right: 18%; font-size: clamp(10px, 1.3vw, 18px); }
 .hero-lang-word:nth-child(5) { top: 48%; left: 8%; font-size: clamp(14px, 2vw, 24px); }
-.hero-lang-word:nth-child(6) { top: 55%; right: 6%; font-size: clamp(20px, 3vw, 38px); color: rgba(200,168,78,0.03); }
+.hero-lang-word:nth-child(6) { top: 55%; right: 6%; font-size: clamp(20px, 3vw, 38px); color: rgba(0,229,255,0.03); }
 .hero-lang-word:nth-child(7) { top: 65%; left: 22%; font-size: clamp(9px, 1.1vw, 14px); }
 .hero-lang-word:nth-child(8) { top: 72%; right: 22%; font-size: clamp(16px, 2.2vw, 28px); }
-.hero-lang-word:nth-child(9) { top: 80%; left: 5%; font-size: clamp(12px, 1.5vw, 20px); color: rgba(200,168,78,0.04); }
+.hero-lang-word:nth-child(9) { top: 80%; left: 5%; font-size: clamp(12px, 1.5vw, 20px); color: rgba(0,229,255,0.04); }
 .hero-lang-word:nth-child(10) { top: 88%; right: 8%; font-size: clamp(14px, 1.8vw, 24px); }
 .hero-lang-word:nth-child(11) { bottom: 6%; left: 35%; font-size: clamp(18px, 2.5vw, 32px); }
 .hero-lang-word:nth-child(12) { top: 5%; left: 50%; font-size: clamp(10px, 1.2vw, 16px); }
@@ -105,7 +105,7 @@
   transition: all 0.3s;
 }
 .story-card:hover {
-  border-color: var(--gold-dim);
+  border-color: var(--primary-dim);
   transform: translateY(-4px);
   box-shadow: 0 12px 48px rgba(0,0,0,0.3);
 }
@@ -181,17 +181,17 @@
   max-width: 520px;
   width: 100%;
   padding: 48px 40px;
-  border: 1px solid var(--gold-dim);
+  border: 1px solid var(--primary-dim);
   border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, rgba(200,168,78,0.06) 0%, var(--elevated) 60%);
-  box-shadow: 0 0 60px var(--gold-glow);
+  background: linear-gradient(135deg, rgba(0,229,255,0.06) 0%, var(--surface) 60%);
+  box-shadow: 0 0 60px var(--shadow-glow);
 }
 .pricing-single .price-name {
   font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--gold);
+  color: var(--primary);
   margin-bottom: 8px;
 }
 .pricing-single .price-amount {
@@ -227,7 +227,7 @@
   padding: 16px 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--bg);
+  background: var(--surface);
   margin-bottom: 32px;
   line-height: 1.6;
 }
@@ -250,7 +250,7 @@
   content: '\2713';
   position: absolute;
   left: 0;
-  color: var(--gold);
+  color: var(--primary);
   font-weight: 700;
 }
 
@@ -271,14 +271,14 @@
   background: var(--surface);
 }
 .vertical-card:hover {
-  border-color: var(--gold-dim);
+  border-color: var(--primary-dim);
   transform: translateY(-3px);
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
 }
 .vertical-card .vert-letter {
   font-size: 28px;
   font-weight: 900;
-  color: var(--gold);
+  color: var(--primary);
   margin-bottom: 8px;
   letter-spacing: -0.03em;
 }
@@ -301,7 +301,7 @@
   .vertical-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-inner > div:first-child { grid-template-columns: 1fr !important; gap: 32px !important; }
 }
-.price-proof{font-size:13px;color:var(--gold);margin-bottom:20px;font-weight:600}
+.price-proof{font-size:13px;color:var(--primary);margin-bottom:20px;font-weight:600}
 </style>
 </head>
 <body>
@@ -315,6 +315,7 @@
       <a href="#story" class="nav-link">The Story</a>
       <a href="#pricing" class="nav-link">Pricing</a>
       <a href="#features" class="nav-link">Features</a>
+      <a href="/naledi-gallery" class="nav-link">Naledi Gallery</a>
 <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="nav-link nav-cta" aria-label="Talk to Orion PRO on WhatsApp">Talk to Orion PRO</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
@@ -327,6 +328,7 @@
   <a href="#story" class="nav-link">The Story</a>
   <a href="#pricing" class="nav-link">Pricing</a>
   <a href="#features" class="nav-link">Features</a>
+  <a href="/naledi-gallery" class="nav-link">Naledi Gallery</a>
   <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="nav-link nav-cta" aria-label="Talk to Orion PRO on WhatsApp">Talk to Orion PRO</a>
 </div>
 
@@ -596,17 +598,17 @@
       <div class="vertical-card">
         <h4>Websites</h4>
         <p>Clean, mobile-first sites for SA businesses. Landing pages, multi-page, built fast.</p>
-        <p style="font-size:12px;color:var(--gold);margin-top:8px">From R8,500 once-off</p>
+         <p style="font-size:12px;color:var(--primary);margin-top:8px">From R8,500 once-off</p>
       </div>
       <div class="vertical-card">
         <h4>SEO</h4>
         <p>On-page, local, technical. Get found when your customers search.</p>
-        <p style="font-size:12px;color:var(--gold);margin-top:8px">From R3,500/mo</p>
+         <p style="font-size:12px;color:var(--primary);margin-top:8px">From R3,500/mo</p>
       </div>
       <div class="vertical-card">
         <h4>GBP</h4>
         <p>Google Business Profile — setup, optimisation, posting, review management.</p>
-        <p style="font-size:12px;color:var(--gold);margin-top:8px">R2,500 setup + R1,500/mo</p>
+         <p style="font-size:12px;color:var(--primary);margin-top:8px">R2,500 setup + R1,500/mo</p>
       </div>
     </div>
     <p style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:16px">Bundle with Orion PRO for discounted packages</p>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naledi Gallery — Your Personal AI Avatar</title>
+<meta name="description" content="Meet Naledi. Your AI business assistant. Now you can own your personal Naledi avatar for your business.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>N</text></svg>">
+<style>
+.gallery-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(0,229,255,0.03) 0%, transparent 70%);
+  animation: galleryPulse 8s ease-in-out infinite;
+}
+
+@keyframes galleryPulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+.gallery-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.naledi-portrait {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary);
+  box-shadow: 0 0 60px rgba(0,229,255,0.2);
+  margin: 0 auto 32px;
+  display: block;
+}
+
+.gallery-hero h1 {
+  font-size: clamp(40px, 7vw, 80px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+
+.gallery-hero p {
+  font-size: clamp(18px, 2.5vw, 24px);
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+
+.gallery-grid {
+  padding: 100px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.gallery-grid-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.gallery-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.gallery-card {
+  padding: 40px 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.gallery-card:hover {
+  border-color: var(--primary-dim);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+}
+
+.gallery-card-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--primary-dim), var(--primary));
+  color: var(--background);
+}
+
+.gallery-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.gallery-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.gallery-card .card-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(0,229,255,0.1);
+  border: 1px solid rgba(0,229,255,0.2);
+  color: var(--primary);
+}
+
+.avatar-pricing {
+  padding: 100px 24px;
+  text-align: center;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.avatar-pricing-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pricing-tiers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.pricing-tier {
+  padding: 40px 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--background);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.pricing-tier.featured {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-glow);
+  position: relative;
+}
+
+.pricing-tier .tier-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: var(--background);
+  padding: 4px 16px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pricing-tier .tier-name {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.pricing-tier .tier-price {
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.pricing-tier .tier-price span {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.pricing-tier .tier-period {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.pricing-tier .tier-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.pricing-tier .tier-features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+.pricing-tier .tier-features li {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 8px 0;
+  padding-left: 28px;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+}
+
+.pricing-tier .tier-features li:last-child { border-bottom: none; }
+
+.pricing-tier .tier-features li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.avatar-showcase {
+  padding: 100px 24px;
+  text-align: center;
+}
+
+.showcase-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin: 48px auto 0;
+}
+
+.showcase-item {
+  padding: 32px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  transition: all 0.3s ease;
+}
+
+.showcase-item:hover {
+  border-color: var(--primary-dim);
+  transform: translateY(-2px);
+}
+
+.showcase-item .showcase-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.showcase-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.showcase-item p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.faq-section {
+  padding: 80px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.faq-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-item:last-child { border-bottom: none; }
+
+.faq-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.faq-item p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .naledi-portrait {
+    width: 160px;
+    height: 160px;
+  }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner" style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 32px;height:72px;">
+    <a href="/" class="nav-logo" style="all:unset;font-weight:800;font-size:18px;letter-spacing:0.05em;cursor:pointer;">ORION <span style="color:var(--primary)">PRO</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20my%20own%20Naledi%20avatar" class="nav-cta">Get Your Avatar</a>
+    </div>
+  </div>
+</nav>
+
+<section class="gallery-hero">
+  <div class="gallery-hero-content">
+    <img src="assets/naledi-full.jpg" alt="Naledi — Your AI Business Assistant" class="naledi-portrait" loading="eager">
+    <h1>Meet <span style="color:var(--primary)">Naledi</span></h1>
+    <p>She's the face of ORION PRO. Your AI business assistant who works 24/7, speaks 50+ languages, and never misses a message.</p>
+    <p style="font-size:16px;color:var(--text-dim);margin-bottom:32px;">And now... you can have your <strong style="color:var(--text)">very own Naledi</strong> for your business.</p>
+    <div class="hero-cta">
+      <a href="#pricing" class="btn btn-primary btn-lg">Buy Your Personal Avatar</a>
+      <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20my%20own%20Naledi%20avatar" class="btn btn-secondary btn-lg">Talk to Us</a>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-grid" id="gallery">
+  <div class="gallery-grid-inner">
+    <div class="section-header">
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;color:var(--primary);text-transform:uppercase;margin-bottom:16px;">The Naledi Collection</div>
+      <h2 class="section-title">Your Avatar, <span style="color:var(--primary)">Your Way</span></h2>
+      <p class="section-sub">Every business is different. Your Naledi should be too. Choose the personality you need.</p>
+    </div>
+    <div class="gallery-cards">
+      <div class="gallery-card">
+        <div class="gallery-card-avatar">R</div>
+        <span class="card-tag">Most Popular</span>
+        <h3>Naledi Receptionist</h3>
+        <p>Professional, warm, welcoming. Perfect for practices, salons, and service businesses. Your clients feel like they've reached a real person.</p>
+        <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20Naledi%20Receptionist" class="btn btn-primary btn-sm">Get This Avatar</a>
+      </div>
+      <div class="gallery-card">
+        <div class="gallery-card-avatar">S</div>
+        <span class="card-tag">New</span>
+        <h3>Naledi Sales</h3>
+        <p>Confident, persuasive, proactive. She doesn't just answer questions — she converts leads. For businesses that want to close.</p>
+        <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20Naledi%20Sales" class="btn btn-primary btn-sm">Get This Avatar</a>
+      </div>
+      <div class="gallery-card">
+        <div class="gallery-card-avatar">C</div>
+        <span class="card-tag">Coming Soon</span>
+        <h3>Naledi Custom</h3>
+        <p>Your brand. Your tone. Your face. We create a completely custom AI avatar that matches your business identity perfectly.</p>
+        <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20a%20custom%20Naledi%20avatar" class="btn btn-secondary btn-sm">Enquire</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="avatar-pricing" id="pricing">
+  <div class="avatar-pricing-inner">
+    <div class="section-header">
+      <h2 class="section-title">Own Your <span style="color:var(--primary)">Naledi</span></h2>
+      <p class="section-sub">Pick your avatar. She joins your team. Simple.</p>
+    </div>
+    <div class="pricing-tiers">
+      <div class="pricing-tier">
+        <div class="tier-name">Naledi Receptionist</div>
+        <div class="tier-price">R2,690<span>/mo</span></div>
+        <p class="tier-period">All features included</p>
+        <p class="tier-desc">Your Naledi avatar on WhatsApp. Welcoming clients, booking appointments, answering questions.</p>
+        <ul class="tier-features">
+          <li>Professional receptionist personality</li>
+          <li>Appointment booking & confirmation</li>
+          <li>Client memory — names, preferences</li>
+          <li>50+ languages including isiZulu</li>
+          <li>Voice note transcription</li>
+          <li>24/7 availability</li>
+        </ul>
+        <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20Naledi%20Receptionist" class="btn btn-primary btn-lg" style="width:100%;">Get Naledi Receptionist</a>
+      </div>
+      <div class="pricing-tier featured">
+        <div class="tier-badge">Best Value</div>
+        <div class="tier-name">Naledi Sales</div>
+        <div class="tier-price">R3,990<span>/mo</span></div>
+        <p class="tier-period">Proactive lead conversion</p>
+        <p class="tier-desc">Everything from Receptionist plus proactive sales, lead qualification, and follow-up sequences.</p>
+        <ul class="tier-features">
+          <li>All Receptionist features</li>
+          <li>Proactive sales personality</li>
+          <li>Lead qualification & scoring</li>
+          <li>Follow-up sequences</li>
+          <li>Sales report weekly</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20Naledi%20Sales" class="btn btn-primary btn-lg" style="width:100%;">Get Naledi Sales</a>
+      </div>
+      <div class="pricing-tier">
+        <div class="tier-name">Naledi Custom</div>
+        <div class="tier-price">Contact<span> us</span></div>
+        <p class="tier-period">Fully bespoke</p>
+        <p class="tier-desc">We design a completely custom AI avatar with your brand's face, voice, tone, and personality. Unique to you.</p>
+        <ul class="tier-features">
+          <li>Custom visual avatar</li>
+          <li>Custom personality & tone</li>
+          <li>Your brand colours & voice</li>
+          <li>Tailored feature set</li>
+          <li>Dedicated onboarding</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20a%20custom%20Naledi%20avatar" class="btn btn-secondary btn-lg" style="width:100%;">Enquire Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="avatar-showcase">
+  <div class="section-header">
+    <h2 class="section-title">Naledi <span style="color:var(--primary)">in Action</span></h2>
+    <p class="section-sub">See how she works across different industries.</p>
+  </div>
+  <div class="showcase-images">
+    <div class="showcase-item">
+      <span class="showcase-icon" style="color:var(--primary)">+</span>
+      <h4>Medical Practices</h4>
+      <p>Welcoming patients, booking appointments, answering billing questions. She remembers every patient by name.</p>
+    </div>
+    <div class="showcase-item">
+      <span class="showcase-icon" style="color:var(--primary)}">~</span>
+      <h4>Salons & Spas</h4>
+      <p>Stylist bookings, service questions, product recommendations. She knows your menu inside out.</p>
+    </div>
+    <div class="showcase-item">
+      <span class="showcase-icon" style="color:var(--primary)">/</span>
+      <h4>Trade Services</h4>
+      <p>Emergency vs scheduled call-outs, pricing, service areas. Plumbers, electricians, HVAC — she routes every job.</p>
+    </div>
+    <div class="showcase-item">
+      <span class="showcase-icon" style="color:var(--primary)">*</span>
+      <h4>Restaurants</h4>
+      <p>Reservations, menu questions, special requests, private dining. She never puts a caller on hold.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="faq-inner">
+    <div class="section-header">
+      <h2 class="section-title">Questions <span style="color:var(--primary)">Answered</span></h2>
+    </div>
+    <div class="faq-item">
+      <h4>What is a Naledi avatar?</h4>
+      <p>Naledi is an AI business assistant with a name, face, and personality. She represents your brand on WhatsApp — answering messages, booking appointments, and building relationships with your clients.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can I customise her?</h4>
+      <p>Yes. Choose Receptionist or Sales personality out of the box, or go fully custom with your own brand face, tone, and colours. Custom avatars start at contact for pricing.</p>
+    </div>
+    <div class="faq-item">
+      <h4>How fast can I get started?</h4>
+      <p>Standard avatars go live in 48 hours. Custom avatars take 1-2 weeks depending on complexity.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Do I need technical skills?</h4>
+      <p>No. We handle everything. You just connect your WhatsApp number. We train Naledi on your business, and she goes live.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section section" style="text-align:center;border-top:1px solid var(--border);">
+  <h2 class="cta-title">Ready for Your <span style="color:var(--primary)">Own Naledi</span>?</h2>
+  <p class="cta-desc">Thousands of South Africans are talking to Naledi every day. Now it's your turn to have one that talks back — for your business.</p>
+  <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20my%20own%20Naledi%20avatar" class="btn btn-primary btn-lg">Buy Your Personal Avatar on WhatsApp</a>
+  <p class="hero-note" style="margin-top:16px;">R2,690/mo for standard &middot; Custom pricing on request &middot; Live in 48 hours</p>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">ORION <span style="color:var(--primary)">PRO</span></div>
+      <p class="footer-brand-desc">AI-powered WhatsApp receptionist for modern businesses. Part of the Orion Universe ecosystem.</p>
+      <p style="font-size:12px;color:var(--text-dim);margin-top:16px;">Orion Universe<br>Graham Schubach<br>Durban, KwaZulu-Natal, South Africa</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Digital</div>
+      <ul class="footer-links">
+        <li><a href="/" class="footer-link">Home</a></li>
+        <li><a href="/naledi-gallery" class="footer-link">Naledi Gallery</a></li>
+        <li><a href="#" class="footer-link">GBP — Google Business</a></li>
+        <li><a href="#" class="footer-link">Website Design</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Products</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">AI Print 2 Canvas</a></li>
+        <li><a href="#" class="footer-link">mPOS / Nexus POS</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Entertainment</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">SupaTraxx Karaoke</a></li>
+        <li><a href="#" class="footer-link">Venue Partners</a></li>
+        <li><a href="#" class="footer-link">Event Bookings</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">Privacy Policy (POPIA)</a></li>
+        <li><a href="#" class="footer-link">Terms of Service</a></li>
+        <li><a href="#" class="footer-link">Data Processing</a></li>
+        <li style="margin-top:16px;"><a href="https://wa.me/27703080516" class="footer-link">Contact</a></li>
+        <li><a href="mailto:info@oriondevcore.com" class="footer-link">Email</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Orion Universe. All rights reserved. Built for the bold.</p>
+    <p>POPIA compliant data handling &middot; Secured processing</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
