@@ -199,14 +199,14 @@
       <h3>Almost There!</h3>
       <p style="color:#666;font-size:14px;margin-bottom:4px;">Your practice details are saved.</p>
       <p style="color:#666;font-size:14px;margin-bottom:16px;">Complete payment to activate your account.</p>
-      <div class="price">R4,690 <small>once-off setup</small></div>
-      <p class="pay-desc">WhatsApp Business API setup & configuration<br>First month: <strong>R6,999</strong> (promo code: OPDOC26)</p>
+      <div class="price">R1 <small>test payment</small></div>
+      <p class="pay-desc">This is a test transaction with your business card.</p>
 
       <div id="yoco-card"></div>
       <div class="error-msg" id="payError">Payment failed. Please try again.</div>
       <div class="loading hidden" id="payLoading"><span class="spinner"></span>Processing payment...</div>
-      <button class="btn btn-green" id="payBtn">Pay R4,690 Now</button>
-      <p style="font-size:11px;color:#999;margin-top:12px;">Secure payment via Yoco. You'll be billed R6,999/month after setup.</p>
+      <button class="btn btn-green" id="payBtn">Pay R1 Test</button>
+              <p style="font-size:11px;color:#999;margin-top:12px;">Test payment via Yoco. Your card will be charged R1.</p>
     </div>
   </div>
 
@@ -322,7 +322,7 @@ document.getElementById('payBtn').addEventListener('click', async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         token: token.id,
-        amountInCents: 469000,
+        amountInCents: 100,
         currency: 'ZAR',
         metadata: {
           product: 'Naledi — ORION PRO MED Setup',
