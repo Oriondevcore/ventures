@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ORION PRO MED — Practitioner Onboarding</title>
+<script src="https://js.yoco.com/sdk/v1/yoco-sdk.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -35,6 +36,7 @@
     background: #ddd;
   }
   .step-dot.active { background: #d4af37; }
+  .step-dot.done { background: #2ecc71; }
   .form-group { margin-bottom: 20px; }
   label {
     display: block;
@@ -73,13 +75,29 @@
   }
   .btn:hover { opacity: 0.9; }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-green { background: #2ecc71; }
   .hidden { display: none; }
-  .success-msg {
-    text-align: center;
-    padding: 40px 20px;
-  }
+  .section { display: block; }
+  .section.hidden { display: none; }
+
+  .success-msg { text-align: center; padding: 40px 20px; }
   .success-msg h2 { color: #d4af37; margin-bottom: 12px; }
   .success-msg p { color: #666; font-size: 14px; }
+
+  .pay-section { text-align: center; padding: 20px 0; }
+  .pay-section h3 { margin-bottom: 8px; }
+  .pay-section .price { font-size: 36px; font-weight: 800; color: #d4af37; margin: 12px 0; }
+  .pay-section .price small { font-size: 14px; color: #999; font-weight: 400; }
+  .pay-section .pay-desc { font-size: 13px; color: #666; margin-bottom: 20px; }
+  #yoco-card { margin: 16px 0; min-height: 44px; }
+
+  .setup-section { text-align: center; padding: 40px 20px; }
+  .setup-section .check { color: #2ecc71; font-size: 48px; margin-bottom: 16px; }
+  .setup-section h2 { margin-bottom: 12px; }
+  .setup-section .steps { text-align: left; margin: 24px 0; }
+  .setup-section .steps li { padding: 10px 0; font-size: 14px; color: #555; border-bottom: 1px solid #eee; }
+  .setup-section .steps li:last-child { border-bottom: none; }
+
   .error-msg {
     color: #e74c3c;
     font-size: 12px;
@@ -87,7 +105,9 @@
     display: none;
   }
   .error-msg.show { display: block; }
-  .loading { text-align: center; padding: 20px; }
+  .loading { text-align: center; padding: 20px; color: #999; }
+  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid #ddd; border-top-color: #d4af37; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
   @media (max-width: 480px) {
     .half { grid-template-columns: 1fr; }
   }
@@ -97,110 +117,168 @@
 <div class="container">
   <div class="header">
     <h1><span class="gold">ORION</span> PRO MED</h1>
-    <div class="sub">Practitioner Onboarding</div>
+    <div class="sub" id="stepLabel">Step 1: Your Practice Details</div>
   </div>
 
   <div class="step-indicator">
-    <span class="step-dot active"></span>
-    <span class="step-dot"></span>
-    <span class="step-dot"></span>
+    <span class="step-dot active" id="dot1"></span>
+    <span class="step-dot" id="dot2"></span>
+    <span class="step-dot" id="dot3"></span>
   </div>
 
-  <form id="onboardForm">
-    <input type="hidden" name="type" value="practitioner">
+  <!-- Step 1: Form -->
+  <div class="section" id="step1">
+    <form id="onboardForm">
+      <input type="hidden" name="type" value="practitioner">
 
-    <div class="form-group">
-      <label>Practice Name</label>
-      <input type="text" name="practice_name" required placeholder="e.g. Durban Medical Centre">
-    </div>
-
-    <div class="half">
       <div class="form-group">
-        <label>Doctor's First Name</label>
-        <input type="text" name="first_name" required>
+        <label>Practice Name</label>
+        <input type="text" name="practice_name" required placeholder="e.g. Durban Medical Centre">
       </div>
+
+      <div class="half">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" name="first_name" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" name="last_name" required>
+        </div>
+      </div>
+
+      <div class="half">
+        <div class="form-group">
+          <label>WhatsApp Number</label>
+          <input type="tel" name="phone" required placeholder="e.g. 0712345678">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" required>
+        </div>
+      </div>
+
       <div class="form-group">
-        <label>Doctor's Last Name</label>
-        <input type="text" name="last_name" required>
+        <label>Practice Address</label>
+        <input type="text" name="address" required>
       </div>
-    </div>
 
-    <div class="half">
       <div class="form-group">
-        <label>WhatsApp Number</label>
-        <input type="tel" name="phone" required placeholder="e.g. 0712345678">
+        <label>Operating Hours</label>
+        <textarea name="hours" required placeholder="e.g. Mon-Fri 8am-5pm, Sat 8am-12pm"></textarea>
       </div>
+
       <div class="form-group">
-        <label>Email</label>
-        <input type="email" name="email" required>
+        <label>Services Offered</label>
+        <textarea name="services" required placeholder="e.g. General consultations, blood tests, vaccinations"></textarea>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label>Practice Address</label>
-      <input type="text" name="address" required>
-    </div>
+      <div class="form-group">
+        <label>Booking Rules</label>
+        <textarea name="booking_rules" placeholder="e.g. Same-day bookings available? How far ahead? Walk-ins?"></textarea>
+      </div>
 
-    <div class="form-group">
-      <label>Operating Hours</label>
-      <textarea name="hours" required placeholder="e.g. Mon-Fri 8am-5pm, Sat 8am-12pm"></textarea>
-    </div>
+      <div class="form-group">
+        <label>Medical Aids Accepted</label>
+        <input type="text" name="insurance" placeholder="e.g. Discovery, Momentum, Bonitas">
+      </div>
 
-    <div class="form-group">
-      <label>Services Offered</label>
-      <textarea name="services" required placeholder="e.g. General consultations, blood tests, vaccinations, chronic medication management"></textarea>
-    </div>
+      <div class="form-group">
+        <label>How did you hear about us?</label>
+        <input type="text" name="referral" placeholder="e.g. Referred by (name)">
+      </div>
 
-    <div class="form-group">
-      <label>Booking Rules</label>
-      <textarea name="booking_rules" placeholder="e.g. Same-day bookings available? How far ahead can patients book? Walk-ins welcome?"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Insurance / Medical Aids Accepted</label>
-      <input type="text" name="insurance" placeholder="e.g. Discovery, Momentum, Bonitas">
-    </div>
-
-    <div class="form-group">
-      <label>How did you hear about us?</label>
-      <input type="text" name="referral" placeholder="e.g. Referred by (name)">
-    </div>
-
-    <div class="form-group">
-      <label>Preferred Payment Method</label>
-      <select name="payment_method">
-        <option value="payfast">PayFast</option>
-        <option value="yoco">Yoco</option>
-        <option value="stripe">Stripe</option>
-        <option value="paypal">PayPal</option>
-      </select>
-    </div>
-
-    <div class="error-msg" id="errorMsg">Please fill in all required fields.</div>
-    <button type="submit" class="btn" id="submitBtn">Submit & Start Onboarding</button>
-  </form>
-
-  <div class="success-msg hidden" id="successMsg">
-    <h2>Welcome to ORION PRO MED</h2>
-    <p>Naledi has received your details. She will message you on WhatsApp shortly to complete your setup. Your practice will be live within 48 hours.</p>
-    <p style="margin-top:16px;font-size:12px;color:#999;">You can close this page.</p>
+      <div class="error-msg" id="formError">Please fill in all required fields.</div>
+      <button type="submit" class="btn" id="submitBtn">Submit Practice Details</button>
+    </form>
   </div>
 
-  <div class="loading hidden" id="loadingMsg">Submitting...</div>
+  <!-- Step 2: Payment -->
+  <div class="section hidden" id="step2">
+    <div class="pay-section">
+      <h3>Almost There!</h3>
+      <p style="color:#666;font-size:14px;margin-bottom:4px;">Your practice details are saved.</p>
+      <p style="color:#666;font-size:14px;margin-bottom:16px;">Complete payment to activate your account.</p>
+      <div class="price">R4,690 <small>once-off setup</small></div>
+      <p class="pay-desc">WhatsApp Business API setup & configuration<br>First month: <strong>R6,999</strong> (promo code: OPDOC26)</p>
+
+      <div id="yoco-card"></div>
+      <div class="error-msg" id="payError">Payment failed. Please try again.</div>
+      <div class="loading hidden" id="payLoading"><span class="spinner"></span>Processing payment...</div>
+      <button class="btn btn-green" id="payBtn">Pay R4,690 Now</button>
+      <p style="font-size:11px;color:#999;margin-top:12px;">Secure payment via Yoco. You'll be billed R6,999/month after setup.</p>
+    </div>
+  </div>
+
+  <!-- Step 3: Setup Instructions -->
+  <div class="section hidden" id="step3">
+    <div class="setup-section">
+      <div class="check">&#10003;</div>
+      <h2>Welcome to ORION PRO MED</h2>
+      <p style="color:#666;font-size:14px;">Payment confirmed. Your setup is in progress.</p>
+
+      <div class="steps">
+        <p style="font-weight:600;margin-bottom:8px;">What happens next:</p>
+        <ol class="steps">
+          <li><strong>Naledi will message you</strong> on WhatsApp within 1 hour to introduce herself</li>
+          <li><strong>We configure your practice</strong> — hours, services, booking rules, languages</li>
+          <li><strong>Meta WABA setup</strong> — we connect your WhatsApp number (or set up a new one)</li>
+          <li><strong>Go-live</strong> — Naledi starts handling your patients within 48 hours</li>
+        </ol>
+      </div>
+
+      <p style="font-size:12px;color:#999;margin-top:16px;">Questions? WhatsApp Graham directly: <a href="https://wa.me/27724971810" style="color:#d4af37;">072 497 1810</a></p>
+      <a href="https://wa.me/27703080516?text=I%20just%20signed%20up%20for%20ORION%20PRO%20MED" class="btn" style="margin-top:20px;text-decoration:none;display:inline-block;width:auto;padding:14px 32px;">Message Naledi</a>
+    </div>
+  </div>
 </div>
 
 <script>
+let yoco = null;
+let cardElement = null;
+let submissionId = null;
+
+async function initYoco() {
+  try {
+    const res = await fetch('/api/yoco-pk');
+    const data = await res.json();
+    yoco = new YocoSDK({ publicKey: data.pk });
+    cardElement = yoco.mount('#yoco-card');
+  } catch (e) {
+    document.getElementById('payError').textContent = 'Could not load payment form. Please WhatsApp Graham.';
+    document.getElementById('payError').classList.add('show');
+  }
+}
+
+function updateSteps(active) {
+  for (let i = 1; i <= 3; i++) {
+    const dot = document.getElementById('dot' + i);
+    dot.classList.remove('active', 'done');
+    if (i < active) dot.classList.add('done');
+    else if (i === active) dot.classList.add('active');
+  }
+  const labels = ['Step 1: Your Practice Details', 'Step 2: Payment', 'Step 3: You\'re Live!'];
+  document.getElementById('stepLabel').textContent = labels[active - 1];
+}
+
+function showStep(step) {
+  document.getElementById('step1').classList.toggle('hidden', step !== 1);
+  document.getElementById('step2').classList.toggle('hidden', step !== 2);
+  document.getElementById('step3').classList.toggle('hidden', step !== 3);
+  updateSteps(step);
+}
+
+// Step 1: Form submit
 document.getElementById('onboardForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = e.target;
   const data = new FormData(form);
   const btn = document.getElementById('submitBtn');
-  const err = document.getElementById('errorMsg');
-  const loading = document.getElementById('loadingMsg');
+  const err = document.getElementById('formError');
 
   btn.disabled = true;
   err.classList.remove('show');
-  loading.classList.remove('hidden');
+  btn.textContent = 'Submitting...';
 
   try {
     const res = await fetch('https://nwa.oriondevcore.com/api/onboard', {
@@ -209,13 +287,64 @@ document.getElementById('onboardForm').addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json' }
     });
     if (!res.ok) throw new Error('Server error');
-    form.classList.add('hidden');
-    document.getElementById('successMsg').classList.remove('hidden');
+    const result = await res.json();
+    submissionId = result.id || Date.now().toString();
+    showStep(2);
+    initYoco();
   } catch (e) {
     err.textContent = 'Something went wrong. Please try again or WhatsApp Graham.';
     err.classList.add('show');
-  } finally {
     btn.disabled = false;
+    btn.textContent = 'Submit Practice Details';
+  }
+});
+
+// Step 2: Pay
+document.getElementById('payBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('payBtn');
+  const err = document.getElementById('payError');
+  const loading = document.getElementById('payLoading');
+
+  btn.disabled = true;
+  err.classList.remove('show');
+  loading.classList.remove('hidden');
+
+  try {
+    const token = await cardElement.tokenize();
+    if (!token || !token.id) throw new Error('Tokenization failed');
+
+    const form = document.getElementById('onboardForm');
+    const fd = new FormData(form);
+    const data = Object.fromEntries(fd);
+
+    const res = await fetch('/api/yoco-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: token.id,
+        amountInCents: 469000,
+        currency: 'ZAR',
+        metadata: {
+          product: 'Naledi — ORION PRO MED Setup',
+          customerName: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
+          customerEmail: data.email || '',
+          customerPhone: data.phone || '',
+          submissionId: submissionId,
+          practiceName: data.practice_name || '',
+          type: 'naledi_onboarding'
+        }
+      })
+    });
+
+    const result = await res.json();
+    if (!result.success) throw new Error(result.error || 'Payment failed');
+
+    showStep(3);
+  } catch (e) {
+    err.textContent = e.message || 'Payment failed. Please try again or WhatsApp Graham.';
+    err.classList.add('show');
+    btn.disabled = false;
+  } finally {
     loading.classList.add('hidden');
   }
 });
