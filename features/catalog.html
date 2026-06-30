@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORION PRO — Feature Catalog & Add-ons</title>
+<style>
+:root {
+  --bg: #0c0c0d; --surface: #1a1a1e; --surface2: #242428;
+  --text: #e8e8ed; --text2: #a0a0ab; --gold: #c8a84e; --gold-dim: #a08030;
+  --green: #39FF14; --blue: #0a84ff; --red: #ef4444; --border: #333; --radius: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 80px;
+}
+header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 1.5rem 2rem; position: sticky; top: 0; z-index: 100;
+}
+h1 { font-size: 1.4rem; font-weight: 600; color: var(--gold); letter-spacing: -0.02em; }
+h1 span { color: var(--text2); font-weight: 400; }
+.subtitle { font-size: 0.85rem; color: var(--text2); margin-top: 0.3rem; }
+.tabs { display: flex; gap: 0; margin-top: 1rem; border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tab-btn {
+  background: none; border: none; color: var(--text2); padding: 0.6rem 1.2rem;
+  font-size: 0.85rem; font-weight: 500; cursor: pointer;
+  border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; font-family: inherit;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.controls { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+.search-box {
+  flex: 1; min-width: 200px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.65rem 1rem; color: var(--text); font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s; font-family: inherit;
+}
+.search-box:focus { border-color: var(--gold); }
+.search-box::placeholder { color: var(--text2); }
+.filter-select {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.65rem 1rem; color: var(--text); font-size: 0.9rem; outline: none;
+  cursor: pointer; min-width: 160px; font-family: inherit;
+}
+.filter-select:focus { border-color: var(--gold); }
+.stats { padding: 1rem 2rem 0; font-size: 0.85rem; color: var(--text2); }
+.stats span { color: var(--gold); font-weight: 600; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+main {
+  padding: 1rem 2rem 3rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1rem;
+}
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1rem; transition: all 0.15s; position: relative;
+}
+.card:hover { border-color: var(--gold-dim); transform: translateY(-1px); }
+.card.selected { border-color: var(--gold); background: linear-gradient(135deg, rgba(200,168,78,0.05), var(--surface)); }
+.card .card-top { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.4rem; }
+.card .select-check { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--gold); cursor: pointer; }
+.card h3 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; line-height: 1.3; }
+.card .tag {
+  display: inline-block; font-size: 0.65rem; font-weight: 500; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--gold); background: rgba(200,168,78,0.1);
+  padding: 0.12rem 0.45rem; border-radius: 4px; margin-bottom: 0.3rem;
+}
+.card .desc { font-size: 0.8rem; color: var(--text2); line-height: 1.5; margin-bottom: 0.5rem; }
+.card .model-badge {
+  font-size: 0.65rem; color: var(--blue); font-family: 'SF Mono', monospace;
+  margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tier-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px;
+  background: var(--surface2); border-radius: 6px; padding: 3px;
+}
+.tier-btn {
+  background: transparent; border: none; border-radius: 4px; padding: 0.4rem 0.3rem;
+  cursor: pointer; font-family: inherit; transition: all 0.15s; text-align: center;
+}
+.tier-btn:hover { background: rgba(200,168,78,0.1); }
+.tier-btn.active { background: rgba(200,168,78,0.2); }
+.tier-btn .tier-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text2); }
+.tier-btn.active .tier-label { color: var(--gold); }
+.tier-btn .tier-price { font-size: 0.75rem; font-weight: 600; color: var(--text); }
+.tier-btn.active .tier-price { color: var(--green); }
+.tier-btn .tier-cost { font-size: 0.55rem; color: var(--text2); }
+.summary-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 0.75rem 2rem; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+}
+.summary-bar .count { font-size: 0.85rem; color: var(--text2); }
+.summary-bar .count span { color: var(--gold); font-weight: 600; }
+.summary-bar .total { font-size: 1.1rem; font-weight: 700; color: var(--green); }
+.summary-bar .cost-breakdown { font-size: 0.75rem; color: var(--text2); max-width: 40%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.summary-btn { background: var(--gold); color: #000; border: none; padding: 0.5rem 1.2rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: opacity 0.2s; }
+.summary-btn:hover { opacity: 0.85; }
+.summary-btn.secondary { background: var(--surface2); color: var(--text2); }
+.tier-btn .owner-cost { color: var(--green); font-weight: 700; }
+.compare-section { padding: 1rem 2rem 3rem; }
+.compare-table-wrap { overflow-x: auto; margin-bottom: 2rem; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 640px; }
+.compare-table th { background: var(--surface2); color: var(--text2); padding: 0.75rem 1rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.compare-table th:first-child { position: sticky; left: 0; background: var(--bg); z-index: 1; min-width: 180px; }
+.compare-table th.highlight { color: var(--gold); background: rgba(200,168,78,0.1); }
+.compare-table td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); color: var(--text2); }
+.compare-table td:first-child { color: var(--text); font-weight: 500; position: sticky; left: 0; background: var(--bg); z-index: 1; }
+.compare-table td.highlight { color: var(--text); background: rgba(200,168,78,0.05); }
+.check { color: var(--green); font-weight: 700; }
+.cross { color: var(--red); }
+.best { color: var(--gold); font-weight: 600; }
+.compare-table .section-header td { color: var(--gold); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; padding-top: 1.2rem; background: var(--surface); border-bottom: 1px solid var(--border); }
+.api-section { padding: 1rem 2rem 3rem; max-width: 1000px; }
+.api-section h2 { color: var(--gold); font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+.api-section h3 { color: var(--text); font-size: 0.95rem; margin: 1rem 0 0.3rem; }
+.api-section p, .api-section li { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+.api-section ul { list-style: none; padding: 0; }
+.api-section li { padding: 0.2rem 0 0.2rem 1rem; position: relative; }
+.api-section li::before { content: ">"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+.api-section code { background: var(--surface2); padding: 0.12rem 0.4rem; border-radius: 3px; font-size: 0.8rem; color: var(--green); font-family: 'SF Mono', monospace; }
+.api-endpoint { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem 1rem; margin: 0.5rem 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+.api-endpoint .method { font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 3px; text-transform: uppercase; }
+.api-endpoint .method.get { color: var(--green); background: rgba(57,255,20,0.1); }
+.api-endpoint .method.post { color: var(--blue); background: rgba(10,132,255,0.1); }
+.api-endpoint .method.delete { color: var(--red); background: rgba(239,68,68,0.1); }
+.api-endpoint .method.patch { color: var(--gold); background: rgba(200,168,78,0.1); }
+.api-endpoint .path { font-family: 'SF Mono', monospace; font-size: 0.8rem; color: var(--text); flex: 1; }
+.api-endpoint .desc { font-size: 0.8rem; color: var(--text2); width: 100%; margin-top: 0.3rem; }
+.api-client-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; margin: 0.5rem 0; }
+.api-client { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.6rem 0.8rem; }
+.api-client .lang { font-size: 0.75rem; font-weight: 600; color: var(--text); }
+.api-client .url { font-size: 0.65rem; color: var(--text2); word-break: break-all; }
+.no-results { grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: var(--text2); }
+.no-results h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+footer { text-align: center; padding: 1.5rem; font-size: 0.8rem; color: var(--text2); }
+footer a { color: var(--gold); text-decoration: none; }
+@media (max-width: 640px) {
+  header { padding: 1rem; } main { padding: 1rem; grid-template-columns: 1fr; }
+  .controls { flex-direction: column; } .filter-select { min-width: 100%; }
+  .compare-section { padding: 1rem; } .summary-bar { padding: 0.5rem 1rem; } .api-section { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ORION PRO <span>· Feature Catalog &amp; Add-ons</span></h1>
+  <div class="subtitle">Select features, choose usage tiers (Light / Average / High), see your monthly costs
+    <label style="margin-left:1rem;font-size:0.8rem;cursor:pointer;user-select:none">
+      <input type="checkbox" id="ownerViewToggle" onchange="toggleOwnerView()" style="accent-color:var(--gold)"> <span style="color:var(--text2)">Owner View</span>
+    </label>
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="compare">Compare</button>
+    <button class="tab-btn" data-tab="ai">AI Add-ons</button>
+    <button class="tab-btn" data-tab="replicate">Replicate</button>
+    <button class="tab-btn" data-tab="firecrawl">Firecrawl</button>
+    <button class="tab-btn" data-tab="services">Third-Party APIs</button>
+    <button class="tab-btn" data-tab="api">API Reference</button>
+  </div>
+</header>
+
+<!-- TAB 1: Compare -->
+<div class="tab-content active" id="tab-compare">
+  <div class="compare-section">
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <tr><th>Feature</th><th class="highlight">ORION PRO</th><th>BizAI</th><th>WATI</th><th>Receptionist</th></tr>
+        <tr class="section-header"><td colspan="5">Core AI Receptionist</td></tr>
+        <tr><td>LLM-powered conversation</td><td class="highlight"><span class="check">YES</span> Qwen/Kimi/Nemotron</td><td><span class="cross">Partial</span></td><td><span class="cross">Rule-based</span></td><td><span class="cross">Partial</span></td></tr>
+        <tr><td>24/7 WhatsApp answering</td><td class="highlight"><span class="check">YES</span></td><td><span class="cross">No</span></td><td><span class="check">YES</span></td><td><span class="cross">Office hours</span></td></tr>
+        <tr><td>Voice note transcription</td><td class="highlight"><span class="check">YES</span> Whisper / Nova 3</td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr><td>Document / image reading</td><td class="highlight"><span class="check">YES</span> Llama 4 vision</td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">Basic OCR</span></td></tr>
+        <tr><td>50+ languages (Zulu, Xhosa, EN)</td><td class="highlight"><span class="check">YES</span></td><td><span class="cross">EN only</span></td><td><span class="cross">Varies</span></td><td><span class="cross">Varies</span></td></tr>
+        <tr><td>Smart lead capture</td><td class="highlight"><span class="check">YES</span> auto-classify</td><td><span class="cross">No</span></td><td><span class="check">YES</span></td><td><span class="cross">Manual</span></td></tr>
+        <tr><td>Spam filtering</td><td class="highlight"><span class="check">YES</span> Llama Guard 3</td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr><td>Conversation memory</td><td class="highlight"><span class="check">YES</span> D1 store</td><td><span class="cross">No</span></td><td><span class="check">YES</span></td><td><span class="cross">No</span></td></tr>
+        <tr class="section-header"><td colspan="5">Vision &amp; Media</td></tr>
+        <tr><td>AI image generation</td><td class="highlight"><span class="check">YES</span> FLUX.2</td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr><td>Product photo analysis</td><td class="highlight"><span class="check">YES</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr class="section-header"><td colspan="5">Voice &amp; Audio</td></tr>
+        <tr><td>Text-to-speech replies</td><td class="highlight"><span class="check">YES</span> Aura 2, MeloTTS</td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr><td>Turn detection (voice agent)</td><td class="highlight"><span class="check">YES</span> Smart Turn V2</td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr class="section-header"><td colspan="5">Intelligence</td></tr>
+        <tr><td>Function calling (bookings)</td><td class="highlight"><span class="check">YES</span></td><td><span class="cross">Partial</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr><td>Semantic search / RAG</td><td class="highlight"><span class="check">YES</span> BGE-M3</td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr><td>Sentiment / churn analysis</td><td class="highlight"><span class="check">YES</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr><td>Content safety screening</td><td class="highlight"><span class="check">YES</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
+        <tr class="section-header"><td colspan="5">Pricing</td></tr>
+        <tr><td>Monthly subscription</td><td class="highlight"><span class="best">R2,690</span> flat</td><td>R299 limited</td><td>R3k+ real</td><td>R8k-R15k</td></tr>
+        <tr><td>Setup fee</td><td class="highlight"><span class="best">48 hours</span> R4,690</td><td>30 min</td><td>1-2 weeks</td><td>2 weeks</td></tr>
+      </table>
+    </div>
+    <div style="max-width:800px">
+      <h3 style="color:var(--gold);margin-bottom:0.5rem;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.08em">ORION PRO MED — Medical Practices</h3>
+      <table class="compare-table">
+        <tr><th>Feature</th><th>Description</th><th>Price</th></tr>
+        <tr><td>Patient appointment booking 24/7</td><td>Internal booking + reminders</td><td>Included</td></tr>
+        <tr><td>Prescription refill requests</td><td>Structured intake via chat</td><td>Included</td></tr>
+        <tr><td>Multi-language (Zulu/Xhosa/Afrikaans)</td><td>Patients in their language</td><td>Included</td></tr>
+        <tr><td>Voice note triage</td><td>Pre-consultation data capture</td><td>Included</td></tr>
+        <tr><td>RAG for medical guidelines</td><td>Answer from verified sources</td><td>Included</td></tr>
+        <tr><td>Content safety screening</td><td>Llama Guard 3 triage</td><td>Included</td></tr>
+        <tr><td>Monthly price</td><td colspan="2"><strong style="color:var(--gold)">R6,999/mo</strong> special / <strong style="color:var(--gold)">R8,999/mo</strong> normal</td></tr>
+      </table>
+      <p style="font-size:0.8rem;color:var(--text2);margin-top:0.5rem">Select add-ons below and build your monthly cost estimate.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2-5: rendered by JS -->
+<div class="tab-content" id="tab-ai"></div>
+<div class="tab-content" id="tab-replicate"></div>
+<div class="tab-content" id="tab-firecrawl"></div>
+<div class="tab-content" id="tab-services"></div>
+
+<!-- TAB 6: API Reference -->
+<div class="tab-content" id="tab-api">
+  <div class="api-section">
+    <h2 style="margin-top:0">Replicate HTTP API</h2>
+    <p><code>Base: https://api.replicate.com/v1</code>. REST API to run + deploy ML models. Pay per hardware-second.</p>
+    <h3>Authentication</h3>
+    <p><code>Authorization: Bearer r8_***</code>. Get tokens: <code>replicate.com/account/api-tokens</code>.</p>
+    <h3>Client Libraries</h3>
+    <div class="api-client-grid">
+      <div class="api-client"><div class="lang">JavaScript (Node.js)</div><div class="url">github.com/replicate/replicate-javascript</div></div>
+      <div class="api-client"><div class="lang">Python</div><div class="url">github.com/replicate/replicate-python</div></div>
+      <div class="api-client"><div class="lang">Swift</div><div class="url">github.com/replicate/replicate-swift</div></div>
+      <div class="api-client"><div class="lang">Go</div><div class="url">github.com/replicate/replicate-go</div></div>
+      <div class="api-client"><div class="lang">Elixir</div><div class="url">github.com/cbh123/replicate-elixir</div></div>
+      <div class="api-client"><div class="lang">Ruby</div><div class="url">github.com/dreamingtulpa/replicate-ruby</div></div>
+      <div class="api-client"><div class="lang">Rails</div><div class="url">github.com/dreamingtulpa/replicate-rails</div></div>
+      <div class="api-client"><div class="lang">Laravel</div><div class="url">github.com/halilcosdu/laravel-replicate</div></div>
+      <div class="api-client"><div class="lang">MCP Server</div><div class="url">mcp.replicate.com</div></div>
+    </div>
+    <h3>Key Endpoints</h3>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/predictions</span><span class="desc">Create prediction. Sync with <code>Prefer: wait</code> (up to 60s). Webhooks + SSE streaming supported.</span></div>
+    <div class="api-endpoint"><span class="method get">GET</span><span class="path">/predictions/{id}</span><span class="desc">Get status + output. Poll until <code>succeeded/failed/canceled</code>.</span></div>
+    <div class="api-endpoint"><span class="method get">GET</span><span class="path">/predictions</span><span class="desc">List predictions (paginated, 100/page). Filter by created_after/before.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/predictions/{id}/cancel</span><span class="desc">Cancel a running prediction.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/models/{owner}/{name}/predictions</span><span class="desc">Run official model by name (no version ID needed).</span></div>
+    <div class="api-endpoint"><span class="method get">GET</span><span class="path">/models/{owner}/{name}</span><span class="desc">Get model details + OpenAPI schema + run count.</span></div>
+    <div class="api-endpoint"><span class="method get">GET</span><span class="path">/models</span><span class="desc">List public models. Sort by created_at.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/models/{owner}/{name}/versions/{id}/trainings</span><span class="desc">Fine-tune a model. Saved to destination.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/deployments</span><span class="desc">Create scaling deployment (min/max instances, hardware SKU).</span></div>
+    <div class="api-endpoint"><span class="method get">GET</span><span class="path">/collections/{slug}</span><span class="desc">Get curated model collection.</span></div>
+    <div class="api-endpoint"><span class="method get">GET</span><span class="path">/hardware</span><span class="desc">List hardware SKUs: CPU, T4, A40, L40S, H100.</span></div>
+    <div class="api-endpoint"><span class="method get">GET</span><span class="path">/account</span><span class="desc">Get authenticated account info.</span></div>
+    <h3>Rate Limits</h3>
+    <p>Create prediction: <code>600 req/min</code>. All other: <code>3,000 req/min</code>. 429 on throttle.</p>
+    <h3>Webhooks</h3>
+    <p><code>webhook</code> URL + <code>webhook_events_filter</code> (start, output, logs, completed). Output/logs throttled to 1 per 500ms.</p>
+    <h3>Sync Mode</h3>
+    <p><code>Prefer: wait=60</code> — keep open up to 60s. <code>Cancel-After: 30s</code> — auto-cancel long predictions.</p>
+
+    <hr style="border-color:var(--border);margin:2rem 0">
+    <h2>Firecrawl API</h2>
+    <p><code>Base: https://api.firecrawl.com/v2</code>. Web data extraction — search, scrape, crawl, monitor. Free: 1,000 credits/mo.</p>
+    <h3>Authentication</h3>
+    <p><code>Authorization: Bearer fc-***</code>. No credit card needed for free tier.</p>
+    <h3>Client Libraries</h3>
+    <div class="api-client-grid">
+      <div class="api-client"><div class="lang">Python</div><div class="url">pypi.org/project/firecrawl-py</div></div>
+      <div class="api-client"><div class="lang">Node.js</div><div class="url">npmjs.com/package/@firecrawl/sdk</div></div>
+      <div class="api-client"><div class="lang">Go</div><div class="url">github.com/nickliucode/firecrawl-go</div></div>
+      <div class="api-client"><div class="lang">Rust</div><div class="url">crates.io/crates/firecrawl</div></div>
+      <div class="api-client"><div class="lang">Java</div><div class="url">search.maven.org/artifact/io.firecrawl</div></div>
+      <div class="api-client"><div class="lang">Elixir</div><div class="url">hex.pm/packages/firecrawl</div></div>
+      <div class="api-client"><div class="lang">CLI</div><div class="url">npmjs.com/package/@firecrawl/cli</div></div>
+    </div>
+    <h3>Key Endpoints</h3>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/v2/scrape</span><span class="desc">Scrape page (markdown/HTML/JSON/screenshot). 1 credit. JSON mode with schema.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/v2/search</span><span class="desc">Web search + full page extraction. 2 credits/10 results. Domain/source/location filters.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/v2/crawl</span><span class="desc">Crawl site. 1 credit/page. Depth, path includes/excludes.</span></div>
+    <div class="api-endpoint"><span class="method get">GET</span><span class="path">/v2/crawl/{id}</span><span class="desc">Poll crawl status + results.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/v2/map</span><span class="desc">Discover URLs on a site. 1 credit/page. Optional search filter.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/v2/interact</span><span class="desc">Browser automation. 2 credits/min. AI prompt or code (bash/python/node).</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/v2/parse</span><span class="desc">Parse PDF/DOCX/XLSX to markdown.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/v2/monitor</span><span class="desc">Schedule recurring scrape + change detection. 1 credit/check.</span></div>
+    <div class="api-endpoint"><span class="method post">POST</span><span class="path">/v2/agent</span><span class="desc">Autonomous web research agent. Preview: 5 runs/day free.</span></div>
+    <h3>Rate Limits</h3>
+    <p>Free: 2 concurrent. Hobby: 5. Standard: 50. Growth: 100. Enterprise: custom.</p>
+    <h3>Credit Plans</h3>
+    <p>Free: 1,000/mo ($0) · Hobby: 5,000/mo (~$19) · Standard: 100,000/mo (~$99) · Growth: 500,000/mo (~$299).</p>
+    <h3>Features</h3>
+    <p>JS rendering, proxy modes (basic/stealth/enhanced/auto), location spoofing, sitemap support, JSON field diff tracking, webhook notifications. Open source: 142K GitHub stars.</p>
+  </div>
+</div>
+
+<!-- Summary Bar -->
+<div class="summary-bar" id="summaryBar">
+  <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
+    <span class="count">Selected: <span id="selectedCount">0</span> features</span>
+    <span class="total" id="totalRetail">R0/mo</span>
+    <span class="cost-breakdown" id="totalCost"></span>
+  </div>
+  <div style="display:flex;align-items:center;gap:0.5rem">
+    <button class="summary-btn secondary" onclick="clearAll()">Clear All</button>
+  </div>
+</div>
+
+<footer>
+  ORION PRO — <a href="https://oriondevcore.com" target="_blank">oriondevcore.com</a> ·
+  Graham Schubach · Durban, South Africa
+</footer>
+
+<script>
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ============================================================
+// SELECTION STATE
+// ============================================================
+const selections = {};
+
+function parsePrice(s) {
+  const m = s.replace(/[^0-9.]/g, '');
+  return m ? parseFloat(m) : 0;
+}
+
+// ============================================================
+// RENDER A FEATURE TAB
+// ============================================================
+function renderTab(tabId, data) {
+  const container = document.getElementById(tabId);
+  const cats = [...new Set(data.map(d => d.cat))].sort();
+
+  container.innerHTML = `
+    <div class="controls">
+      <input type="text" class="search-box" id="search-${tabId}" placeholder="Search features..." autocomplete="off">
+      <select class="filter-select" id="filter-${tabId}">
+        <option value="all">All Categories</option>
+        ${cats.map(c => `<option value="${c}">${c}</option>`).join('')}
+      </select>
+    </div>
+    <div class="stats" id="stats-${tabId}"></div>
+    <main id="grid-${tabId}"></main>
+  `;
+
+  const searchInput = document.getElementById('search-' + tabId);
+  const filterSelect = document.getElementById('filter-' + tabId);
+  const grid = document.getElementById('grid-' + tabId);
+  const stats = document.getElementById('stats-' + tabId);
+
+  const CAT_COLORS = {
+    'Conversation':'#0a84ff','Vision':'#30d158','Voice':'#ff9f0a','Search':'#bf5af2',
+    'Intelligence':'#ff6482','Image Generation':'#64d2ff','Video Generation':'#ff375f',
+    'LLM':'#5e5ce6','Audio':'#ff9f0a','Scrape':'#30d158','Crawl':'#0a84ff',
+    'Search API':'#bf5af2','Monitor':'#ff9f0a','Agent':'#ff6482','Interact':'#64d2ff',
+    'Map':'#5e5ce6',
+  };
+
+  function doRender() {
+    const query = searchInput.value.toLowerCase().trim();
+    const cat = filterSelect.value;
+
+    let filtered = data.filter(d => {
+      if (cat !== 'all' && d.cat !== cat) return false;
+      if (query && ![d.name, d.desc, d.model||''].join(' ').toLowerCase().includes(query)) return false;
+      return true;
+    });
+
+    stats.innerHTML = `Showing <span>${filtered.length}</span> of <span>${data.length}</span> features`;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div class="no-results"><h2>Nothing found</h2><p>Try a different search or category</p></div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(d => {
+      const sel = selections[d.id];
+      const checked = sel ? 'checked' : '';
+      const activeTier = sel ? sel.tier : 'avg';
+      const catColor = CAT_COLORS[d.cat] || 'var(--gold)';
+      const tiers = ['light','avg','high'];
+      const labels = ['LIGHT','AVERAGE','HIGH'];
+
+      const ownerView = document.getElementById('ownerViewToggle')?.checked;
+      return `<div class="card ${checked?'selected':''}" id="card-${d.id}">
+        <div class="card-top">
+          <input type="checkbox" class="select-check" data-id="${d.id}" ${checked}>
+          <div class="tag" style="color:${catColor}">${d.cat}</div>
+        </div>
+        <h3>${d.name}</h3>
+        <div class="desc">${d.desc}</div>
+        ${d.model ? `<div class="model-badge">${d.model}</div>` : ''}
+        <div class="tier-row">
+          ${tiers.map((t,i) => {
+            const tData = d.tiers[t];
+            const displayPrice = ownerView && tData.cost ? `$${tData.cost}/mo` : tData.retail;
+            const displayClass = ownerView && tData.cost ? 'owner-cost' : '';
+            return `<button class="tier-btn ${checked&&activeTier===t?'active':''}" data-id="${d.id}" data-tier="${t}">
+              <div class="tier-label">${labels[i]}</div>
+              <div class="tier-price ${displayClass}">${displayPrice}</div>
+              <div class="tier-cost">${ownerView ? tData.retail : (tData.cost||'')}</div>
+            </button>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  searchInput.addEventListener('input', doRender);
+  filterSelect.addEventListener('change', doRender);
+  doRender();
+  updateSummary();
+}
+
+// ============================================================
+// EVENT DELEGATION
+// ============================================================
+document.addEventListener('change', e => {
+  if (e.target.classList.contains('select-check')) {
+    const id = e.target.dataset.id;
+    if (e.target.checked) selections[id] = { tier: 'avg' };
+    else delete selections[id];
+    refreshAll();
+  }
+});
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.tier-btn');
+  if (!btn) return;
+  const id = btn.dataset.id;
+  const tier = btn.dataset.tier;
+  if (!selections[id]) {
+    selections[id] = { tier };
+    const cb = document.querySelector(`.select-check[data-id="${id}"]`);
+    if (cb) cb.checked = true;
+  } else {
+    selections[id].tier = tier;
+  }
+  refreshAll();
+});
+
+function refreshAll() {
+  document.querySelectorAll('.tab-content[id^="tab-"]').forEach(tc => {
+    if (tc.id === 'tab-compare' || tc.id === 'tab-api') return;
+    const search = tc.querySelector('.search-box');
+    if (search) search.dispatchEvent(new Event('input'));
+  });
+  updateSummary();
+}
+
+// ============================================================
+// SUMMARY BAR
+// ============================================================
+const allData = [];
+
+function registerData(arr) { arr.forEach(d => allData.push(d)); }
+
+function updateSummary() {
+  const count = Object.keys(selections).length;
+  document.getElementById('selectedCount').textContent = count;
+
+  let totalRetail = 0;
+  let totalCost = 0;
+  let costParts = [];
+
+  Object.entries(selections).forEach(([id, sel]) => {
+    const item = allData.find(d => d.id === id);
+    if (!item) return;
+    totalRetail += parsePrice(item.tiers[sel.tier].retail);
+    const costStr = item.tiers[sel.tier].cost;
+    if (costStr) {
+      const c = parsePrice(costStr);
+      totalCost += c;
+      if (c > 0) costParts.push(`${item.name}: ~$${c.toFixed(1)}`);
+    }
+  });
+
+  document.getElementById('totalRetail').textContent = `R${totalRetail.toLocaleString('en-ZA', {minimumFractionDigits:0})}/mo`;
+  document.getElementById('totalCost').textContent = costParts.length ? `Our cost: ~$${totalCost.toFixed(1)}/mo` : '';
+}
+
+function clearAll() {
+  Object.keys(selections).forEach(k => delete selections[k]);
+  refreshAll();
+}
+
+function toggleOwnerView() {
+  refreshAll();
+}
+
+// ============================================================
+// DATA: AI ADD-ONS (CF Workers AI)
+// ============================================================
+const AI_ADDONS = [
+  {id:'a1',cat:'Conversation',name:'Advanced Reasoning (Complex Queries)',desc:'Frontier model for multi-step reasoning — pricing, legal, technical analysis',model:'Kimi K2.6 / Nemotron 3 / QwQ-32B',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R300/mo',cost:'$2'},high:{retail:'R800/mo',cost:'$8'}}},
+  {id:'a2',cat:'Conversation',name:'Function Calling (Bookings & Orders)',desc:'Naledi books appointments and takes orders via tool calls',model:'Nemotron 3 / Kimi K2.6',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'R300/mo',cost:'$3'}}},
+  {id:'a3',cat:'Conversation',name:'Multi-step Agent Workflows',desc:'Autonomous orchestration across multiple systems',model:'GLM-5.2 / Nemotron',tiers:{light:{retail:'R200/mo',cost:'$2'},avg:{retail:'R500/mo',cost:'$5'},high:{retail:'R1,500/mo',cost:'$15'}}},
+  {id:'a4',cat:'Conversation',name:'Structured JSON Output for CRM',desc:'Auto-log leads, orders, contacts into external CRM',model:'Kimi K2.7 Code',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'R200/mo',cost:'$2'}}},
+  {id:'a5',cat:'Conversation',name:'Content Safety Screening',desc:'Guardrails for medical, legal, financial conversations',model:'Llama Guard 3-8B',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'Included',cost:''}}},
+  {id:'a6',cat:'Vision',name:'Product Photo Analysis & Tagging',desc:'Auto-generate descriptions, categories, tags from photos',model:'Llama 4 Scout 17B vision',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$10'}}},
+  {id:'a7',cat:'Vision',name:'Image-Based Lead Qualification',desc:'Read business cards, menus, price lists from photos',model:'Llama 3.2-11B vision',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$1'},high:{retail:'R500/mo',cost:'$3'}}},
+  {id:'a8',cat:'Vision',name:'AI Image Generation (Marketing)',desc:'Social media posts, ad creatives, product mockups',model:'FLUX.2 Dev / Lucid Origin',tiers:{light:{retail:'R250/mo 50img',cost:'$2'},avg:{retail:'R600/mo 200img',cost:'$8'},high:{retail:'R2,500/mo 1kimg',cost:'$40'}}},
+  {id:'a9',cat:'Vision',name:'Visual Product Catalog from Photos',desc:'Classify + detect objects in inventory photos',model:'ResNet-50 / DETR-ResNet-50',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$8'}}},
+  {id:'a10',cat:'Voice',name:'Text-to-Speech Voice Replies',desc:'Naledi replies with spoken audio',model:'Deepgram Aura 2 / MeloTTS',tiers:{light:{retail:'R150/mo',cost:'$1'},avg:{retail:'R400/mo',cost:'$3'},high:{retail:'R1,200/mo',cost:'$10'}}},
+  {id:'a11',cat:'Voice',name:'Real-time Transcription',desc:'Live speech-to-text during voice calls',model:'Deepgram Nova 3 / Flux',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$10'}}},
+  {id:'a12',cat:'Voice',name:'Turn Detection (Voice Agent)',desc:'Natural conversation flow — pause detection',model:'Smart Turn V2',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$1'},high:{retail:'R500/mo',cost:'$3'}}},
+  {id:'a13',cat:'Voice',name:'Custom Brand Voice',desc:'Custom-trained TTS voice matching your brand',model:'Deepgram Aura 1',tiers:{light:{retail:'R500 setup',cost:'$20'},avg:{retail:'R500 setup',cost:'$20'},high:{retail:'R500 setup',cost:'$20'}}},
+  {id:'a14',cat:'Search',name:'Semantic Search over Documents',desc:'Search client manuals, policies by meaning',model:'BAAI BGE-M3 (100+ langs)',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$10'}}},
+  {id:'a15',cat:'Search',name:'RAG with Reranking',desc:'Answer from client documents with citations',model:'BGE-Reranker + Qwen3-30B',tiers:{light:{retail:'R300/mo',cost:'$2'},avg:{retail:'R800/mo',cost:'$5'},high:{retail:'R2,000/mo',cost:'$15'}}},
+  {id:'a16',cat:'Search',name:'Document Q&A (Policy/Manuals)',desc:'Clients ask about their PDFs and manuals',model:'EmbeddingGemma + Qwen3',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$8'}}},
+  {id:'a17',cat:'Search',name:'Multi-language Translation',desc:'Real-time translation across 100+ languages',model:'IndicTrans2 / M2M100',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$2'},high:{retail:'R500/mo',cost:'$5'}}},
+  {id:'a18',cat:'Intelligence',name:'Sentiment Analysis',desc:'Score customer satisfaction, detect frustration',model:'DistilBERT SST-2',tiers:{light:{retail:'R150/mo',cost:'$1'},avg:{retail:'R300/mo',cost:'$2'},high:{retail:'R800/mo',cost:'$5'}}},
+  {id:'a19',cat:'Intelligence',name:'Lead Scoring with Embeddings',desc:'Rank leads by relevance to ideal customer profile',model:'BGE-Large-EN-v1.5',tiers:{light:{retail:'R150/mo',cost:'$1'},avg:{retail:'R300/mo',cost:'$2'},high:{retail:'R800/mo',cost:'$5'}}},
+  {id:'a20',cat:'Intelligence',name:'Product Recommendation Engine',desc:'Suggest products based on chat history',model:'BGE + reranker',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$8'}}},
+  {id:'a21',cat:'Intelligence',name:'Churn Prediction',desc:'Predict which customers are about to leave',model:'Classification pipeline',tiers:{light:{retail:'R300/mo',cost:'$2'},avg:{retail:'R800/mo',cost:'$5'},high:{retail:'R2,000/mo',cost:'$12'}}},
+];
+registerData(AI_ADDONS);
+
+// ============================================================
+// DATA: REPLICATE ADD-ONS
+// ============================================================
+const REPLICATE = [
+  {id:'r1',cat:'Image Generation',name:'FLUX.2 Pro',desc:'Highest-quality image gen — marketing assets, ad creatives',model:'Black Forest Labs (L40S)',tiers:{light:{retail:'R300/mo 50img',cost:'$3'},avg:{retail:'R800/mo 200img',cost:'$8'},high:{retail:'R3,000/mo 1kimg',cost:'$35'}}},
+  {id:'r2',cat:'Image Generation',name:'FLUX Dev',desc:'Developer-grade at $0.025/img — bulk content',model:'Black Forest Labs (T4)',tiers:{light:{retail:'R200/mo 100img',cost:'$2.50'},avg:{retail:'R500/mo 500img',cost:'$12'},high:{retail:'R2,000/mo 2kimg',cost:'$50'}}},
+  {id:'r3',cat:'Image Generation',name:'FLUX Schnell',desc:'Cheapest — $3/1000 images. Thumbnails',model:'Black Forest Labs (T4)',tiers:{light:{retail:'R150/mo 500img',cost:'$1.50'},avg:{retail:'R400/mo 2kimg',cost:'$6'},high:{retail:'R1,500/mo 10kimg',cost:'$30'}}},
+  {id:'r4',cat:'Image Generation',name:'Recraft v3',desc:'Design-focused gen with style control',model:'Recraft',tiers:{light:{retail:'R250/mo 50img',cost:'$2'},avg:{retail:'R600/mo 200img',cost:'$8'},high:{retail:'R2,500/mo 1kimg',cost:'$40'}}},
+  {id:'r5',cat:'Image Generation',name:'Seedream 5 Lite',desc:'Product photo inpainting — backgrounds, retouch',model:'ByteDance',tiers:{light:{retail:'R200/mo 100img',cost:'$1'},avg:{retail:'R500/mo 500img',cost:'$5'},high:{retail:'R2,000/mo 2kimg',cost:'$20'}}},
+  {id:'r6',cat:'Image Generation',name:'FLUX.2 Flex',desc:'Fast flexible gen for bulk content',model:'Black Forest Labs (T4)',tiers:{light:{retail:'R200/mo',cost:'$2'},avg:{retail:'R500/mo',cost:'$6'},high:{retail:'R2,000/mo',cost:'$25'}}},
+  {id:'r7',cat:'Image Generation',name:'Ideogram v3 Quality',desc:'Text-in-image specialist — logos, signs, posters',model:'Ideogram',tiers:{light:{retail:'R400/mo 50img',cost:'$4.50'},avg:{retail:'R1,000/mo 200img',cost:'$18'},high:{retail:'R4,000/mo 1kimg',cost:'$90'}}},
+  {id:'r8',cat:'Video Generation',name:'Seedance 2.0',desc:'Text-to-video for social media clips',model:'ByteDance',tiers:{light:{retail:'R500/mo 5vids',cost:'$5'},avg:{retail:'R2,000/mo 20vids',cost:'$20'},high:{retail:'R6,000/mo 100vids',cost:'$80'}}},
+  {id:'r9',cat:'Video Generation',name:'HappyHorse 1.1',desc:'Video for marketing campaigns',model:'Alibaba',tiers:{light:{retail:'R500/mo 5vids',cost:'$5'},avg:{retail:'R2,000/mo 20vids',cost:'$20'},high:{retail:'R6,000/mo 100vids',cost:'$80'}}},
+  {id:'r10',cat:'Video Generation',name:'Wan 2.1 i2v 480p',desc:'Image-to-video at $0.09/sec',model:'WaveSpeedAI',tiers:{light:{retail:'R400/mo 10vids',cost:'$4'},avg:{retail:'R1,500/mo 50vids',cost:'$18'},high:{retail:'R5,000/mo 200vids',cost:'$72'}}},
+  {id:'r11',cat:'Video Generation',name:'Wan 2.1 i2v 720p',desc:'HD image-to-video for premium demos',model:'WaveSpeedAI',tiers:{light:{retail:'R800/mo 10vids',cost:'$12'},avg:{retail:'R3,000/mo 50vids',cost:'$50'},high:{retail:'R10,000/mo 200vids',cost:'$200'}}},
+  {id:'r12',cat:'Audio',name:'MiniMax Music 2.6 Song Gen',desc:'AI music for ads, jingles, hold music',model:'MiniMax',tiers:{light:{retail:'R300/mo 10songs',cost:'$5'},avg:{retail:'R800/mo 50songs',cost:'$25'},high:{retail:'R3,000/mo 200songs',cost:'$100'}}},
+  {id:'r13',cat:'Audio',name:'P-Video Avatar Clone',desc:'Video avatar from photo + voice',model:'PrunaAI',tiers:{light:{retail:'R500/mo 10vids',cost:'$1'},avg:{retail:'R1,500/mo 50vids',cost:'$5'},high:{retail:'R5,000/mo 200vids',cost:'$20'}}},
+  {id:'r14',cat:'LLM',name:'Claude Opus 4.7 Premium',desc:'Frontier LLM for complex reasoning upsell',model:'Anthropic (H100)',tiers:{light:{retail:'R500/mo',cost:'$5'},avg:{retail:'R1,200/mo',cost:'$12'},high:{retail:'R3,000/mo',cost:'$30'}}},
+  {id:'r15',cat:'LLM',name:'DeepSeek R1 Reasoning',desc:'Open-source reasoning for math, code, analysis',model:'DeepSeek',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R300/mo',cost:'$3'},high:{retail:'R800/mo',cost:'$8'}}},
+  {id:'r16',cat:'LLM',name:'Claude Sonnet 3.7',desc:'Strong all-rounder for production',model:'Anthropic',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'R500/mo',cost:'$5'}}},
+  {id:'r17',cat:'Audio',name:'Gemini 3.1 Flash TTS',desc:'Google TTS — natural voice, multilingual',model:'Google',tiers:{light:{retail:'R150/mo',cost:'$1'},avg:{retail:'R400/mo',cost:'$3'},high:{retail:'R1,000/mo',cost:'$8'}}},
+];
+registerData(REPLICATE);
+
+// ============================================================
+// DATA: FIRECRAWL ADD-ONS
+// ============================================================
+const FIRECRAWL = [
+  {id:'f1',cat:'Scrape',name:'Single Page Scrape',desc:'Turn any URL into clean markdown, HTML, or structured JSON',model:'/v2/scrape 1 credit/page',tiers:{light:{retail:'Included 500pg',cost:''},avg:{retail:'R300/mo 2kpg',cost:'$19'},high:{retail:'R800/mo 10kpg',cost:'$99'}}},
+  {id:'f2',cat:'Scrape',name:'JSON Schema Extraction',desc:'Pass schema, get structured data (products, pricing)',model:'JSON format 1 credit+',tiers:{light:{retail:'R200/mo 200pg',cost:''},avg:{retail:'R500/mo 1kpg',cost:'$19'},high:{retail:'R1,500/mo 5kpg',cost:'$99'}}},
+  {id:'f3',cat:'Scrape',name:'PDF / DOCX Parsing',desc:'Extract text from business documents',model:'PDF parser 1 credit/doc',tiers:{light:{retail:'R100/mo 100docs',cost:''},avg:{retail:'R300/mo 500docs',cost:'$19'},high:{retail:'R800/mo 2kdox',cost:'$99'}}},
+  {id:'f4',cat:'Search API',name:'Web Search with Full Content',desc:'Search + extract full-page markdown in one call',model:'/v2/search 2 credits',tiers:{light:{retail:'R200/mo 100srch',cost:''},avg:{retail:'R500/mo 500srch',cost:'$19'},high:{retail:'R1,500/mo 2ksrch',cost:'$99'}}},
+  {id:'f5',cat:'Search API',name:'Domain-Filtered Search',desc:'Search within specific competitor/directory sites',model:'includeDomains filter',tiers:{light:{retail:'R300/mo',cost:''},avg:{retail:'R800/mo',cost:'$19'},high:{retail:'R2,000/mo',cost:'$99'}}},
+  {id:'f6',cat:'Search API',name:'News & Image Monitoring',desc:'Track industry news and competitor imagery',model:'sources: web/news/images',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$19'},high:{retail:'R1,500/mo',cost:'$99'}}},
+  {id:'f7',cat:'Crawl',name:'Full Website Crawl',desc:'Follow all links — competitor intel or KB build',model:'/v2/crawl 1 credit/pg',tiers:{light:{retail:'R1,000/site',cost:'$19'},avg:{retail:'R2,500/site',cost:'$99'},high:{retail:'R6,000/site',cost:'$299'}}},
+  {id:'f8',cat:'Crawl',name:'Sitemap-Based Crawl',desc:'Only crawl pages listed in sitemap',model:'sitemap: include',tiers:{light:{retail:'R500/site',cost:'$19'},avg:{retail:'R1,500/site',cost:'$99'},high:{retail:'R3,000/site',cost:'$99'}}},
+  {id:'f9',cat:'Map',name:'Website URL Discovery',desc:'Discover every URL on a site, filterable',model:'/v2/map 1 credit/pg',tiers:{light:{retail:'R200/site',cost:''},avg:{retail:'R500/site',cost:'$19'},high:{retail:'R1,500/site',cost:'$99'}}},
+  {id:'f10',cat:'Interact',name:'Browser Interaction',desc:'Click, fill, login, scroll — gated content',model:'/v2/interact 2 cred/min',tiers:{light:{retail:'R300/mo 2hrs',cost:''},avg:{retail:'R800/mo 5hrs',cost:'$19'},high:{retail:'R2,000/mo 15hrs',cost:'$99'}}},
+  {id:'f11',cat:'Monitor',name:'Page Change Monitor',desc:'Detect price/content changes with AI judge',model:'/v2/monitor 1 credit',tiers:{light:{retail:'R500/mo 10pgs',cost:''},avg:{retail:'R1,200/mo 50pgs',cost:'$19'},high:{retail:'R3,000/mo 200pgs',cost:'$99'}}},
+  {id:'f12',cat:'Monitor',name:'JSON Field Change Tracking',desc:'Track price/stock/headline with per-field diffs',model:'JSON modes: json/git-diff',tiers:{light:{retail:'R800/mo 10pgs',cost:''},avg:{retail:'R2,000/mo 50pgs',cost:'$19'},high:{retail:'R5,000/mo 200pgs',cost:'$99'}}},
+  {id:'f13',cat:'Monitor',name:'Web Monitor (Search)',desc:'Monitor web for new competitors, press',model:'Search monitor',tiers:{light:{retail:'R800/mo',cost:''},avg:{retail:'R2,000/mo',cost:'$19'},high:{retail:'R5,000/mo',cost:'$99'}}},
+  {id:'f14',cat:'Agent',name:'Autonomous Web Research',desc:'Give objective, agent browses + extracts',model:'Firecrawl Agent',tiers:{light:{retail:'R300/mo',cost:''},avg:{retail:'R800/mo',cost:'$19'},high:{retail:'R2,000/mo',cost:'$99'}}},
+  {id:'f15',cat:'Agent',name:'Structured Lead Generation',desc:'Agent finds + validates prospects with contact info',model:'Agent + JSON schema',tiers:{light:{retail:'R800/mo 50',cost:''},avg:{retail:'R2,000/mo 200',cost:'$19'},high:{retail:'R5,000/mo 1k',cost:'$299'}}},
+  {id:'f16',cat:'Agent',name:'Competitor Intelligence Brief',desc:'Deep dive pricing, features, positioning, gaps',model:'Agent + scrape + crawl',tiers:{light:{retail:'R1,500/report',cost:''},avg:{retail:'R3,000/report',cost:'$99'},high:{retail:'R6,000/report',cost:'$299'}}},
+];
+registerData(FIRECRAWL);
+
+// ============================================================
+// DATA: THIRD-PARTY APIs
+// ============================================================
+const SERVICES = [
+  {id:'s1',cat:'AI / ML',name:'OpenAI API (GPT-4 / DALL-E)',desc:'ChatGPT class models for text + image generation',tiers:{light:{retail:'R300/mo',cost:'$5'},avg:{retail:'R800/mo',cost:'$20'},high:{retail:'R2,500/mo',cost:'$80'}}},
+  {id:'s2',cat:'AI / ML',name:'Anthropic Claude',desc:'Claude Opus/Sonnet for premium conversations',tiers:{light:{retail:'R200/mo',cost:'$5'},avg:{retail:'R600/mo',cost:'$15'},high:{retail:'R2,000/mo',cost:'$60'}}},
+  {id:'s3',cat:'AI / ML',name:'Google Gemini',desc:'Gemini 2.5 Flash/Pro — text, vision, audio',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R600/mo',cost:'$20'}}},
+  {id:'s4',cat:'AI / ML',name:'ElevenLabs TTS',desc:'Ultra-realistic voice cloning — 30+ languages',tiers:{light:{retail:'R200/mo',cost:'$5'},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
+  {id:'s5',cat:'AI / ML',name:'Deepgram STT',desc:'Nova-3 speech-to-text, real-time streaming',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R600/mo',cost:'$20'}}},
+  {id:'s6',cat:'AI / ML',name:'AssemblyAI',desc:'Speech-to-text + audio intelligence',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R600/mo',cost:'$20'}}},
+  {id:'s7',cat:'AI / ML',name:'Stability AI (SDXL)',desc:'SD image generation for marketing',tiers:{light:{retail:'R200/mo',cost:'$3'},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R2,000/mo',cost:'$40'}}},
+  {id:'s8',cat:'AI / ML',name:'Hugging Face Inference',desc:'100k+ open-source models hosted',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R1,500/mo',cost:'$40'}}},
+  {id:'s9',cat:'AI / ML',name:'Cohere RAG + Embeddings',desc:'Text generation, classification, semantic search',tiers:{light:{retail:'R200/mo',cost:'$5'},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
+  {id:'s10',cat:'Email',name:'Resend (Transactional Email)',desc:'Email delivery for receipts / notifications',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$10'},high:{retail:'R500/mo',cost:'$40'}}},
+  {id:'s11',cat:'Email',name:'Brevo / SendinBlue',desc:'Email + SMS marketing platform',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
+  {id:'s12',cat:'Security',name:'GitGuardian Secret Scan',desc:'Scan for leaked API keys and secrets',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$15'},high:{retail:'R500/mo',cost:'$50'}}},
+  {id:'s13',cat:'Security',name:'SecurityTrails DNS Intel',desc:'DNS + domain intelligence for lead verification',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
+  {id:'s14',cat:'Finance',name:'Alpha Vantage (Stocks)',desc:'Real-time and historical stock market data',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
+  {id:'s15',cat:'Finance',name:'Finnhub (Stocks + Crypto)',desc:'Real-time stocks, currencies, crypto',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
+  {id:'s16',cat:'Social',name:'Social Media Sentiment',desc:'Reddit + Twitter + Instagram brand mentions',tiers:{light:{retail:'R300/mo',cost:''},avg:{retail:'R800/mo',cost:'$20'},high:{retail:'R2,000/mo',cost:'$60'}}},
+  {id:'s17',cat:'Social',name:'TikTok + YouTube Analytics',desc:'Video platform trend monitoring',tiers:{light:{retail:'R300/mo',cost:''},avg:{retail:'R800/mo',cost:'$20'},high:{retail:'R2,000/mo',cost:'$60'}}},
+  {id:'s18',cat:'Health',name:'OpenFDA Drug/Device Data',desc:'FDA labels, adverse events, recalls',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$15'}}},
+  {id:'s19',cat:'Health',name:'Nutritionix Nutrition DB',desc:'Verified nutrition database API',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
+  {id:'s20',cat:'Cryptocurrency',name:'CoinGecko Market Data',desc:'Crypto prices, volume, market cap',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
+  {id:'s21',cat:'Documents & Productivity',name:'PDF Generation (Receipts/Reports)',desc:'HTML/CSS to PDF conversion',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R1,500/mo',cost:'$40'}}},
+  {id:'s22',cat:'Documents & Productivity',name:'Invoice Data Extraction',desc:'Parse invoices, extract line items',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R1,500/mo',cost:'$40'}}},
+  {id:'s23',cat:'Data Validation',name:'Email + Phone Validation',desc:'Validate email and phone globally',tiers:{light:{retail:'R100/mo',cost:''},avg:{retail:'R300/mo',cost:'$5'},high:{retail:'R800/mo',cost:'$15'}}},
+  {id:'s24',cat:'Science & Math',name:'arXiv Research Search',desc:'Academic paper search across 2M+ papers',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$20'}}},
+  {id:'s25',cat:'Books',name:'Open Library / Google Books',desc:'Book metadata, covers, availability',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$15'}}},
+  {id:'s26',cat:'Photography',name:'Unsplash + Pexels Stock',desc:'Free high-res stock photos',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$15'}}},
+  {id:'s27',cat:'Music',name:'Last.fm + Spotify Metadata',desc:'Music catalogs, listening trends',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R1,500/mo',cost:'$30'}}},
+  {id:'s28',cat:'Weather',name:'Open-Meteo Weather',desc:'Global weather forecast — no API key',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$15'}}},
+  {id:'s29',cat:'Government',name:'Open Government Data',desc:'SA, UK, US, EU datasets + portals',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$5'},high:{retail:'R1,500/mo',cost:'$20'}}},
+];
+registerData(SERVICES);
+
+// ============================================================
+// INIT RENDER
+// ============================================================
+renderTab('tab-ai', AI_ADDONS);
+renderTab('tab-replicate', REPLICATE);
+renderTab('tab-firecrawl', FIRECRAWL);
+renderTab('tab-services', SERVICES);
+</script>
+</body>
+</html>
