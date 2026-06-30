@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/naledi/*", "/api/*"],
+  "include": ["/naledi/*", "/api/*", "/admin/*"],
   "exclude": ["/style.css", "/app.js", "/*.png", "/*.jpg", "/*.ico", "/*.svg"]
 }
