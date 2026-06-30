@@ -1,7 +1,9 @@
 :root {
-  --primary: #0A84FF;
-  --secondary: #00C2FF;
-  --accent: #6A5CFF;
+  --primary: #c8a84e;
+  --primary-dim: #a88a2e;
+  --gold-light: #d4b85c;
+  --secondary: #d4b85c;
+  --accent: #b8922e;
 
   --background: #07111F;
   --surface: #101C2F;
@@ -12,9 +14,11 @@
 
   --text: #F8FAFC;
   --text-muted: #A7B4C9;
+  --text-secondary: #A7B4C9;
   --text-dim: #6a7a92;
 
   --success: #2ED573;
+  --green: #2ED573;
   --warning: #FFC048;
   --red: #ff3333;
   --orange: #ff8800;
@@ -73,7 +77,7 @@
   --shadow: 0 2px 8px rgba(0,0,0,0.4);
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
   --shadow-xl: 0 16px 64px rgba(0,0,0,0.6);
-  --shadow-glow: 0 0 20px rgba(10,132,255,0.15);
+  --shadow-glow: 0 0 20px rgba(200,168,78,0.15);
 
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
