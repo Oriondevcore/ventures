@@ -316,6 +316,21 @@
   color: #fff;
 }
 
+/* ═══ SHARED: HERO CTA + NOTE (used by industry pages + naledi-gallery) ═══ */
+.hero-cta {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-note {
+  font-size: var(--text-xs);
+  color: var(--text-dim);
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+}
+
 /* ═══ PAGE-SPECIFIC: NALEDI SECTION ═══ */
 .naledi-section {
   background: var(--surface);
