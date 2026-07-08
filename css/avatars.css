@@ -1,0 +1,181 @@
+/* ═══════════════════════════════════════════
+   ORION DESIGN SYSTEM — Avatars & Gallery
+   Every Orion character gets a face.
+   ═══════════════════════════════════════════ */
+
+/* ── Character Definitions ── */
+:root {
+  --avatar-naledi-src: url('/assets/Naledi-profile3.png');
+  --avatar-mintaka-src: url('/assets/Mintaka-sse.png');
+  --avatar-graham-src: url('/assets/Graham.png');
+  --avatar-nomfundo-src: url('/assets/Nomfundo-profile.png');
+  --avatar-daemon-src: url('/assets/Mintaka-sse.png');
+}
+
+/* ── Single Avatar ── */
+.avatar {
+  width: var(--avatar-size, 48px);
+  height: var(--avatar-size, 48px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: calc(var(--avatar-size, 48px) * 0.45);
+  color: #fff;
+  flex-shrink: 0;
+  position: relative;
+  user-select: none;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.avatar-sm { --avatar-size: 32px; font-size: 0.75rem; }
+.avatar-md { --avatar-size: 48px; }
+.avatar-lg { --avatar-size: 80px; font-size: 1.8rem; }
+.avatar-xl { --avatar-size: 120px; font-size: 2.8rem; }
+.avatar-2xl { --avatar-size: 160px; font-size: 3.8rem; }
+
+/* Character image avatars — uses staff page photos */
+.avatar-naledi {
+  background-image: var(--avatar-naledi-src);
+  background-color: #0d1117;
+}
+.avatar-mintaka {
+  background-image: var(--avatar-mintaka-src);
+  background-color: #0d1117;
+}
+.avatar-graham {
+  background-image: var(--avatar-graham-src);
+  background-color: #0d1117;
+}
+.avatar-nomfundo {
+  background-image: var(--avatar-nomfundo-src);
+  background-color: #0d1117;
+}
+.avatar-daemon {
+  background-image: var(--avatar-daemon-src);
+  background-color: #0d1117;
+}
+
+/* Letter fallback when avatar images aren't available */
+.avatar-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #06b6d4, #ec4899);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ── Avatar with Status ── */
+.avatar .status-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--background-alt);
+}
+.avatar .status-dot.online { background: #22c55e; }
+.avatar .status-dot.away { background: #f59e0b; }
+.avatar .status-dot.offline { background: #6b7280; }
+
+/* ── Avatar Card (for gallery) ── */
+.avatar-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.avatar-card:hover {
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.avatar-card .avatar {
+  margin-bottom: 0.25rem;
+}
+.avatar-card .avatar-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.avatar-card .avatar-role {
+  font-size: 0.78rem;
+  color: var(--text-subtle);
+  line-height: 1.4;
+  max-width: 180px;
+}
+.avatar-card .avatar-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+.avatar-card .avatar-tag {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(224,219,223,0.4);
+}
+
+/* ── Gallery Grid ── */
+.avatar-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+/* ── Avatar Row ── */
+.avatar-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.avatar-row .avatar-mini {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.15s;
+  border: 1px solid rgba(255,255,255,0.1);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+.avatar-row .avatar-mini:hover {
+  transform: scale(1.15);
+}
+
+@media (max-width: 768px) {
+  .avatar-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .avatar-card {
+    padding: 1.25rem 1rem;
+  }
+}

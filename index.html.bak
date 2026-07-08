@@ -15,294 +15,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>O</text></svg>">
-<style>
-.hero {
-  position: relative;
-  overflow: hidden;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 120px 24px 80px;
-}
-.hero-bg-img {
-  position: absolute; inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 0;
-}
-.hero-bg-img::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0,7,17,0.88) 0%, rgba(0,7,17,0.82) 25%, rgba(0,7,17,0.75) 50%, rgba(0,7,17,0.82) 75%, rgba(0,7,17,0.88) 100%);
-}
-@media (max-width: 767px) {
-  .hero-bg-img { background-image: url('assets/hero-phone.webp'); }
-  .hero { padding: 100px 20px 60px; }
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-  .hero-bg-img { background-image: url('assets/hero-tablet.webp'); }
-}
-@media (min-width: 1024px) {
-  .hero-bg-img { background-image: url('assets/hero-pc.webp'); }
-  .hero-content { max-width: 800px; }
-}
-.hero-content { position: relative; z-index: 2; }
-.hero-title { font-size: clamp(40px, 7vw, 80px); margin-bottom: 20px; }
-.hero-sub { font-size: clamp(17px, 2.5vw, 24px); margin-bottom: 12px; }
-.hero-desc { font-size: 16px; max-width: 600px; line-height: 1.8; margin-bottom: 36px; }
-
-.hero-languages {
-  position: absolute; inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-}
-.hero-lang-word {
-  position: absolute;
-  font-size: clamp(12px, 1.8vw, 26px);
-  font-weight: 600;
-  color: #cf27270a;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-family: var(--font);
-}
-.hero-lang-word:nth-child(1) { top: 10%; left: 6%; font-size: clamp(16px, 2.2vw, 30px); color: rgba(0,229,255,0.06); }
-.hero-lang-word:nth-child(2) { top: 18%; right: 10%; font-size: clamp(12px, 1.5vw, 20px); }
-.hero-lang-word:nth-child(3) { top: 28%; left: 14%; font-size: clamp(18px, 2.5vw, 32px); color: rgba(0,229,255,0.04); }
-.hero-lang-word:nth-child(4) { top: 38%; right: 18%; font-size: clamp(10px, 1.3vw, 18px); }
-.hero-lang-word:nth-child(5) { top: 48%; left: 8%; font-size: clamp(14px, 2vw, 24px); }
-.hero-lang-word:nth-child(6) { top: 55%; right: 6%; font-size: clamp(20px, 3vw, 38px); color: rgba(0,229,255,0.03); }
-.hero-lang-word:nth-child(7) { top: 65%; left: 22%; font-size: clamp(9px, 1.1vw, 14px); }
-.hero-lang-word:nth-child(8) { top: 72%; right: 22%; font-size: clamp(16px, 2.2vw, 28px); }
-.hero-lang-word:nth-child(9) { top: 80%; left: 5%; font-size: clamp(12px, 1.5vw, 20px); color: rgba(0,229,255,0.04); }
-.hero-lang-word:nth-child(10) { top: 88%; right: 8%; font-size: clamp(14px, 1.8vw, 24px); }
-.hero-lang-word:nth-child(11) { bottom: 6%; left: 35%; font-size: clamp(18px, 2.5vw, 32px); }
-.hero-lang-word:nth-child(12) { top: 5%; left: 50%; font-size: clamp(10px, 1.2vw, 16px); }
-
-.story-section {
-  padding: 120px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-}
-.story-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 24px;
-  max-width: 1060px;
-  margin: 0 auto 60px;
-}
-.story-card {
-  text-align: center;
-  padding: 40px 24px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  transition: all 0.3s;
-}
-.story-card:hover {
-  border-color: var(--primary-dim);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 48px rgba(0,0,0,0.3);
-}
-.story-card .story-logo {
-  font-size: 36px;
-  font-weight: 900;
-  color: var(--text-muted);
-  margin-bottom: 16px;
-  letter-spacing: -0.03em;
-  opacity: 0.5;
-}
-.story-card .story-year {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-.story-card h3 {
-  font-size: 20px;
-  color: var(--text);
-  margin-bottom: 12px;
-}
-.story-card p {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.7;
-}
-.story-card .story-status {
-  display: inline-block;
-  margin-top: 16px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 4px 14px;
-  border-radius: 980px;
-}
-.story-status.dead { color: #ef4444; border: 1px solid rgba(239,68,68,0.3); background: rgba(239,68,68,0.08); }
-.story-card .story-status-img {
-  display: block;
-  margin: 12px auto 0;
-  max-width: 140px;
-  height: auto;
-  opacity: 0.85;
-}
-
-.story-pivot {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto;
-}
-.story-pivot h2 {
-  font-size: clamp(28px, 4vw, 44px);
-  margin-bottom: 20px;
-}
-.story-pivot p {
-  font-size: 17px;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  margin-bottom: 32px;
-}
-
-.pricing-single {
-  padding: 100px 0;
-  text-align: center;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-}
-.pricing-single .price-card {
-  display: inline-block;
-  max-width: 520px;
-  width: 100%;
-  padding: 48px 40px;
-  border: 1px solid var(--primary-dim);
-  border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, rgba(0,229,255,0.06) 0%, var(--surface) 60%);
-  box-shadow: 0 0 60px var(--shadow-glow);
-}
-.pricing-single .price-name {
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-.pricing-single .price-amount {
-  font-size: clamp(48px, 6vw, 72px);
-  font-weight: 900;
-  color: var(--text);
-  letter-spacing: -0.03em;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.pricing-single .price-amount span {
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-.pricing-single .price-period {
-  font-size: 16px;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-}
-.pricing-single .price-desc {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 32px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.pricing-single .price-setup {
-  font-size: 14px;
-  color: var(--text-muted);
-  padding: 16px 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  margin-bottom: 32px;
-  line-height: 1.6;
-}
-.pricing-single .price-setup strong { color: var(--text); }
-.pricing-single .price-features {
-  list-style: none;
-  text-align: left;
-  margin-bottom: 32px;
-}
-.pricing-single .price-features li {
-  font-size: 14px;
-  color: var(--text-secondary);
-  padding: 8px 0;
-  padding-left: 28px;
-  position: relative;
-  border-bottom: 1px solid var(--border);
-}
-.pricing-single .price-features li:last-child { border-bottom: none; }
-.pricing-single .price-features li::before {
-  content: '\2713';
-  position: absolute;
-  left: 0;
-  color: var(--primary);
-  font-weight: 700;
-}
-
-.verticals {
-  padding: 100px 0;
-}
-.vertical-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-}
-.vertical-card {
-  padding: 28px 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  text-align: center;
-  transition: all 0.25s;
-  background: var(--surface);
-}
-.vertical-card:hover {
-  border-color: var(--primary-dim);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-}
-.vertical-card .vert-letter {
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--primary);
-  margin-bottom: 8px;
-  letter-spacing: -0.03em;
-}
-.vertical-card h4 {
-  font-size: 15px;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-.vertical-card p {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-@media (max-width: 900px) {
-  .story-grid { grid-template-columns: 1fr; gap: 16px; }
-}
-@media (max-width: 600px) {
-  .pricing-single .price-card { padding: 32px 24px; }
-  .vertical-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-inner > div:first-child { grid-template-columns: 1fr !important; gap: 32px !important; }
-}
-.price-proof{font-size:13px;color:var(--primary);margin-bottom:20px;font-weight:600}
-</style>
 </head>
 <body>
 
@@ -316,6 +28,7 @@
       <a href="#pricing" class="nav-link">Pricing</a>
       <a href="#features" class="nav-link">Features</a>
       <a href="/naledi-gallery" class="nav-link">Naledi Gallery</a>
+      <a href="/staff" class="nav-link">Team</a>
 <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="nav-link nav-cta" aria-label="Talk to Orion PRO on WhatsApp">Talk to Orion PRO</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
@@ -329,6 +42,7 @@
   <a href="#pricing" class="nav-link">Pricing</a>
   <a href="#features" class="nav-link">Features</a>
   <a href="/naledi-gallery" class="nav-link">Naledi Gallery</a>
+  <a href="/staff" class="nav-link">Team</a>
   <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="nav-link nav-cta" aria-label="Talk to Orion PRO on WhatsApp">Talk to Orion PRO</a>
 </div>
 
@@ -358,7 +72,7 @@
       <a href="https://wa.me/27703080516?text=Howzit%20Orion%20PRO%20-%20I%20want%20to%20sign%20up" class="btn btn-secondary">Talk to Orion PRO</a>
     </div>
     <div class="hero-meta">
-      R2,690/mo &middot; Built in Durban &middot; 48-hour deployment
+      R2,690/mo &middot; Built in Durban &middot; SLA guaranteed
     </div>
   </div>
 </section>
@@ -371,19 +85,19 @@
     </div>
     <div class="story-grid">
       <div class="story-card">
-        <img src="assets/kodak-logo.webp" alt="Kodak" loading="lazy" style="max-width:140px;height:auto;margin-bottom:16px;opacity:0.6">
+        <img src="assets/kodak-logo.png" alt="Kodak" loading="lazy" style="max-width:140px;height:auto;margin-bottom:16px;opacity:0.6">
         <div class="story-year">Founded 1888</div>
         <h3>Invented Digital. Buried It.</h3>
         <p>Kodak invented the first digital camera in 1975. Their response? They hid it. They were afraid it would kill their film business. It did anyway. 170,000 employees became 0.</p>
       </div>
       <div class="story-card">
-        <img src="assets/blockbuster-logo.webp" alt="Blockbuster" loading="lazy" style="max-width:160px;height:auto;margin-bottom:16px;opacity:0.6">
+        <img src="assets/blockbuster-logo.png" alt="Blockbuster" loading="lazy" style="max-width:160px;height:auto;margin-bottom:16px;opacity:0.6">
         <div class="story-year">Founded 1985</div>
         <h3>Had Netflix. Said No.</h3>
         <p>In 2000, Netflix offered to sell to Blockbuster for $50 million. Blockbuster laughed. By 2010, Blockbuster was bankrupt. Netflix was worth billions. The refusal to see where the world was going cost them everything.</p>
       </div>
       <div class="story-card">
-        <img src="assets/blackberry-logo.webp" alt="Blackberry" loading="lazy" style="max-width:150px;height:auto;margin-bottom:16px;opacity:0.6">
+        <img src="assets/blackberry-logo.png" alt="Blackberry" loading="lazy" style="max-width:150px;height:auto;margin-bottom:16px;opacity:0.6">
         <div class="story-year">Founded 1984</div>
         <h3>Owned Business. Ignored Touch.</h3>
         <p>Blackberry dominated the business phone market. They had keyboards, security, BBM. When the iPhone launched, they called it a toy. Business owners switched anyway. Blackberry's market share went from 50% to 0%.</p>
@@ -518,7 +232,7 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
         <h3>Zero Setup Friction</h3>
-        <p>We handle everything. You just connect your WhatsApp number. From sign-up to live within 48 hours.</p>
+         <p>We handle everything. You just connect your WhatsApp number. We'll take it from there.</p>
       </div>
     </div>
   </div>
@@ -575,7 +289,7 @@
       </div>
       <div class="comp-row">
         <span class="comp-label">Setup time</span>
-        <span class="comp-yes">48 hours</span>
+        <span class="comp-yes">1-3 days</span>
         <span>30 min</span>
         <span>1-2 weeks</span>
         <span>2 weeks</span>
@@ -624,6 +338,30 @@
   </div>
 </section>
 
+<section style="padding:48px 24px;text-align:center;border-top:1px solid var(--border);background:var(--surface);">
+  <div class="section-inner">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;font-family:var(--font-mono);">/// ORION PRO STAFF ///</p>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;align-items:center;margin:16px 0;">
+      <a href="/staff" style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:9999px;border:1px solid var(--border);font-size:13px;color:var(--text-muted);text-decoration:none;transition:all 0.2s;">
+        <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0a84ff,#c8a84e);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;color:#fff;">G</span> Graham
+      </a>
+      <a href="/staff" style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:9999px;border:1px solid var(--border);font-size:13px;color:var(--text-muted);text-decoration:none;transition:all 0.2s;">
+        <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0a84ff,#c8a84e);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;color:#fff;">N</span> Nomfundo
+      </a>
+      <a href="/staff" style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:9999px;border:1px solid var(--border);font-size:13px;color:var(--text-muted);text-decoration:none;transition:all 0.2s;">
+        <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0a84ff,#c8a84e);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;color:#fff;">N</span> Naledi
+      </a>
+      <a href="/staff" style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:9999px;border:1px solid var(--border);font-size:13px;color:var(--text-muted);text-decoration:none;transition:all 0.2s;">
+        <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0a84ff,#c8a84e);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;color:#fff;">M</span> Mintaka
+      </a>
+    </div>
+    <p style="font-size:13px;color:var(--text-dim);max-width:500px;margin:12px auto 0;line-height:1.6;">
+      Four people building the future of customer support from Durban. 
+      <a href="/staff" style="color:var(--primary);text-decoration:none;font-weight:600;">Meet the team &rarr;</a>
+    </p>
+  </div>
+</section>
+
 <footer class="footer">
   <div class="footer-inner">
     <div style="display:grid;grid-template-columns:2fr repeat(4,1fr);gap:48px;max-width:1200px;margin:0 auto;">
@@ -636,6 +374,7 @@
         <h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">AI & Digital</h4>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
           <li><a href="/" style="font-size:13px;color:var(--text-muted);">Naledi — WhatsApp AI</a></li>
+          <li><a href="/staff" style="font-size:13px;color:var(--text-muted);">Meet the Team</a></li>
           <li><a href="#pricing" style="font-size:13px;color:var(--text-muted);">GBP — Google Business</a></li>
           <li><a href="#pricing" style="font-size:13px;color:var(--text-muted);">SEO Optimization</a></li>
           <li><a href="#pricing" style="font-size:13px;color:var(--text-muted);">Website Design</a></li>

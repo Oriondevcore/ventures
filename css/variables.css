@@ -1,42 +1,67 @@
 :root {
+  /* ── Gold Primary (legacy) ── */
   --primary: #c8a84e;
   --primary-dim: #a88a2e;
   --gold-light: #d4b85c;
   --secondary: #d4b85c;
   --accent: #b8922e;
 
+  /* ── New Brand Accents ── */
+  --whatsapp-green: #25D366;
+  --cyan: #06b6d4;
+  --neon-pink: #ec4899;
+  --neon-orange: #ff6b35;
+  --neon-purple: #a855f7;
+  --neon-green: #22c55e;
+  --neon-red: #ef4444;
+
+  /* ── Section Color Pairs ── */
+  --color-sunset: #ff6b35;
+  --color-sunset-secondary: #a855f7;
+  --color-ocean: #06b6d4;
+  --color-ocean-secondary: #ec4899;
+  --color-forest: #22c55e;
+  --color-forest-secondary: #ef4444;
+
+  /* ── Backgrounds ── */
   --background: #07111F;
+  --background-alt: #252225;
   --surface: #101C2F;
+  --surface-alt: rgba(37,34,37,0.92);
   --surface-2: #1a2a44;
   --surface-3: #243856;
   --border: #2a3a50;
   --border-light: #3a4a62;
+  --border-subtle: rgba(255,255,255,0.06);
 
+  /* ── Text ── */
   --text: #F8FAFC;
   --text-muted: #A7B4C9;
   --text-secondary: #A7B4C9;
   --text-dim: #6a7a92;
+  --text-subtle: rgba(224,219,223,0.45);
 
+  /* ── Status ── */
   --success: #2ED573;
   --green: #2ED573;
   --warning: #FFC048;
   --red: #ff3333;
   --orange: #ff8800;
-  --cyan: #00d4ff;
   --magenta: #ff00d4;
 
+  /* ── Typography ── */
   --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 2rem;
-  --text-4xl: 2.5rem;
-  --text-5xl: 3.5rem;
+  --text-xs: 0.8rem;
+  --text-sm: 0.95rem;
+  --text-base: 1.1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.4rem;
+  --text-2xl: 1.6rem;
+  --text-3xl: 2.2rem;
+  --text-4xl: 2.8rem;
+  --text-5xl: 3.8rem;
 
   --weight-regular: 400;
   --weight-medium: 500;
@@ -45,7 +70,7 @@
   --weight-black: 900;
 
   --leading-tight: 1.15;
-  --leading-normal: 1.5;
+  --leading-normal: 1.6;
   --leading-relaxed: 1.8;
 
   --tracking-tight: -0.02em;
@@ -53,6 +78,7 @@
   --tracking-wide: 0.05em;
   --tracking-wider: 0.1em;
 
+  /* ── Spacing ── */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -67,18 +93,21 @@
   --space-24: 6rem;
   --space-32: 8rem;
 
+  /* ── Radii ── */
   --radius-sm: 4px;
   --radius: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-full: 9999px;
 
+  /* ── Shadows ── */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
   --shadow: 0 2px 8px rgba(0,0,0,0.4);
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
   --shadow-xl: 0 16px 64px rgba(0,0,0,0.6);
   --shadow-glow: 0 0 20px rgba(200,168,78,0.15);
 
+  /* ── Motion ── */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
@@ -86,7 +115,9 @@
   --duration: 250ms;
   --duration-slow: 400ms;
 
+  /* ── Layout ── */
   --max-width: 1200px;
   --max-width-narrow: 800px;
   --nav-height: 72px;
+  --sidebar-width: 270px;
 }

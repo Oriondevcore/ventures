@@ -6,6 +6,7 @@
 @import url('css/variables.css');
 @import url('css/components.css');
 @import url('css/animations.css');
+@import url('css/avatars.css');
 
 /* ═══ PAGE-SPECIFIC: INDEX PAGE ═══
      (moved from inline <style> to clean up the calabash) */
@@ -550,25 +551,42 @@
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-6);
 }
 
 .service-card {
   text-align: center;
-  padding: var(--space-8);
+  padding: var(--space-6);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.service-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.service-icon {
+  font-size: 1.75rem;
+  margin-bottom: var(--space-3);
+  line-height: 1;
 }
 
 .service-card h4 {
-  font-size: var(--text-lg);
+  font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   margin-bottom: var(--space-2);
+  color: var(--text);
 }
 
 .service-card p {
-  font-size: var(--text-sm);
+  font-size: 0.82rem;
   color: var(--text-muted);
   margin-bottom: var(--space-3);
+  line-height: var(--leading-relaxed);
 }
 
 .service-price {
@@ -577,10 +595,25 @@
   color: var(--primary);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
   .services-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.section-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 /* ═══ PAGE-SPECIFIC: LEGAL DOCUMENT ═══ */

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naledi Chat Bubbles — Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background: var(--background);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.toggle-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(7,17,31,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.toggle-bar label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px 20px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  user-select: none;
+}
+.toggle-bar label.active {
+  background: var(--primary);
+  color: var(--background);
+  border-color: var(--primary);
+}
+.toggle-bar label:hover:not(.active) {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+/* ── VIEW 1: PHONE FRAME ── */
+.view-phone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 100px 24px;
+}
+.phone-frame {
+  width: 100%;
+  max-width: 420px;
+  background: #0a0a0f;
+  border-radius: 40px;
+  border: 2px solid var(--border);
+  padding: 16px 12px 20px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+  position: relative;
+}
+.phone-notch {
+  width: 150px;
+  height: 28px;
+  background: #0a0a0f;
+  border-radius: 0 0 18px 18px;
+  margin: -16px auto 12px;
+  position: relative;
+  z-index: 2;
+}
+.phone-notch::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+}
+.phone-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 8px;
+}
+.phone-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--gold-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--background);
+  flex-shrink: 0;
+}
+.phone-contact {
+  flex: 1;
+  min-width: 0;
+}
+.phone-contact-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.phone-contact-status {
+  font-size: 11px;
+  color: var(--success);
+}
+.phone-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px 4px;
+  min-height: 400px;
+}
+
+/* WhatsApp-style bubbles */
+.bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.55;
+  border-radius: 18px;
+  position: relative;
+  word-wrap: break-word;
+}
+.bubble-naledi {
+  align-self: flex-start;
+  background: #1f2c3e;
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.bubble-naledi .bubble-time {
+  text-align: right;
+  margin-top: 4px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+}
+.bubble-cta {
+  align-self: flex-start;
+  background: transparent;
+  padding: 4px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.bubble-cta .btn {
+  font-size: 13px;
+  padding: 8px 18px;
+  border-radius: 20px;
+}
+.bubble-pricing {
+  align-self: flex-start;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  padding: 4px 14px;
+  font-family: var(--font-mono);
+}
+
+/* typing indicator */
+.typing-indicator {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  background: #1f2c3e;
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+}
+.typing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
+/* ── VIEW 2: INLINE BUBBLES ── */
+.view-inline {
+  display: none;
+  min-height: 100vh;
+  padding: 100px 24px 60px;
+}
+.inline-chat {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.inline-chat .bubble-naledi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 16px 20px;
+  font-size: 17px;
+  line-height: 1.7;
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+  max-width: 90%;
+}
+.inline-chat .bubble-naledi strong {
+  color: var(--primary);
+}
+.inline-chat .bubble-cta {
+  max-width: 100%;
+  justify-content: flex-start;
+}
+.inline-chat .bubble-pricing {
+  font-size: 14px;
+  padding: 8px 20px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .phone-frame { border-radius: 0; border: none; box-shadow: none; max-width: 100%; background: transparent; padding: 0; }
+  .phone-notch { display: none; }
+  .phone-header { padding: 12px 4px 16px; }
+  .view-phone { padding: 100px 8px 40px; }
+  .toggle-bar label { font-size: 12px; padding: 6px 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="toggle-bar">
+  <label id="btnPhone" class="active" onclick="switchView('phone')">Phone Frame</label>
+  <label id="btnInline" onclick="switchView('inline')">Inline Bubbles</label>
+</div>
+
+<!-- ─── VIEW 1: PHONE FRAME ─── -->
+<div class="view-phone" id="viewPhone">
+  <div class="phone-frame">
+    <div class="phone-notch"></div>
+    <div class="phone-header">
+      <div class="phone-avatar">N</div>
+      <div class="phone-contact">
+        <div class="phone-contact-name">Naledi</div>
+        <div class="phone-contact-status">online</div>
+      </div>
+    </div>
+    <div class="phone-chat">
+      <div class="typing-indicator">
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+      </div>
+      <div class="bubble bubble-naledi">
+        <strong>Never Miss Another Customer</strong>
+        <div class="bubble-time">14:23</div>
+      </div>
+      <div class="bubble bubble-naledi">
+        Meet Naledi. She welcomes your customers, books appointments, answers questions, and never takes a day off.
+        <div class="bubble-time">14:23</div>
+      </div>
+      <div class="bubble bubble-naledi">
+        While your team is caring for your customers, Naledi is making sure nobody feels ignored. 24/7 WhatsApp. 50+ languages including isiZulu and Afrikaans. She remembers the little things.
+        <div class="bubble-time">14:24</div>
+      </div>
+      <div class="bubble bubble-cta">
+        <a href="#" class="btn btn-sm btn-secondary">The Story</a>
+        <a href="#" class="btn btn-sm btn-primary">Talk to Orion PRO</a>
+      </div>
+      <div class="bubble bubble-pricing">
+        R2,690/mo · Built in Durban · SLA guaranteed
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── VIEW 2: INLINE BUBBLES ─── -->
+<div class="view-inline" id="viewInline">
+  <div class="inline-chat">
+    <div class="typing-indicator">
+      <span class="typing-dot"></span>
+      <span class="typing-dot"></span>
+      <span class="typing-dot"></span>
+    </div>
+    <div class="bubble bubble-naledi">
+      <strong>Never Miss Another Customer</strong>
+    </div>
+    <div class="bubble bubble-naledi">
+      Meet Naledi. She welcomes your customers, books appointments, answers questions, and never takes a day off.
+    </div>
+    <div class="bubble bubble-naledi">
+      While your team is caring for your customers, Naledi is making sure nobody feels ignored. <strong>24/7 WhatsApp.</strong> 50+ languages including isiZulu and Afrikaans. She remembers the little things.
+    </div>
+    <div class="bubble bubble-cta">
+      <a href="#" class="btn btn-secondary">The Story</a>
+      <a href="#" class="btn btn-primary">Talk to Orion PRO</a>
+    </div>
+    <div class="bubble bubble-pricing">
+      R2,690/mo · Built in Durban · SLA guaranteed
+    </div>
+  </div>
+</div>
+
+<script>
+function switchView(view) {
+  const phone = document.getElementById('viewPhone');
+  const inline = document.getElementById('viewInline');
+  const btnPhone = document.getElementById('btnPhone');
+  const btnInline = document.getElementById('btnInline');
+
+  if (view === 'phone') {
+    phone.style.display = 'flex';
+    inline.style.display = 'none';
+    btnPhone.classList.add('active');
+    btnInline.classList.remove('active');
+  } else {
+    phone.style.display = 'none';
+    inline.style.display = 'flex';
+    btnPhone.classList.remove('active');
+    btnInline.classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>

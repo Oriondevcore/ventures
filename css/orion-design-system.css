@@ -1,0 +1,10 @@
+/* ═══════════════════════════════════════════
+   ORION DESIGN SYSTEM — Core Bundle
+   Import this ONE file on every Orion Dev Core page.
+   ═══════════════════════════════════════════ */
+
+@import url('variables.css');
+@import url('components.css');
+@import url('animations.css');
+@import url('layout.css');
+@import url('avatars.css');
