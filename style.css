@@ -570,9 +570,12 @@
 }
 
 .service-icon {
-  font-size: 1.75rem;
-  margin-bottom: var(--space-3);
-  line-height: 1;
+  width: 32px;
+  height: 32px;
+  display: block;
+  margin: 0 auto var(--space-3);
+  color: var(--primary);
+  stroke: currentColor;
 }
 
 .service-card h4 {
