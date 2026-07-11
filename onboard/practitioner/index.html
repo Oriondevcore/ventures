@@ -117,7 +117,6 @@
   <div class="step-indicator">
     <span class="step-dot active" id="dot1"></span>
     <span class="step-dot" id="dot2"></span>
-    <span class="step-dot" id="dot3"></span>
   </div>
 
   <!-- Step 1: Form -->
@@ -187,83 +186,44 @@
     </form>
   </div>
 
-  <!-- Step 2: Payment -->
+  <!-- Step 2: Thank You / Next Steps -->
   <div class="section hidden" id="step2">
-    <div class="pay-section">
-      <h3>Almost There!</h3>
-      <p style="color:#666;font-size:14px;margin-bottom:4px;">Your practice details are saved.</p>
-      <p style="color:#666;font-size:14px;margin-bottom:16px;">Complete payment to activate your account.</p>
-      <div class="price">R4,690 <small>once-off setup</small></div>
-      <p class="pay-desc">Complete payment to activate your ORION PRO MED account.</p>
-
-      <div class="error-msg" id="payError">Payment failed. Please try again.</div>
-      <div class="loading hidden" id="payLoading"><span class="spinner"></span>Redirecting to Yoco...</div>
-      <button class="btn btn-green" id="payBtn">Pay R4,690 with Yoco</button>
-      <p style="font-size:11px;color:#999;margin-top:12px;">You'll be redirected to Yoco's secure payment page.</p>
-    </div>
-  </div>
-
-  <!-- Step 3: Setup Instructions -->
-  <div class="section hidden" id="step3">
     <div class="setup-section">
       <div class="check">&#10003;</div>
-      <h2>Welcome to ORION PRO MED</h2>
-      <p style="color:#666;font-size:14px;">Payment confirmed. Your setup is in progress.</p>
+      <h2>Thanks! We Received Your Details</h2>
+      <p style="color:#666;font-size:14px;">Naledi will reach out on WhatsApp to discuss your custom plan.</p>
 
       <div class="steps">
         <p style="font-weight:600;margin-bottom:8px;">What happens next:</p>
         <ol class="steps">
-          <li><strong>Naledi will message you</strong> on WhatsApp within 1 hour to introduce herself</li>
+          <li><strong>Naledi messages you</strong> on WhatsApp to introduce herself</li>
+          <li><strong>Graham calls you</strong> to discuss pricing and answer questions</li>
           <li><strong>We configure your practice</strong> — hours, services, booking rules, languages</li>
-          <li><strong>Meta WABA setup</strong> — we connect your WhatsApp number (or set up a new one)</li>
           <li><strong>Go-live</strong> — Naledi starts handling your patients within 1-3 days</li>
         </ol>
       </div>
 
-      <p style="font-size:12px;color:#999;margin-top:16px;">Questions? WhatsApp Graham directly: <a href="https://wa.me/27724971810" style="color:#d4af37;">072 497 1810</a></p>
-      <a href="https://wa.me/27703080516?text=I%20just%20signed%20up%20for%20ORION%20PRO%20MED" class="btn" style="margin-top:20px;text-decoration:none;display:inline-block;width:auto;padding:14px 32px;">Message Naledi</a>
+      <p style="color:#666;font-size:14px;margin-top:16px;">Want to chat now?</p>
+      <a href="https://wa.me/27703080516?text=SAY%20HOWZIT!" class="btn" style="margin-top:8px;text-decoration:none;display:inline-block;width:auto;padding:14px 32px;">SAY HOWZIT! →</a>
     </div>
   </div>
 </div>
 
 <script>
-let submissionId = null;
-
-// On page load, check if we returned from Yoco checkout
-(function() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('payment') === 'success') {
-    showStep(3);
-  } else if (params.get('payment') === 'cancelled') {
-    document.getElementById('payError').textContent = 'Payment cancelled. Try again.';
-    document.getElementById('payError').classList.add('show');
-  } else if (params.get('payment') === 'failed') {
-    document.getElementById('payError').textContent = 'Payment failed. Try again or WhatsApp Graham.';
-    document.getElementById('payError').classList.add('show');
-  }
-})();
-
-async function fetchYocoPk() {
-  const res = await fetch('/api/yoco-pk');
-  const data = await res.json();
-  return data.pk;
-}
-
 function updateSteps(active) {
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 1; i <= 2; i++) {
     const dot = document.getElementById('dot' + i);
     dot.classList.remove('active', 'done');
     if (i < active) dot.classList.add('done');
     else if (i === active) dot.classList.add('active');
   }
-  const labels = ['Step 1: Your Practice Details', 'Step 2: Payment', 'Step 3: You\'re Live!'];
+  const labels = ['Step 1: Your Practice Details', 'Step 2: You\'re All Set!'];
   document.getElementById('stepLabel').textContent = labels[active - 1];
 }
 
 function showStep(step) {
   document.getElementById('step1').classList.toggle('hidden', step !== 1);
   document.getElementById('step2').classList.toggle('hidden', step !== 2);
-  document.getElementById('step3').classList.toggle('hidden', step !== 3);
   updateSteps(step);
 }
 
@@ -280,14 +240,11 @@ document.getElementById('onboardForm').addEventListener('submit', async (e) => {
   btn.textContent = 'Submitting...';
 
   try {
-    const res = await fetch('https://nwa.oriondevcore.com/api/onboard', {
+    await fetch('https://nwa.oriondevcore.com/api/onboard', {
       method: 'POST',
       body: JSON.stringify(Object.fromEntries(data)),
       headers: { 'Content-Type': 'application/json' }
     });
-    if (!res.ok) throw new Error('Server error');
-    const result = await res.json();
-    submissionId = result.id || Date.now().toString();
     showStep(2);
   } catch (e) {
     err.textContent = 'Something went wrong. Please try again or WhatsApp Graham.';
@@ -295,53 +252,6 @@ document.getElementById('onboardForm').addEventListener('submit', async (e) => {
     btn.disabled = false;
     btn.textContent = 'Submit Practice Details';
   }
-});
-
-// Step 2: Pay with Yoco showPopup (callback-based SDK)
-document.getElementById('payBtn').addEventListener('click', async () => {
-  const btn = document.getElementById('payBtn');
-  const err = document.getElementById('payError');
-  const loading = document.getElementById('payLoading');
-
-  btn.disabled = true;
-  err.classList.remove('show');
-  loading.classList.remove('hidden');
-
-  const form = document.getElementById('onboardForm');
-  const fd = new FormData(form);
-  const data = Object.fromEntries(fd);
-
-  // Yoco showPopup uses a callback — not a return value
-  // Step 1: Create checkout on server
-  const checkoutRes = await fetch('/api/create-checkout', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      amountInCents: 469000,
-      currency: 'ZAR',
-      metadata: {
-        product: 'Naledi — ORION PRO MED Setup',
-        customerName: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
-        customerEmail: data.email || '',
-        customerPhone: data.phone || '',
-        submissionId: submissionId,
-        practiceName: data.practice_name || '',
-        type: 'naledi_onboarding'
-      }
-    })
-  });
-
-  const checkout = await checkoutRes.json();
-  if (!checkout.success) {
-    err.textContent = 'Failed to initialise payment. Please try again.';
-    err.classList.add('show');
-    btn.disabled = false;
-    loading.classList.add('hidden');
-    return;
-  }
-
-  // Step 2: Redirect to Yoco hosted payment page
-  window.location.href = checkout.redirectUrl;
 });
 </script>
 </body>

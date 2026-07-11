@@ -148,7 +148,7 @@ footer a { color: var(--gold); text-decoration: none; }
 
 <header>
   <h1>ORION PRO <span>· Feature Catalog &amp; Add-ons</span></h1>
-  <div class="subtitle">Select features, choose usage tiers (Light / Average / High), see your monthly costs
+  <div class="subtitle">Select features, choose usage tiers (Light / Average / High) — custom pricing
     <label style="margin-left:1rem;font-size:0.8rem;cursor:pointer;user-select:none">
       <input type="checkbox" id="ownerViewToggle" onchange="toggleOwnerView()" style="accent-color:var(--gold)"> <span style="color:var(--text2)">Owner View</span>
     </label>
@@ -190,8 +190,8 @@ footer a { color: var(--gold); text-decoration: none; }
         <tr><td>Sentiment / churn analysis</td><td class="highlight"><span class="check">YES</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
         <tr><td>Content safety screening</td><td class="highlight"><span class="check">YES</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td><td><span class="cross">No</span></td></tr>
         <tr class="section-header"><td colspan="5">Pricing</td></tr>
-        <tr><td>Monthly subscription</td><td class="highlight"><span class="best">R2,690</span> flat</td><td>R299 limited</td><td>R3k+ real</td><td>R8k-R15k</td></tr>
-        <tr><td>Setup time</td><td class="highlight"><span class="best">1-3 days</span> R4,690</td><td>30 min</td><td>1-2 weeks</td><td>2 weeks</td></tr>
+        <tr><td>Monthly subscription</td><td class="highlight"><span class="best">Custom pricing</span></td><td>Custom</td><td>Custom</td><td>Custom</td></tr>
+        <tr><td>Setup time</td><td class="highlight"><span class="best">1-3 days</span></td><td>30 min</td><td>1-2 weeks</td><td>2 weeks</td></tr>
       </table>
     </div>
     <div style="max-width:800px">
@@ -204,7 +204,7 @@ footer a { color: var(--gold); text-decoration: none; }
         <tr><td>Voice note triage</td><td>Pre-consultation data capture</td><td>Included</td></tr>
         <tr><td>RAG for medical guidelines</td><td>Answer from verified sources</td><td>Included</td></tr>
         <tr><td>Content safety screening</td><td>Llama Guard 3 triage</td><td>Included</td></tr>
-        <tr><td>Monthly price</td><td colspan="2"><strong style="color:var(--gold)">R6,999/mo</strong> special / <strong style="color:var(--gold)">R8,999/mo</strong> normal</td></tr>
+        <tr><td>Monthly price</td><td colspan="2"><strong style="color:var(--gold)">Custom pricing</strong> — ask about intro rates</td></tr>
       </table>
       <p style="font-size:0.8rem;color:var(--text2);margin-top:0.5rem">Select add-ons below and build your monthly cost estimate.</p>
     </div>
@@ -294,7 +294,7 @@ footer a { color: var(--gold); text-decoration: none; }
 <div class="summary-bar" id="summaryBar">
   <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
     <span class="count">Selected: <span id="selectedCount">0</span> features</span>
-    <span class="total" id="totalRetail">R0/mo</span>
+    <span class="total" id="totalRetail">Custom</span>
     <span class="cost-breakdown" id="totalCost"></span>
   </div>
   <div style="display:flex;align-items:center;gap:0.5rem">
@@ -399,7 +399,7 @@ function renderTab(tabId, data) {
         <div class="tier-row">
           ${tiers.map((t,i) => {
             const tData = d.tiers[t];
-            const displayPrice = ownerView && tData.cost ? `$${tData.cost}/mo` : tData.retail;
+            const displayPrice = ownerView ? (tData.cost ? `$${tData.cost}/mo` : tData.retail) : (tData.retail === 'Included' ? 'Included' : 'Custom');
             const displayClass = ownerView && tData.cost ? 'owner-cost' : '';
             return `<button class="tier-btn ${checked&&activeTier===t?'active':''}" data-id="${d.id}" data-tier="${t}">
               <div class="tier-label">${labels[i]}</div>
@@ -465,24 +465,19 @@ function updateSummary() {
   const count = Object.keys(selections).length;
   document.getElementById('selectedCount').textContent = count;
 
-  let totalRetail = 0;
   let totalCost = 0;
-  let costParts = [];
 
   Object.entries(selections).forEach(([id, sel]) => {
     const item = allData.find(d => d.id === id);
     if (!item) return;
-    totalRetail += parsePrice(item.tiers[sel.tier].retail);
     const costStr = item.tiers[sel.tier].cost;
     if (costStr) {
-      const c = parsePrice(costStr);
-      totalCost += c;
-      if (c > 0) costParts.push(`${item.name}: ~$${c.toFixed(1)}`);
+      totalCost += parsePrice(costStr);
     }
   });
 
-  document.getElementById('totalRetail').textContent = `R${totalRetail.toLocaleString('en-ZA', {minimumFractionDigits:0})}/mo`;
-  document.getElementById('totalCost').textContent = costParts.length ? `Our cost: ~$${totalCost.toFixed(1)}/mo` : '';
+  document.getElementById('totalRetail').textContent = 'Custom';
+  document.getElementById('totalCost').textContent = totalCost > 0 ? `Our cost: ~$${totalCost.toFixed(1)}/mo` : '';
 }
 
 function clearAll() {
@@ -498,27 +493,27 @@ function toggleOwnerView() {
 // DATA: AI ADD-ONS (CF Workers AI)
 // ============================================================
 const AI_ADDONS = [
-  {id:'a1',cat:'Conversation',name:'Advanced Reasoning (Complex Queries)',desc:'Frontier model for multi-step reasoning — pricing, legal, technical analysis',model:'Kimi K2.6 / Nemotron 3 / QwQ-32B',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R300/mo',cost:'$2'},high:{retail:'R800/mo',cost:'$8'}}},
-  {id:'a2',cat:'Conversation',name:'Function Calling (Bookings & Orders)',desc:'Naledi books appointments and takes orders via tool calls',model:'Nemotron 3 / Kimi K2.6',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'R300/mo',cost:'$3'}}},
-  {id:'a3',cat:'Conversation',name:'Multi-step Agent Workflows',desc:'Autonomous orchestration across multiple systems',model:'GLM-5.2 / Nemotron',tiers:{light:{retail:'R200/mo',cost:'$2'},avg:{retail:'R500/mo',cost:'$5'},high:{retail:'R1,500/mo',cost:'$15'}}},
-  {id:'a4',cat:'Conversation',name:'Structured JSON Output for CRM',desc:'Auto-log leads, orders, contacts into external CRM',model:'Kimi K2.7 Code',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'R200/mo',cost:'$2'}}},
+  {id:'a1',cat:'Conversation',name:'Advanced Reasoning (Complex Queries)',desc:'Frontier model for multi-step reasoning — pricing, legal, technical analysis',model:'Kimi K2.6 / Nemotron 3 / QwQ-32B',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$2'},high:{retail:'Custom',cost:'$8'}}},
+  {id:'a2',cat:'Conversation',name:'Function Calling (Bookings & Orders)',desc:'Naledi books appointments and takes orders via tool calls',model:'Nemotron 3 / Kimi K2.6',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'Custom',cost:'$3'}}},
+  {id:'a3',cat:'Conversation',name:'Multi-step Agent Workflows',desc:'Autonomous orchestration across multiple systems',model:'GLM-5.2 / Nemotron',tiers:{light:{retail:'Custom',cost:'$2'},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$15'}}},
+  {id:'a4',cat:'Conversation',name:'Structured JSON Output for CRM',desc:'Auto-log leads, orders, contacts into external CRM',model:'Kimi K2.7 Code',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'Custom',cost:'$2'}}},
   {id:'a5',cat:'Conversation',name:'Content Safety Screening',desc:'Guardrails for medical, legal, financial conversations',model:'Llama Guard 3-8B',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'Included',cost:''}}},
-  {id:'a6',cat:'Vision',name:'Product Photo Analysis & Tagging',desc:'Auto-generate descriptions, categories, tags from photos',model:'Llama 4 Scout 17B vision',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$10'}}},
-  {id:'a7',cat:'Vision',name:'Image-Based Lead Qualification',desc:'Read business cards, menus, price lists from photos',model:'Llama 3.2-11B vision',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$1'},high:{retail:'R500/mo',cost:'$3'}}},
-  {id:'a8',cat:'Vision',name:'AI Image Generation (Marketing)',desc:'Social media posts, ad creatives, product mockups',model:'FLUX.2 Dev / Lucid Origin',tiers:{light:{retail:'R250/mo 50img',cost:'$2'},avg:{retail:'R600/mo 200img',cost:'$8'},high:{retail:'R2,500/mo 1kimg',cost:'$40'}}},
-  {id:'a9',cat:'Vision',name:'Visual Product Catalog from Photos',desc:'Classify + detect objects in inventory photos',model:'ResNet-50 / DETR-ResNet-50',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$8'}}},
-  {id:'a10',cat:'Voice',name:'Text-to-Speech Voice Replies',desc:'Naledi replies with spoken audio',model:'Deepgram Aura 2 / MeloTTS',tiers:{light:{retail:'R150/mo',cost:'$1'},avg:{retail:'R400/mo',cost:'$3'},high:{retail:'R1,200/mo',cost:'$10'}}},
-  {id:'a11',cat:'Voice',name:'Real-time Transcription',desc:'Live speech-to-text during voice calls',model:'Deepgram Nova 3 / Flux',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$10'}}},
-  {id:'a12',cat:'Voice',name:'Turn Detection (Voice Agent)',desc:'Natural conversation flow — pause detection',model:'Smart Turn V2',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$1'},high:{retail:'R500/mo',cost:'$3'}}},
-  {id:'a13',cat:'Voice',name:'Custom Brand Voice',desc:'Custom-trained TTS voice matching your brand',model:'Deepgram Aura 1',tiers:{light:{retail:'R500 setup',cost:'$20'},avg:{retail:'R500 setup',cost:'$20'},high:{retail:'R500 setup',cost:'$20'}}},
-  {id:'a14',cat:'Search',name:'Semantic Search over Documents',desc:'Search client manuals, policies by meaning',model:'BAAI BGE-M3 (100+ langs)',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$10'}}},
-  {id:'a15',cat:'Search',name:'RAG with Reranking',desc:'Answer from client documents with citations',model:'BGE-Reranker + Qwen3-30B',tiers:{light:{retail:'R300/mo',cost:'$2'},avg:{retail:'R800/mo',cost:'$5'},high:{retail:'R2,000/mo',cost:'$15'}}},
-  {id:'a16',cat:'Search',name:'Document Q&A (Policy/Manuals)',desc:'Clients ask about their PDFs and manuals',model:'EmbeddingGemma + Qwen3',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$8'}}},
-  {id:'a17',cat:'Search',name:'Multi-language Translation',desc:'Real-time translation across 100+ languages',model:'IndicTrans2 / M2M100',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$2'},high:{retail:'R500/mo',cost:'$5'}}},
-  {id:'a18',cat:'Intelligence',name:'Sentiment Analysis',desc:'Score customer satisfaction, detect frustration',model:'DistilBERT SST-2',tiers:{light:{retail:'R150/mo',cost:'$1'},avg:{retail:'R300/mo',cost:'$2'},high:{retail:'R800/mo',cost:'$5'}}},
-  {id:'a19',cat:'Intelligence',name:'Lead Scoring with Embeddings',desc:'Rank leads by relevance to ideal customer profile',model:'BGE-Large-EN-v1.5',tiers:{light:{retail:'R150/mo',cost:'$1'},avg:{retail:'R300/mo',cost:'$2'},high:{retail:'R800/mo',cost:'$5'}}},
-  {id:'a20',cat:'Intelligence',name:'Product Recommendation Engine',desc:'Suggest products based on chat history',model:'BGE + reranker',tiers:{light:{retail:'R200/mo',cost:'$1'},avg:{retail:'R500/mo',cost:'$3'},high:{retail:'R1,500/mo',cost:'$8'}}},
-  {id:'a21',cat:'Intelligence',name:'Churn Prediction',desc:'Predict which customers are about to leave',model:'Classification pipeline',tiers:{light:{retail:'R300/mo',cost:'$2'},avg:{retail:'R800/mo',cost:'$5'},high:{retail:'R2,000/mo',cost:'$12'}}},
+  {id:'a6',cat:'Vision',name:'Product Photo Analysis & Tagging',desc:'Auto-generate descriptions, categories, tags from photos',model:'Llama 4 Scout 17B vision',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$3'},high:{retail:'Custom',cost:'$10'}}},
+  {id:'a7',cat:'Vision',name:'Image-Based Lead Qualification',desc:'Read business cards, menus, price lists from photos',model:'Llama 3.2-11B vision',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$1'},high:{retail:'Custom',cost:'$3'}}},
+  {id:'a8',cat:'Vision',name:'AI Image Generation (Marketing)',desc:'Social media posts, ad creatives, product mockups',model:'FLUX.2 Dev / Lucid Origin',tiers:{light:{retail:'Custom',cost:'$2'},avg:{retail:'Custom',cost:'$8'},high:{retail:'Custom',cost:'$40'}}},
+  {id:'a9',cat:'Vision',name:'Visual Product Catalog from Photos',desc:'Classify + detect objects in inventory photos',model:'ResNet-50 / DETR-ResNet-50',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$3'},high:{retail:'Custom',cost:'$8'}}},
+  {id:'a10',cat:'Voice',name:'Text-to-Speech Voice Replies',desc:'Naledi replies with spoken audio',model:'Deepgram Aura 2 / MeloTTS',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$3'},high:{retail:'Custom',cost:'$10'}}},
+  {id:'a11',cat:'Voice',name:'Real-time Transcription',desc:'Live speech-to-text during voice calls',model:'Deepgram Nova 3 / Flux',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$3'},high:{retail:'Custom',cost:'$10'}}},
+  {id:'a12',cat:'Voice',name:'Turn Detection (Voice Agent)',desc:'Natural conversation flow — pause detection',model:'Smart Turn V2',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$1'},high:{retail:'Custom',cost:'$3'}}},
+  {id:'a13',cat:'Voice',name:'Custom Brand Voice',desc:'Custom-trained TTS voice matching your brand',model:'Deepgram Aura 1',tiers:{light:{retail:'Custom',cost:'$20'},avg:{retail:'Custom',cost:'$20'},high:{retail:'Custom',cost:'$20'}}},
+  {id:'a14',cat:'Search',name:'Semantic Search over Documents',desc:'Search client manuals, policies by meaning',model:'BAAI BGE-M3 (100+ langs)',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$3'},high:{retail:'Custom',cost:'$10'}}},
+  {id:'a15',cat:'Search',name:'RAG with Reranking',desc:'Answer from client documents with citations',model:'BGE-Reranker + Qwen3-30B',tiers:{light:{retail:'Custom',cost:'$2'},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$15'}}},
+  {id:'a16',cat:'Search',name:'Document Q&A (Policy/Manuals)',desc:'Clients ask about their PDFs and manuals',model:'EmbeddingGemma + Qwen3',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$3'},high:{retail:'Custom',cost:'$8'}}},
+  {id:'a17',cat:'Search',name:'Multi-language Translation',desc:'Real-time translation across 100+ languages',model:'IndicTrans2 / M2M100',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$2'},high:{retail:'Custom',cost:'$5'}}},
+  {id:'a18',cat:'Intelligence',name:'Sentiment Analysis',desc:'Score customer satisfaction, detect frustration',model:'DistilBERT SST-2',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$2'},high:{retail:'Custom',cost:'$5'}}},
+  {id:'a19',cat:'Intelligence',name:'Lead Scoring with Embeddings',desc:'Rank leads by relevance to ideal customer profile',model:'BGE-Large-EN-v1.5',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$2'},high:{retail:'Custom',cost:'$5'}}},
+  {id:'a20',cat:'Intelligence',name:'Product Recommendation Engine',desc:'Suggest products based on chat history',model:'BGE + reranker',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$3'},high:{retail:'Custom',cost:'$8'}}},
+  {id:'a21',cat:'Intelligence',name:'Churn Prediction',desc:'Predict which customers are about to leave',model:'Classification pipeline',tiers:{light:{retail:'Custom',cost:'$2'},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$12'}}},
 ];
 registerData(AI_ADDONS);
 
@@ -526,23 +521,23 @@ registerData(AI_ADDONS);
 // DATA: REPLICATE ADD-ONS
 // ============================================================
 const REPLICATE = [
-  {id:'r1',cat:'Image Generation',name:'FLUX.2 Pro',desc:'Highest-quality image gen — marketing assets, ad creatives',model:'Black Forest Labs (L40S)',tiers:{light:{retail:'R300/mo 50img',cost:'$3'},avg:{retail:'R800/mo 200img',cost:'$8'},high:{retail:'R3,000/mo 1kimg',cost:'$35'}}},
-  {id:'r2',cat:'Image Generation',name:'FLUX Dev',desc:'Developer-grade at $0.025/img — bulk content',model:'Black Forest Labs (T4)',tiers:{light:{retail:'R200/mo 100img',cost:'$2.50'},avg:{retail:'R500/mo 500img',cost:'$12'},high:{retail:'R2,000/mo 2kimg',cost:'$50'}}},
-  {id:'r3',cat:'Image Generation',name:'FLUX Schnell',desc:'Cheapest — $3/1000 images. Thumbnails',model:'Black Forest Labs (T4)',tiers:{light:{retail:'R150/mo 500img',cost:'$1.50'},avg:{retail:'R400/mo 2kimg',cost:'$6'},high:{retail:'R1,500/mo 10kimg',cost:'$30'}}},
-  {id:'r4',cat:'Image Generation',name:'Recraft v3',desc:'Design-focused gen with style control',model:'Recraft',tiers:{light:{retail:'R250/mo 50img',cost:'$2'},avg:{retail:'R600/mo 200img',cost:'$8'},high:{retail:'R2,500/mo 1kimg',cost:'$40'}}},
-  {id:'r5',cat:'Image Generation',name:'Seedream 5 Lite',desc:'Product photo inpainting — backgrounds, retouch',model:'ByteDance',tiers:{light:{retail:'R200/mo 100img',cost:'$1'},avg:{retail:'R500/mo 500img',cost:'$5'},high:{retail:'R2,000/mo 2kimg',cost:'$20'}}},
-  {id:'r6',cat:'Image Generation',name:'FLUX.2 Flex',desc:'Fast flexible gen for bulk content',model:'Black Forest Labs (T4)',tiers:{light:{retail:'R200/mo',cost:'$2'},avg:{retail:'R500/mo',cost:'$6'},high:{retail:'R2,000/mo',cost:'$25'}}},
-  {id:'r7',cat:'Image Generation',name:'Ideogram v3 Quality',desc:'Text-in-image specialist — logos, signs, posters',model:'Ideogram',tiers:{light:{retail:'R400/mo 50img',cost:'$4.50'},avg:{retail:'R1,000/mo 200img',cost:'$18'},high:{retail:'R4,000/mo 1kimg',cost:'$90'}}},
-  {id:'r8',cat:'Video Generation',name:'Seedance 2.0',desc:'Text-to-video for social media clips',model:'ByteDance',tiers:{light:{retail:'R500/mo 5vids',cost:'$5'},avg:{retail:'R2,000/mo 20vids',cost:'$20'},high:{retail:'R6,000/mo 100vids',cost:'$80'}}},
-  {id:'r9',cat:'Video Generation',name:'HappyHorse 1.1',desc:'Video for marketing campaigns',model:'Alibaba',tiers:{light:{retail:'R500/mo 5vids',cost:'$5'},avg:{retail:'R2,000/mo 20vids',cost:'$20'},high:{retail:'R6,000/mo 100vids',cost:'$80'}}},
-  {id:'r10',cat:'Video Generation',name:'Wan 2.1 i2v 480p',desc:'Image-to-video at $0.09/sec',model:'WaveSpeedAI',tiers:{light:{retail:'R400/mo 10vids',cost:'$4'},avg:{retail:'R1,500/mo 50vids',cost:'$18'},high:{retail:'R5,000/mo 200vids',cost:'$72'}}},
-  {id:'r11',cat:'Video Generation',name:'Wan 2.1 i2v 720p',desc:'HD image-to-video for premium demos',model:'WaveSpeedAI',tiers:{light:{retail:'R800/mo 10vids',cost:'$12'},avg:{retail:'R3,000/mo 50vids',cost:'$50'},high:{retail:'R10,000/mo 200vids',cost:'$200'}}},
-  {id:'r12',cat:'Audio',name:'MiniMax Music 2.6 Song Gen',desc:'AI music for ads, jingles, hold music',model:'MiniMax',tiers:{light:{retail:'R300/mo 10songs',cost:'$5'},avg:{retail:'R800/mo 50songs',cost:'$25'},high:{retail:'R3,000/mo 200songs',cost:'$100'}}},
-  {id:'r13',cat:'Audio',name:'P-Video Avatar Clone',desc:'Video avatar from photo + voice',model:'PrunaAI',tiers:{light:{retail:'R500/mo 10vids',cost:'$1'},avg:{retail:'R1,500/mo 50vids',cost:'$5'},high:{retail:'R5,000/mo 200vids',cost:'$20'}}},
-  {id:'r14',cat:'LLM',name:'Claude Opus 4.7 Premium',desc:'Frontier LLM for complex reasoning upsell',model:'Anthropic (H100)',tiers:{light:{retail:'R500/mo',cost:'$5'},avg:{retail:'R1,200/mo',cost:'$12'},high:{retail:'R3,000/mo',cost:'$30'}}},
-  {id:'r15',cat:'LLM',name:'DeepSeek R1 Reasoning',desc:'Open-source reasoning for math, code, analysis',model:'DeepSeek',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R300/mo',cost:'$3'},high:{retail:'R800/mo',cost:'$8'}}},
-  {id:'r16',cat:'LLM',name:'Claude Sonnet 3.7',desc:'Strong all-rounder for production',model:'Anthropic',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'R500/mo',cost:'$5'}}},
-  {id:'r17',cat:'Audio',name:'Gemini 3.1 Flash TTS',desc:'Google TTS — natural voice, multilingual',model:'Google',tiers:{light:{retail:'R150/mo',cost:'$1'},avg:{retail:'R400/mo',cost:'$3'},high:{retail:'R1,000/mo',cost:'$8'}}},
+  {id:'r1',cat:'Image Generation',name:'FLUX.2 Pro',desc:'Highest-quality image gen — marketing assets, ad creatives',model:'Black Forest Labs (L40S)',tiers:{light:{retail:'Custom',cost:'$3'},avg:{retail:'Custom',cost:'$8'},high:{retail:'Custom',cost:'$35'}}},
+  {id:'r2',cat:'Image Generation',name:'FLUX Dev',desc:'Developer-grade at $0.025/img — bulk content',model:'Black Forest Labs (T4)',tiers:{light:{retail:'Custom',cost:'$2.50'},avg:{retail:'Custom',cost:'$12'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'r3',cat:'Image Generation',name:'FLUX Schnell',desc:'Cheapest — $3/1000 images. Thumbnails',model:'Black Forest Labs (T4)',tiers:{light:{retail:'Custom',cost:'$1.50'},avg:{retail:'Custom',cost:'$6'},high:{retail:'Custom',cost:'$30'}}},
+  {id:'r4',cat:'Image Generation',name:'Recraft v3',desc:'Design-focused gen with style control',model:'Recraft',tiers:{light:{retail:'Custom',cost:'$2'},avg:{retail:'Custom',cost:'$8'},high:{retail:'Custom',cost:'$40'}}},
+  {id:'r5',cat:'Image Generation',name:'Seedream 5 Lite',desc:'Product photo inpainting — backgrounds, retouch',model:'ByteDance',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$20'}}},
+  {id:'r6',cat:'Image Generation',name:'FLUX.2 Flex',desc:'Fast flexible gen for bulk content',model:'Black Forest Labs (T4)',tiers:{light:{retail:'Custom',cost:'$2'},avg:{retail:'Custom',cost:'$6'},high:{retail:'Custom',cost:'$25'}}},
+  {id:'r7',cat:'Image Generation',name:'Ideogram v3 Quality',desc:'Text-in-image specialist — logos, signs, posters',model:'Ideogram',tiers:{light:{retail:'Custom',cost:'$4.50'},avg:{retail:'Custom',cost:'$18'},high:{retail:'Custom',cost:'$90'}}},
+  {id:'r8',cat:'Video Generation',name:'Seedance 2.0',desc:'Text-to-video for social media clips',model:'ByteDance',tiers:{light:{retail:'Custom',cost:'$5'},avg:{retail:'Custom',cost:'$20'},high:{retail:'Custom',cost:'$80'}}},
+  {id:'r9',cat:'Video Generation',name:'HappyHorse 1.1',desc:'Video for marketing campaigns',model:'Alibaba',tiers:{light:{retail:'Custom',cost:'$5'},avg:{retail:'Custom',cost:'$20'},high:{retail:'Custom',cost:'$80'}}},
+  {id:'r10',cat:'Video Generation',name:'Wan 2.1 i2v 480p',desc:'Image-to-video at $0.09/sec',model:'WaveSpeedAI',tiers:{light:{retail:'Custom',cost:'$4'},avg:{retail:'Custom',cost:'$18'},high:{retail:'Custom',cost:'$72'}}},
+  {id:'r11',cat:'Video Generation',name:'Wan 2.1 i2v 720p',desc:'HD image-to-video for premium demos',model:'WaveSpeedAI',tiers:{light:{retail:'Custom',cost:'$12'},avg:{retail:'Custom',cost:'$50'},high:{retail:'Custom',cost:'$200'}}},
+  {id:'r12',cat:'Audio',name:'MiniMax Music 2.6 Song Gen',desc:'AI music for ads, jingles, hold music',model:'MiniMax',tiers:{light:{retail:'Custom',cost:'$5'},avg:{retail:'Custom',cost:'$25'},high:{retail:'Custom',cost:'$100'}}},
+  {id:'r13',cat:'Audio',name:'P-Video Avatar Clone',desc:'Video avatar from photo + voice',model:'PrunaAI',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$20'}}},
+  {id:'r14',cat:'LLM',name:'Claude Opus 4.7 Premium',desc:'Frontier LLM for complex reasoning upsell',model:'Anthropic (H100)',tiers:{light:{retail:'Custom',cost:'$5'},avg:{retail:'Custom',cost:'$12'},high:{retail:'Custom',cost:'$30'}}},
+  {id:'r15',cat:'LLM',name:'DeepSeek R1 Reasoning',desc:'Open-source reasoning for math, code, analysis',model:'DeepSeek',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$3'},high:{retail:'Custom',cost:'$8'}}},
+  {id:'r16',cat:'LLM',name:'Claude Sonnet 3.7',desc:'Strong all-rounder for production',model:'Anthropic',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Included',cost:''},high:{retail:'Custom',cost:'$5'}}},
+  {id:'r17',cat:'Audio',name:'Gemini 3.1 Flash TTS',desc:'Google TTS — natural voice, multilingual',model:'Google',tiers:{light:{retail:'Custom',cost:'$1'},avg:{retail:'Custom',cost:'$3'},high:{retail:'Custom',cost:'$8'}}},
 ];
 registerData(REPLICATE);
 
@@ -550,22 +545,22 @@ registerData(REPLICATE);
 // DATA: FIRECRAWL ADD-ONS
 // ============================================================
 const FIRECRAWL = [
-  {id:'f1',cat:'Scrape',name:'Single Page Scrape',desc:'Turn any URL into clean markdown, HTML, or structured JSON',model:'/v2/scrape 1 credit/page',tiers:{light:{retail:'Included 500pg',cost:''},avg:{retail:'R300/mo 2kpg',cost:'$19'},high:{retail:'R800/mo 10kpg',cost:'$99'}}},
-  {id:'f2',cat:'Scrape',name:'JSON Schema Extraction',desc:'Pass schema, get structured data (products, pricing)',model:'JSON format 1 credit+',tiers:{light:{retail:'R200/mo 200pg',cost:''},avg:{retail:'R500/mo 1kpg',cost:'$19'},high:{retail:'R1,500/mo 5kpg',cost:'$99'}}},
-  {id:'f3',cat:'Scrape',name:'PDF / DOCX Parsing',desc:'Extract text from business documents',model:'PDF parser 1 credit/doc',tiers:{light:{retail:'R100/mo 100docs',cost:''},avg:{retail:'R300/mo 500docs',cost:'$19'},high:{retail:'R800/mo 2kdox',cost:'$99'}}},
-  {id:'f4',cat:'Search API',name:'Web Search with Full Content',desc:'Search + extract full-page markdown in one call',model:'/v2/search 2 credits',tiers:{light:{retail:'R200/mo 100srch',cost:''},avg:{retail:'R500/mo 500srch',cost:'$19'},high:{retail:'R1,500/mo 2ksrch',cost:'$99'}}},
-  {id:'f5',cat:'Search API',name:'Domain-Filtered Search',desc:'Search within specific competitor/directory sites',model:'includeDomains filter',tiers:{light:{retail:'R300/mo',cost:''},avg:{retail:'R800/mo',cost:'$19'},high:{retail:'R2,000/mo',cost:'$99'}}},
-  {id:'f6',cat:'Search API',name:'News & Image Monitoring',desc:'Track industry news and competitor imagery',model:'sources: web/news/images',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$19'},high:{retail:'R1,500/mo',cost:'$99'}}},
-  {id:'f7',cat:'Crawl',name:'Full Website Crawl',desc:'Follow all links — competitor intel or KB build',model:'/v2/crawl 1 credit/pg',tiers:{light:{retail:'R1,000/site',cost:'$19'},avg:{retail:'R2,500/site',cost:'$99'},high:{retail:'R6,000/site',cost:'$299'}}},
-  {id:'f8',cat:'Crawl',name:'Sitemap-Based Crawl',desc:'Only crawl pages listed in sitemap',model:'sitemap: include',tiers:{light:{retail:'R500/site',cost:'$19'},avg:{retail:'R1,500/site',cost:'$99'},high:{retail:'R3,000/site',cost:'$99'}}},
-  {id:'f9',cat:'Map',name:'Website URL Discovery',desc:'Discover every URL on a site, filterable',model:'/v2/map 1 credit/pg',tiers:{light:{retail:'R200/site',cost:''},avg:{retail:'R500/site',cost:'$19'},high:{retail:'R1,500/site',cost:'$99'}}},
-  {id:'f10',cat:'Interact',name:'Browser Interaction',desc:'Click, fill, login, scroll — gated content',model:'/v2/interact 2 cred/min',tiers:{light:{retail:'R300/mo 2hrs',cost:''},avg:{retail:'R800/mo 5hrs',cost:'$19'},high:{retail:'R2,000/mo 15hrs',cost:'$99'}}},
-  {id:'f11',cat:'Monitor',name:'Page Change Monitor',desc:'Detect price/content changes with AI judge',model:'/v2/monitor 1 credit',tiers:{light:{retail:'R500/mo 10pgs',cost:''},avg:{retail:'R1,200/mo 50pgs',cost:'$19'},high:{retail:'R3,000/mo 200pgs',cost:'$99'}}},
-  {id:'f12',cat:'Monitor',name:'JSON Field Change Tracking',desc:'Track price/stock/headline with per-field diffs',model:'JSON modes: json/git-diff',tiers:{light:{retail:'R800/mo 10pgs',cost:''},avg:{retail:'R2,000/mo 50pgs',cost:'$19'},high:{retail:'R5,000/mo 200pgs',cost:'$99'}}},
-  {id:'f13',cat:'Monitor',name:'Web Monitor (Search)',desc:'Monitor web for new competitors, press',model:'Search monitor',tiers:{light:{retail:'R800/mo',cost:''},avg:{retail:'R2,000/mo',cost:'$19'},high:{retail:'R5,000/mo',cost:'$99'}}},
-  {id:'f14',cat:'Agent',name:'Autonomous Web Research',desc:'Give objective, agent browses + extracts',model:'Firecrawl Agent',tiers:{light:{retail:'R300/mo',cost:''},avg:{retail:'R800/mo',cost:'$19'},high:{retail:'R2,000/mo',cost:'$99'}}},
-  {id:'f15',cat:'Agent',name:'Structured Lead Generation',desc:'Agent finds + validates prospects with contact info',model:'Agent + JSON schema',tiers:{light:{retail:'R800/mo 50',cost:''},avg:{retail:'R2,000/mo 200',cost:'$19'},high:{retail:'R5,000/mo 1k',cost:'$299'}}},
-  {id:'f16',cat:'Agent',name:'Competitor Intelligence Brief',desc:'Deep dive pricing, features, positioning, gaps',model:'Agent + scrape + crawl',tiers:{light:{retail:'R1,500/report',cost:''},avg:{retail:'R3,000/report',cost:'$99'},high:{retail:'R6,000/report',cost:'$299'}}},
+  {id:'f1',cat:'Scrape',name:'Single Page Scrape',desc:'Turn any URL into clean markdown, HTML, or structured JSON',model:'/v2/scrape 1 credit/page',tiers:{light:{retail:'Included 500pg',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f2',cat:'Scrape',name:'JSON Schema Extraction',desc:'Pass schema, get structured data (products, pricing)',model:'JSON format 1 credit+',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f3',cat:'Scrape',name:'PDF / DOCX Parsing',desc:'Extract text from business documents',model:'PDF parser 1 credit/doc',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f4',cat:'Search API',name:'Web Search with Full Content',desc:'Search + extract full-page markdown in one call',model:'/v2/search 2 credits',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f5',cat:'Search API',name:'Domain-Filtered Search',desc:'Search within specific competitor/directory sites',model:'includeDomains filter',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f6',cat:'Search API',name:'News & Image Monitoring',desc:'Track industry news and competitor imagery',model:'sources: web/news/images',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f7',cat:'Crawl',name:'Full Website Crawl',desc:'Follow all links — competitor intel or KB build',model:'/v2/crawl 1 credit/pg',tiers:{light:{retail:'Custom',cost:'$19'},avg:{retail:'Custom',cost:'$99'},high:{retail:'Custom',cost:'$299'}}},
+  {id:'f8',cat:'Crawl',name:'Sitemap-Based Crawl',desc:'Only crawl pages listed in sitemap',model:'sitemap: include',tiers:{light:{retail:'Custom',cost:'$19'},avg:{retail:'Custom',cost:'$99'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f9',cat:'Map',name:'Website URL Discovery',desc:'Discover every URL on a site, filterable',model:'/v2/map 1 credit/pg',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f10',cat:'Interact',name:'Browser Interaction',desc:'Click, fill, login, scroll — gated content',model:'/v2/interact 2 cred/min',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f11',cat:'Monitor',name:'Page Change Monitor',desc:'Detect price/content changes with AI judge',model:'/v2/monitor 1 credit',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f12',cat:'Monitor',name:'JSON Field Change Tracking',desc:'Track price/stock/headline with per-field diffs',model:'JSON modes: json/git-diff',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f13',cat:'Monitor',name:'Web Monitor (Search)',desc:'Monitor web for new competitors, press',model:'Search monitor',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f14',cat:'Agent',name:'Autonomous Web Research',desc:'Give objective, agent browses + extracts',model:'Firecrawl Agent',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$99'}}},
+  {id:'f15',cat:'Agent',name:'Structured Lead Generation',desc:'Agent finds + validates prospects with contact info',model:'Agent + JSON schema',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$19'},high:{retail:'Custom',cost:'$299'}}},
+  {id:'f16',cat:'Agent',name:'Competitor Intelligence Brief',desc:'Deep dive pricing, features, positioning, gaps',model:'Agent + scrape + crawl',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$99'},high:{retail:'Custom',cost:'$299'}}},
 ];
 registerData(FIRECRAWL);
 
@@ -573,35 +568,35 @@ registerData(FIRECRAWL);
 // DATA: THIRD-PARTY APIs
 // ============================================================
 const SERVICES = [
-  {id:'s1',cat:'AI / ML',name:'OpenAI API (GPT-4 / DALL-E)',desc:'ChatGPT class models for text + image generation',tiers:{light:{retail:'R300/mo',cost:'$5'},avg:{retail:'R800/mo',cost:'$20'},high:{retail:'R2,500/mo',cost:'$80'}}},
-  {id:'s2',cat:'AI / ML',name:'Anthropic Claude',desc:'Claude Opus/Sonnet for premium conversations',tiers:{light:{retail:'R200/mo',cost:'$5'},avg:{retail:'R600/mo',cost:'$15'},high:{retail:'R2,000/mo',cost:'$60'}}},
-  {id:'s3',cat:'AI / ML',name:'Google Gemini',desc:'Gemini 2.5 Flash/Pro — text, vision, audio',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R600/mo',cost:'$20'}}},
-  {id:'s4',cat:'AI / ML',name:'ElevenLabs TTS',desc:'Ultra-realistic voice cloning — 30+ languages',tiers:{light:{retail:'R200/mo',cost:'$5'},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
-  {id:'s5',cat:'AI / ML',name:'Deepgram STT',desc:'Nova-3 speech-to-text, real-time streaming',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R600/mo',cost:'$20'}}},
-  {id:'s6',cat:'AI / ML',name:'AssemblyAI',desc:'Speech-to-text + audio intelligence',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R600/mo',cost:'$20'}}},
-  {id:'s7',cat:'AI / ML',name:'Stability AI (SDXL)',desc:'SD image generation for marketing',tiers:{light:{retail:'R200/mo',cost:'$3'},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R2,000/mo',cost:'$40'}}},
-  {id:'s8',cat:'AI / ML',name:'Hugging Face Inference',desc:'100k+ open-source models hosted',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R1,500/mo',cost:'$40'}}},
-  {id:'s9',cat:'AI / ML',name:'Cohere RAG + Embeddings',desc:'Text generation, classification, semantic search',tiers:{light:{retail:'R200/mo',cost:'$5'},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
-  {id:'s10',cat:'Email',name:'Resend (Transactional Email)',desc:'Email delivery for receipts / notifications',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$10'},high:{retail:'R500/mo',cost:'$40'}}},
-  {id:'s11',cat:'Email',name:'Brevo / SendinBlue',desc:'Email + SMS marketing platform',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
-  {id:'s12',cat:'Security',name:'GitGuardian Secret Scan',desc:'Scan for leaked API keys and secrets',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$15'},high:{retail:'R500/mo',cost:'$50'}}},
-  {id:'s13',cat:'Security',name:'SecurityTrails DNS Intel',desc:'DNS + domain intelligence for lead verification',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
-  {id:'s14',cat:'Finance',name:'Alpha Vantage (Stocks)',desc:'Real-time and historical stock market data',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
-  {id:'s15',cat:'Finance',name:'Finnhub (Stocks + Crypto)',desc:'Real-time stocks, currencies, crypto',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
-  {id:'s16',cat:'Social',name:'Social Media Sentiment',desc:'Reddit + Twitter + Instagram brand mentions',tiers:{light:{retail:'R300/mo',cost:''},avg:{retail:'R800/mo',cost:'$20'},high:{retail:'R2,000/mo',cost:'$60'}}},
-  {id:'s17',cat:'Social',name:'TikTok + YouTube Analytics',desc:'Video platform trend monitoring',tiers:{light:{retail:'R300/mo',cost:''},avg:{retail:'R800/mo',cost:'$20'},high:{retail:'R2,000/mo',cost:'$60'}}},
-  {id:'s18',cat:'Health',name:'OpenFDA Drug/Device Data',desc:'FDA labels, adverse events, recalls',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$15'}}},
-  {id:'s19',cat:'Health',name:'Nutritionix Nutrition DB',desc:'Verified nutrition database API',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
-  {id:'s20',cat:'Cryptocurrency',name:'CoinGecko Market Data',desc:'Crypto prices, volume, market cap',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$15'},high:{retail:'R1,500/mo',cost:'$50'}}},
-  {id:'s21',cat:'Documents & Productivity',name:'PDF Generation (Receipts/Reports)',desc:'HTML/CSS to PDF conversion',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R1,500/mo',cost:'$40'}}},
-  {id:'s22',cat:'Documents & Productivity',name:'Invoice Data Extraction',desc:'Parse invoices, extract line items',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R1,500/mo',cost:'$40'}}},
-  {id:'s23',cat:'Data Validation',name:'Email + Phone Validation',desc:'Validate email and phone globally',tiers:{light:{retail:'R100/mo',cost:''},avg:{retail:'R300/mo',cost:'$5'},high:{retail:'R800/mo',cost:'$15'}}},
-  {id:'s24',cat:'Science & Math',name:'arXiv Research Search',desc:'Academic paper search across 2M+ papers',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$20'}}},
-  {id:'s25',cat:'Books',name:'Open Library / Google Books',desc:'Book metadata, covers, availability',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$15'}}},
-  {id:'s26',cat:'Photography',name:'Unsplash + Pexels Stock',desc:'Free high-res stock photos',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$15'}}},
-  {id:'s27',cat:'Music',name:'Last.fm + Spotify Metadata',desc:'Music catalogs, listening trends',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$10'},high:{retail:'R1,500/mo',cost:'$30'}}},
-  {id:'s28',cat:'Weather',name:'Open-Meteo Weather',desc:'Global weather forecast — no API key',tiers:{light:{retail:'Included',cost:''},avg:{retail:'R200/mo',cost:'$5'},high:{retail:'R500/mo',cost:'$15'}}},
-  {id:'s29',cat:'Government',name:'Open Government Data',desc:'SA, UK, US, EU datasets + portals',tiers:{light:{retail:'R200/mo',cost:''},avg:{retail:'R500/mo',cost:'$5'},high:{retail:'R1,500/mo',cost:'$20'}}},
+  {id:'s1',cat:'AI / ML',name:'OpenAI API (GPT-4 / DALL-E)',desc:'ChatGPT class models for text + image generation',tiers:{light:{retail:'Custom',cost:'$5'},avg:{retail:'Custom',cost:'$20'},high:{retail:'Custom',cost:'$80'}}},
+  {id:'s2',cat:'AI / ML',name:'Anthropic Claude',desc:'Claude Opus/Sonnet for premium conversations',tiers:{light:{retail:'Custom',cost:'$5'},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$60'}}},
+  {id:'s3',cat:'AI / ML',name:'Google Gemini',desc:'Gemini 2.5 Flash/Pro — text, vision, audio',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$20'}}},
+  {id:'s4',cat:'AI / ML',name:'ElevenLabs TTS',desc:'Ultra-realistic voice cloning — 30+ languages',tiers:{light:{retail:'Custom',cost:'$5'},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'s5',cat:'AI / ML',name:'Deepgram STT',desc:'Nova-3 speech-to-text, real-time streaming',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$20'}}},
+  {id:'s6',cat:'AI / ML',name:'AssemblyAI',desc:'Speech-to-text + audio intelligence',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$20'}}},
+  {id:'s7',cat:'AI / ML',name:'Stability AI (SDXL)',desc:'SD image generation for marketing',tiers:{light:{retail:'Custom',cost:'$3'},avg:{retail:'Custom',cost:'$10'},high:{retail:'Custom',cost:'$40'}}},
+  {id:'s8',cat:'AI / ML',name:'Hugging Face Inference',desc:'100k+ open-source models hosted',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$10'},high:{retail:'Custom',cost:'$40'}}},
+  {id:'s9',cat:'AI / ML',name:'Cohere RAG + Embeddings',desc:'Text generation, classification, semantic search',tiers:{light:{retail:'Custom',cost:'$5'},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'s10',cat:'Email',name:'Resend (Transactional Email)',desc:'Email delivery for receipts / notifications',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$10'},high:{retail:'Custom',cost:'$40'}}},
+  {id:'s11',cat:'Email',name:'Brevo / SendinBlue',desc:'Email + SMS marketing platform',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'s12',cat:'Security',name:'GitGuardian Secret Scan',desc:'Scan for leaked API keys and secrets',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'s13',cat:'Security',name:'SecurityTrails DNS Intel',desc:'DNS + domain intelligence for lead verification',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'s14',cat:'Finance',name:'Alpha Vantage (Stocks)',desc:'Real-time and historical stock market data',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'s15',cat:'Finance',name:'Finnhub (Stocks + Crypto)',desc:'Real-time stocks, currencies, crypto',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'s16',cat:'Social',name:'Social Media Sentiment',desc:'Reddit + Twitter + Instagram brand mentions',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$20'},high:{retail:'Custom',cost:'$60'}}},
+  {id:'s17',cat:'Social',name:'TikTok + YouTube Analytics',desc:'Video platform trend monitoring',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$20'},high:{retail:'Custom',cost:'$60'}}},
+  {id:'s18',cat:'Health',name:'OpenFDA Drug/Device Data',desc:'FDA labels, adverse events, recalls',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$15'}}},
+  {id:'s19',cat:'Health',name:'Nutritionix Nutrition DB',desc:'Verified nutrition database API',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'s20',cat:'Cryptocurrency',name:'CoinGecko Market Data',desc:'Crypto prices, volume, market cap',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$15'},high:{retail:'Custom',cost:'$50'}}},
+  {id:'s21',cat:'Documents & Productivity',name:'PDF Generation (Receipts/Reports)',desc:'HTML/CSS to PDF conversion',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$10'},high:{retail:'Custom',cost:'$40'}}},
+  {id:'s22',cat:'Documents & Productivity',name:'Invoice Data Extraction',desc:'Parse invoices, extract line items',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$10'},high:{retail:'Custom',cost:'$40'}}},
+  {id:'s23',cat:'Data Validation',name:'Email + Phone Validation',desc:'Validate email and phone globally',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$15'}}},
+  {id:'s24',cat:'Science & Math',name:'arXiv Research Search',desc:'Academic paper search across 2M+ papers',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$20'}}},
+  {id:'s25',cat:'Books',name:'Open Library / Google Books',desc:'Book metadata, covers, availability',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$15'}}},
+  {id:'s26',cat:'Photography',name:'Unsplash + Pexels Stock',desc:'Free high-res stock photos',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$15'}}},
+  {id:'s27',cat:'Music',name:'Last.fm + Spotify Metadata',desc:'Music catalogs, listening trends',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$10'},high:{retail:'Custom',cost:'$30'}}},
+  {id:'s28',cat:'Weather',name:'Open-Meteo Weather',desc:'Global weather forecast — no API key',tiers:{light:{retail:'Included',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$15'}}},
+  {id:'s29',cat:'Government',name:'Open Government Data',desc:'SA, UK, US, EU datasets + portals',tiers:{light:{retail:'Custom',cost:''},avg:{retail:'Custom',cost:'$5'},high:{retail:'Custom',cost:'$20'}}},
 ];
 registerData(SERVICES);
 
