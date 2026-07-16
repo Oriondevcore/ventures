@@ -15,6 +15,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>O</text></svg>">
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{your-app-id}',
+      cookie     : true,
+      xfbml      : true,
+      version    : '{api-version}'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 </head>
 <body>
 
@@ -412,6 +433,14 @@
       Four people building the future of customer support from Durban. 
       <a href="/staff" style="color:var(--primary);text-decoration:none;font-weight:600;">Meet the team &rarr;</a>
     </p>
+  </div>
+</section>
+
+<section style="padding:80px 20px;background:var(--bg-card);">
+  <div style="max-width:1000px;margin:0 auto;text-align:center;">
+    <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;">Live Demo</h2>
+    <p style="color:var(--text-dim);margin-bottom:32px;">Talk to Naledi right now — no sign-up needed</p>
+    <iframe src="https://wahb.orion269.workers.dev/" style="width:100%;height:700px;border:none;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.3);" title="Naledi Live Demo"></iframe>
   </div>
 </section>
 
