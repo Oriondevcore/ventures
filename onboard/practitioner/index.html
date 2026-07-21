@@ -240,11 +240,12 @@ document.getElementById('onboardForm').addEventListener('submit', async (e) => {
   btn.textContent = 'Submitting...';
 
   try {
-    await fetch('https://nwa.oriondevcore.com/api/onboard', {
+    const res = await fetch('https://nwa.oriondevcore.com/api/onboard', {
       method: 'POST',
       body: JSON.stringify(Object.fromEntries(data)),
       headers: { 'Content-Type': 'application/json' }
     });
+    if (!res.ok) throw new Error('Server error');
     showStep(2);
   } catch (e) {
     err.textContent = 'Something went wrong. Please try again or WhatsApp Graham.';
